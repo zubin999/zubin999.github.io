@@ -74,6 +74,208 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-使用Canvas压缩图片" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" class="article-date">
+  <time class="dt-published" datetime="2016-08-11T15:25:40.000Z" itemprop="datePublished">2016-08-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/">使用Canvas压缩图片</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="为什么要前端压缩？"><a href="#为什么要前端压缩？" class="headerlink" title="为什么要前端压缩？"></a>为什么要前端压缩？</h2><p>首先，图片在前端压缩是可以实现的。为什么要在前端压缩呢？有什么好处？在前端压缩会不会更耗时……对于这一系列的问题，可以很肯定的回答，前端压缩是需要的。尤其对于流量大的网站，可以节省很多带宽呢(都是RMB呀)。那么，怎么压缩呢？当然，这项工作就交给<code>HTML5</code>和<code>Javascript</code>吧。有他俩搭档，很容易就能完成这件事情。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>当你在网上搜索*<code>HTML5上传文件</code>*时，你会找到很多拖拽的demo。不论是拖拽还是按钮上传，原理都这样：</p>
+<ul>
+<li>对事件(change,drop)的监听</li>
+<li>通过文件API–<code>FileReader</code>获取图片</li>
+<li>通过canvas绘制图片,在这里可以对图片进行缩放，大小压缩</li>
+</ul>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>HTML代码:</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;form&gt;
+&lt;input type&#x3D;&quot;file&quot; id&#x3D;&quot;uploadfile&quot;&#x2F;&gt;
+&lt;&#x2F;form&gt;</code></pre>
+
+<p>Javascript代码：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;script&gt;
+document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;, function(event)&#123;
+    &#x2F;&#x2F;code for resize
+&#125;, false);
+&lt;&#x2F;script&gt;</code></pre>
+
+<h2 id="压缩代码"><a href="#压缩代码" class="headerlink" title="压缩代码"></a>压缩代码</h2><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">;(function ($,doc) &#123;
+    &#39;use strict&#39;;
+
+    var defaultOps &#x3D; &#123;
+        url: null,
+        quality: 40,
+        resize: false,
+        scale:&#123;
+            maxWidth: 640,
+            maxHeight: null
+        &#125;,
+        output: null,
+        formData: &#123;&#125;,
+        uploadProgress: function () &#123;
+
+        &#125;,
+        uploadComplete: function () &#123;
+
+        &#125;,
+        uploadFailed: function () &#123;
+
+        &#125;,
+        uploadCanceled: function () &#123;
+
+        &#125;,
+        uploading: function () &#123;
+
+        &#125;
+    &#125;;
+
+    function _compload(evt, options) &#123;
+        var self &#x3D; this;
+
+        this.defaults &#x3D; $.extend(true, defaultOps, options);
+        if(!this.defaults.url)&#123;
+            throw new Error(&#39;url is invalid&#39;);
+        &#125;
+
+        this.afterSelect &#x3D; function () &#123;
+            var file &#x3D; evt.target.files[0],
+                reg  &#x3D; new RegExp(&#39;^image.*$&#39;),
+                type &#x3D; this.defaults.output || file.type;
+
+            if(!file)&#123;
+                throw new Error(&#39;文件为空&#39;);
+            &#125;
+            if(!reg.test(file.type))&#123;
+                throw new Error(&#39;只能上传图片&#39;);
+            &#125;
+
+            var reader &#x3D; new FileReader(),
+                i      &#x3D; doc.createElement(&#39;img&#39;);
+
+            reader.onload &#x3D; function (e) &#123;
+                i.src &#x3D; e.target.result;
+            &#125;
+            reader.readAsDataURL(file);
+
+            i.onload &#x3D; function (e) &#123;
+                var compressImg &#x3D; self.compress(i, self.defaults.quality, type),
+                    imgFile     &#x3D; self.convert(compressImg.src);
+
+                self.upload(imgFile);
+            &#125;;
+        &#125;
+
+        this.compress &#x3D; function (source_img_obj, quality, outputType) &#123;
+
+            var cvs     &#x3D; doc.createElement(&#39;canvas&#39;),
+                nWidth  &#x3D; source_img_obj.naturalWidth,
+                nHeight &#x3D; source_img_obj.naturalHeight,
+                sWidth  &#x3D; self.defaults.scale.maxWidth,
+                sHeight &#x3D; self.defaults.scale.maxHeight,
+                scale   &#x3D; 1;
+
+        if(self.defaults.resize)&#123;
+                    if(sWidth &amp;&amp; sHeight)&#123;
+                        scale &#x3D; Math.min(sWidth&#x2F;nWidth, sHeight&#x2F;nHeight);
+                    &#125;else if (sWidth &amp;&amp; nWidth &gt;&#x3D; sWidth &amp;&amp; !sHeight)&#123;
+                        scale &#x3D; sWidth&#x2F;nWidth;
+                    &#125;else if (!sWidth &amp;&amp; nHeight &gt;&#x3D; sHeight &amp;&amp; sHeight)&#123;
+                        scale &#x3D; sHeight&#x2F;nHeight;
+                    &#125;
+                &#125;
+
+            cvs.width  &#x3D; nWidth * scale;
+            cvs.height &#x3D; nHeight * scale;
+
+            var ctx              &#x3D; cvs.getContext(&quot;2d&quot;).drawImage(source_img_obj, 0, 0, cvs.width, cvs.height),
+                newImageData     &#x3D; cvs.toDataURL(outputType, quality&#x2F;100),
+                result_image_obj &#x3D; new Image();
+
+            result_image_obj.src &#x3D; newImageData;
+
+            return result_image_obj;
+        &#125;
+
+        this.convert &#x3D; function (img_src) &#123;
+            var BASE64_MARKER &#x3D; &#39;;base64,&#39;,
+                dataURL &#x3D; img_src;
+            if (dataURL.indexOf(BASE64_MARKER) &#x3D;&#x3D; -1) &#123;
+                var parts &#x3D; dataURL.split(&#39;,&#39;);
+                var contentType &#x3D; parts[0].split(&#39;:&#39;)[1];
+                var raw &#x3D; parts[1];
+
+                return new Blob([raw], &#123;type: contentType&#125;);
+            &#125;
+
+            var parts &#x3D; dataURL.split(BASE64_MARKER);
+            var contentType &#x3D; parts[0].split(&#39;:&#39;)[1];
+            var raw &#x3D; window.atob(parts[1]);
+            var rawLength &#x3D; raw.length;
+
+            var uInt8Array &#x3D; new Uint8Array(rawLength);
+
+            for (var i &#x3D; 0; i &lt; rawLength; ++i) &#123;
+                uInt8Array[i] &#x3D; raw.charCodeAt(i);
+            &#125;
+
+            return new Blob([uInt8Array], &#123;type: contentType&#125;);
+        &#125;
+
+        this.upload &#x3D; function (file) &#123;
+            self.defaults.uploading();
+            setTimeout(function () &#123;
+                var fd &#x3D; new FormData();
+                fd.append(&quot;file&quot;, file);
+                for (var k in self.defaults.formData)&#123;
+                    fd.append(k, self.defaults.formData[k]);
+                &#125;
+                var xhr &#x3D; new XMLHttpRequest();
+                xhr.upload.addEventListener(&quot;progress&quot;, self.defaults.uploadProgress, false);
+                xhr.addEventListener(&quot;load&quot;, self.defaults.uploadComplete, false);
+                xhr.addEventListener(&quot;error&quot;, self.defaults.uploadFailed, false);
+                xhr.addEventListener(&quot;abort&quot;, self.defaults.uploadCanceled, false);
+                xhr.open(&quot;POST&quot;, self.defaults.url);
+                xhr.send(fd);
+            &#125;, 10);
+        &#125;
+
+        this.afterSelect();
+    &#125;
+
+    window.Compload &#x3D; _compload;
+&#125;)(jQuery,document);
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-id="cl7mrwges000eekd302499oj8" data-title="使用Canvas压缩图片" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-如何防止频繁调用Javascript一段代码？" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" class="article-date">
@@ -116,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" data-id="cl7mrqnol000iqcd3h0u97l1o" data-title="如何防止频繁调用Javascript一段代码？" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" data-id="cl7mrwgew000kekd38zhzak7v" data-title="如何防止频繁调用Javascript一段代码？" class="article-share-link">分享</a>
       
       
       
@@ -164,7 +366,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" data-id="cl7mrqnob0009qcd37o235pq6" data-title="Uncaught RangeError:Maximum call stack size exceeded" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" data-id="cl7mrwgen0009ekd341k9f15p" data-title="Uncaught RangeError:Maximum call stack size exceeded" class="article-share-link">分享</a>
       
       
       
@@ -308,7 +510,7 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/05/10/Web%E7%89%882048%E5%AE%9E%E7%8E%B0/" data-id="cl7mrqnoe000cqcd3f2m673qz" data-title="Web版2048实现" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/05/10/Web%E7%89%882048%E5%AE%9E%E7%8E%B0/" data-id="cl7mrwgeq000cekd33z9120zy" data-title="Web版2048实现" class="article-share-link">分享</a>
       
       
       
@@ -363,7 +565,7 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/03/29/Volt-directory-can-t-be-written/" data-id="cl7mrqnoc000aqcd3bgwm22dc" data-title="Volt directory can&#39;t be written" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/03/29/Volt-directory-can-t-be-written/" data-id="cl7mrwgeo000aekd3h7apfho8" data-title="Volt directory can&#39;t be written" class="article-share-link">分享</a>
       
       
       
@@ -418,7 +620,7 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" data-id="cl7mrqno90006qcd375b77n8n" data-title="Phpstorm代码提示phalcon设置" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" data-id="cl7mrwgem0006ekd3chka7z0k" data-title="Phpstorm代码提示phalcon设置" class="article-share-link">分享</a>
       
       
       
@@ -476,7 +678,7 @@ console.log(String(a));
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/" data-id="cl7mrqno80005qcd3daz35k84" data-title="JavaScript数组转字符串另类方法" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/" data-id="cl7mrwgel0005ekd3h9fi30c6" data-title="JavaScript数组转字符串另类方法" class="article-share-link">分享</a>
       
       
       
@@ -533,7 +735,7 @@ console.log(Object.is(5, "5"));     // false
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/08/02/ES6%E4%B9%8BObject-is/" data-id="cl7mrqnnx0001qcd35t5hcjj5" data-title="ES6之Object.is" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2015/08/02/ES6%E4%B9%8BObject-is/" data-id="cl7mrwgea0001ekd392vbhwwk" data-title="ES6之Object.is" class="article-share-link">分享</a>
       
       
       
@@ -614,7 +816,7 @@ var str = laterToDefaultValue('hello');  //str = "hello world";
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/07/25/JavaScript%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-ES6%E6%96%B0%E6%96%B9%E6%B3%95/" data-id="cl7mrqno70004qcd387xbbuvl" data-title="JavaScript参数默认值(ES6新方法)" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2015/07/25/JavaScript%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-ES6%E6%96%B0%E6%96%B9%E6%B3%95/" data-id="cl7mrwgej0004ekd31qyj30on" data-title="JavaScript参数默认值(ES6新方法)" class="article-share-link">分享</a>
       
       
       
@@ -673,135 +875,11 @@ var str = laterToDefaultValue('hello');  //str = "hello world";
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/07/03/JavaScript%E4%B8%ADinnerText%E5%92%8CtextContent%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="cl7mrqno30002qcd318vq0fyr" data-title="JavaScript中innerText和textContent的区别" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2015/07/03/JavaScript%E4%B8%ADinnerText%E5%92%8CtextContent%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="cl7mrwgee0002ekd33mt07coa" data-title="JavaScript中innerText和textContent的区别" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-如何使用ajax实现上传文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" class="article-date">
-  <time class="dt-published" datetime="2015-06-24T00:49:20.000Z" itemprop="datePublished">2015-06-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/">如何使用ajax实现异步上传文件(译文)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>原文: <a target="_blank" rel="noopener" href="http://www.sitepoint.com/html5-ajax-file-upload/">http://www.sitepoint.com/html5-ajax-file-upload/</a></p>
-</blockquote>
-<blockquote>
-<p>在之前我的文章里，我们讨论了怎么使用<code>HTML5的拖拽功能</code>和使用<code>HTML5和Javascript操作文件</code>。现在我们有一些文件将要上传到服务器。这个进程将在后台异步进行，因此用户可以在页面上做其他的事情。</p>
-</blockquote>
-<h4 id="The-HTML"><a href="#The-HTML" class="headerlink" title="The HTML"></a>The HTML</h4><p>再次检查HTML表单：</p>
-<pre class="line-numbers language-html5" data-language="html5"><code class="language-html5">&lt;form id&#x3D;&quot;upload&quot; action&#x3D;&quot;upload.php&quot; method&#x3D;&quot;POST&quot; enctype&#x3D;&quot;multipart&#x2F;form-data&quot;&gt;
-&lt;fieldset&gt;
-&lt;legend&gt;HTML File Upload&lt;&#x2F;legend&gt;
-&lt;input type&#x3D;&quot;hidden&quot; id&#x3D;&quot;MAX_FILE_SIZE&quot; name&#x3D;&quot;MAX_FILE_SIZE&quot; value&#x3D;&quot;300000&quot; &#x2F;&gt;
-&lt;div&gt;
-    &lt;label for&#x3D;&quot;fileselect&quot;&gt;Files to upload:&lt;&#x2F;label&gt;
-    &lt;input type&#x3D;&quot;file&quot; id&#x3D;&quot;fileselect&quot; name&#x3D;&quot;fileselect[]&quot; multiple&#x3D;&quot;multiple&quot; &#x2F;&gt;
-    &lt;div id&#x3D;&quot;filedrag&quot;&gt;or drop files here&lt;&#x2F;div&gt;
-&lt;&#x2F;div&gt;
-&lt;div id&#x3D;&quot;submitbutton&quot;&gt;
-    &lt;button type&#x3D;&quot;submit&quot;&gt;Upload Files&lt;&#x2F;button&gt;
-&lt;&#x2F;div&gt;
-&lt;&#x2F;fieldset&gt;
-&lt;&#x2F;form&gt;</code></pre>
-
-<p>我们将把文件上传至<code>upload.php</code>的<code>PHP文件</code>，这个页面将在用户点击上传文件后，处理<code>AJAX</code>上传请求和表单<code>POST</code>提交。<br><code>Javascript</code>能够保证仅上传小于<code>300,000B</code>的<code>jpg图片</code>。</p>
-<h4 id="The-Javascript"><a href="#The-Javascript" class="headerlink" title="The Javascript"></a>The Javascript</h4><p>首先，我们从新的一行创建一个函数<code>FileSelectHandler</code>，用于有文件被选择或者放入时调用。要遍历文件我们调用另一个函数<code>UploadFile</code>。</p>
-<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#x2F;&#x2F; file selection
-function FileSelectHandler(e) &#123;
-
-    &#x2F;&#x2F; cancel event and hover styling
-    FileDragHover(e);
-
-    &#x2F;&#x2F; fetch FileList object
-    var files &#x3D; e.target.files || e.dataTransfer.files;
-
-    &#x2F;&#x2F; process all File objects
-    for (var i &#x3D; 0, f; f &#x3D; files[i]; i++) &#123;
-        ParseFile(f);
-        UploadFile(f);
-    &#125;
-
-&#125;</code></pre>
-
-<p>文件上传需要<code>XMLHttpRequest2</code>对象,这个对象在<code>FireFox</code>和<code>chrome</code>中支持(译者注：这篇文章发表于2012年,当前各个浏览器的支持请看<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">这里</a>)。在我们调起<code>Ajax</code>之前，我们要确定<code>upload</code>方法存在并且有一个小于<code>MAX_FILE_SIZE</code>值的<code>JPG图片</code>。</p>
-<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#x2F;&#x2F; upload JPEG files
-function UploadFile(file) &#123;
-
-    var xhr &#x3D; new XMLHttpRequest();
-    if (xhr.upload &amp;&amp; file.type &#x3D;&#x3D; &quot;image&#x2F;jpeg&quot; &amp;&amp; file.size &lt;&#x3D; $id(&quot;MAX_FILE_SIZE&quot;).value) &#123;
-        &#x2F;&#x2F; start upload
-        xhr.open(&quot;POST&quot;, $id(&quot;upload&quot;).action, true);
-        xhr.setRequestHeader(&quot;X_FILENAME&quot;, file.name);
-        xhr.send(file);
-
-    &#125;
-
-&#125;</code></pre>
-
-<h4 id="The-PHP"><a href="#The-PHP" class="headerlink" title="The PHP"></a>The PHP</h4><pre class="line-numbers language-php" data-language="php"><code class="language-php">&lt;?php
-$fn &#x3D; (isset($_SERVER[&#39;HTTP_X_FILENAME&#39;]) ? $_SERVER[&#39;HTTP_X_FILENAME&#39;] : false);
-if ($fn) &#123;
-
-    &#x2F;&#x2F; AJAX call
-    file_put_contents(
-        &#39;uploads&#x2F;&#39; . $fn,
-        file_get_contents(&#39;php:&#x2F;&#x2F;input&#39;)
-    );
-    echo &quot;$fn uploaded&quot;;
-    exit();
-    
-&#125;else &#123;
-
-    &#x2F;&#x2F; form submit
-    $files &#x3D; $_FILES[&#39;fileselect&#39;];
-
-    foreach ($files[&#39;error&#39;] as $id &#x3D;&gt; $err) &#123;
-        if ($err &#x3D;&#x3D; UPLOAD_ERR_OK) &#123;
-            $fn &#x3D; $files[&#39;name&#39;][$id];
-            move_uploaded_file(
-                $files[&#39;tmp_name&#39;][$id],
-                &#39;uploads&#x2F;&#39; . $fn
-            );
-            echo &quot;&lt;p&gt;File $fn uploaded.&lt;&#x2F;p&gt;&quot;;
-        &#125;
-    &#125;
-
-&#125;</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" data-id="cl7mrqnog000eqcd37lgp4vj0" data-title="如何使用ajax实现异步上传文件(译文)" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li></ul>
 
     </footer>
   </div>
@@ -861,6 +939,10 @@ if ($fn) &#123;
       <ul>
         
           <li>
+            <a href="/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/">使用Canvas压缩图片</a>
+          </li>
+        
+          <li>
             <a href="/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/">如何防止频繁调用Javascript一段代码？</a>
           </li>
         
@@ -874,10 +956,6 @@ if ($fn) &#123;
         
           <li>
             <a href="/2016/03/29/Volt-directory-can-t-be-written/">Volt directory can&#39;t be written</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/">Phpstorm代码提示phalcon设置</a>
           </li>
         
       </ul>

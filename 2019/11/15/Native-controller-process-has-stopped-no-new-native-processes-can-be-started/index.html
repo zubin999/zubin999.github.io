@@ -4,17 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>标签: ajax,上传文件 | 李祖彬的博客</title>
+  <title>Native controller process has stopped - no new native processes can be started | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录一些工作中的问题以及解决办法">
-<meta property="og:type" content="website">
-<meta property="og:title" content="李祖彬的博客">
-<meta property="og:url" content="http://zubin999.github.io/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/index.html">
+  <meta name="description" content="昨天安装好，今天启动Elasticsearch时失败： ... ERROR: [1] bootstrap checks failed [1]: max number of threads [2048] for user [vagrant] is too low, increase to at least [4096] [2]: the default discovery settings are">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Native controller process has stopped - no new native processes can be started">
+<meta property="og:url" content="http://zubin999.github.io/2019/11/15/Native-controller-process-has-stopped-no-new-native-processes-can-be-started/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="记录一些工作中的问题以及解决办法">
+<meta property="og:description" content="昨天安装好，今天启动Elasticsearch时失败： ... ERROR: [1] bootstrap checks failed [1]: max number of threads [2048] for user [vagrant] is too low, increase to at least [4096] [2]: the default discovery settings are">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-15T07:20:00.000Z">
+<meta property="article:modified_time" content="2022-09-04T05:41:14.253Z">
 <meta property="article:author" content="李祖彬">
-<meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
+<meta property="article:tag" content="elasticsearch,nproc">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="李祖彬的博客" type="application/atom+xml">
@@ -72,39 +74,86 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" class="archive-article-date">
-  <time class="dt-published" datetime="2015-06-24T00:49:20.000Z" itemprop="datePublished">6月 24</time>
+        <section id="main"><article id="post-Native-controller-process-has-stopped-no-new-native-processes-can-be-started" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/11/15/Native-controller-process-has-stopped-no-new-native-processes-can-be-started/" class="article-date">
+  <time class="dt-published" datetime="2019-11-15T07:20:00.000Z" itemprop="datePublished">2019-11-15</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/">如何使用ajax实现异步上传文件(译文)</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      Native controller process has stopped - no new native processes can be started
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>昨天安装好，今天启动<code>Elasticsearch</code>时失败：</p>
+<pre class="line-numbers language-none"><code class="language-none">...
+ERROR: [1] bootstrap checks failed
+[1]: max number of threads [2048] for user [vagrant] is too low, increase to at least [4096]
+[2]: the default discovery settings are unsuitable for production use; at least one of [discovery.seed_hosts, discovery.seed_providers, cluster.initial_master_nodes] must be configured
+[2019-11-15T14:46:51,596][INFO ][o.e.n.Node               ] [machine2] stopping ...
+[2019-11-15T14:46:51,640][INFO ][o.e.n.Node               ] [machine2] stopped
+[2019-11-15T14:46:51,640][INFO ][o.e.n.Node               ] [machine2] closing ...
+[2019-11-15T14:46:51,666][INFO ][o.e.n.Node               ] [machine2] closed
+[2019-11-15T14:46:51,669][INFO ][o.e.x.m.p.NativeController] [machine2] Native controller process has stopped - no new native processes can be started</code></pre>
+
+<p>遇到这样的错误，不能看最后一句话。看前面的<code>error</code>，这里有两个错误。</p>
+<p>第一个解决方案可以<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/master/max-number-of-threads.html">看这里</a>给出了两种方法：</p>
+<ol>
+<li>使用<code>Linux</code>命令<code>ulimit -u xxxx</code>设置。</li>
+<li>修改<code>/etc/security/limits.conf</code>中对应当前用户的<code>nproc</code>值</li>
+</ol>
+<p>额外说下，<code>nproc</code>代表<code>max number of processes</code>。这在文件前面有解释</p>
+<p>第二个问题<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/master/discovery-settings.html">看这里</a>，可以知道，没有做任何网络配置，<code>Elasticsearch</code>会绑定在<code>loopback address(127.0.0.1)</code>上，并扫描<code>9300</code>到<code>9305</code>的端口去尝试连接其他节点（这样做是方便了集群）。出现这个问题是因为昨天我将<code>IP地址</code>修改了。所以，解决这个问题可以：</p>
+<ol>
+<li>将昨天的改动去掉，网络配置的IP地址恢复默认配置</li>
+<li>在<code>$ES_HOME/config/elasticsearch.yml</code>的<code>Discovery</code>模块中配置<code>discovery.seed_hosts: []</code></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2019/11/15/Native-controller-process-has-stopped-no-new-native-processes-can-be-started/" data-id="cl7mwp93k000c44d3c43o9bya" data-title="Native controller process has stopped - no new native processes can be started" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/09/04/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Only one usage of each socket address (protocol/network address/port) is normally permitted.
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/14/Elasticsearch%E5%AE%89%E8%A3%85/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Elasticsearch安装</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

@@ -4,15 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>归档: 2016/8 | 李祖彬的博客</title>
+  <title>Elasticsearch问题收集 | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录一些工作中的问题以及解决办法">
-<meta property="og:type" content="website">
-<meta property="og:title" content="李祖彬的博客">
-<meta property="og:url" content="http://zubin999.github.io/archives/2016/08/index.html">
+  <meta name="description" content="No alive nodes found in your cluster  在客户端出现这个问题，检查Elasticsearch是不是死掉了。如使用: ps -aux | grep elasticsearch  &#x2F;&#x2F; 得到： vagrant  13508  0.0  0.0  14228   928 pts&#x2F;0    S+   19:10   0:00 grep -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch问题收集">
+<meta property="og:url" content="http://zubin999.github.io/2019/11/19/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="记录一些工作中的问题以及解决办法">
+<meta property="og:description" content="No alive nodes found in your cluster  在客户端出现这个问题，检查Elasticsearch是不是死掉了。如使用: ps -aux | grep elasticsearch  &#x2F;&#x2F; 得到： vagrant  13508  0.0  0.0  14228   928 pts&#x2F;0    S+   19:10   0:00 grep -">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-19T11:14:15.000Z">
+<meta property="article:modified_time" content="2022-09-04T05:50:49.283Z">
 <meta property="article:author" content="李祖彬">
 <meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
 <meta name="twitter:card" content="summary">
@@ -72,77 +74,94 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/" class="archive-article-date">
-  <time class="dt-published" datetime="2016-08-28T15:54:41.000Z" itemprop="datePublished">8月 28</time>
+        <section id="main"><article id="post-Elasticsearch问题收集" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/11/19/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86/" class="article-date">
+  <time class="dt-published" datetime="2019-11-19T11:14:15.000Z" itemprop="datePublished">2019-11-19</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/">MySQL如何支持emoji表情</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      Elasticsearch问题收集
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" class="archive-article-date">
-  <time class="dt-published" datetime="2016-08-11T15:25:40.000Z" itemprop="datePublished">8月 11</time>
-</a>
+    <div class="e-content article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/">使用Canvas压缩图片</a>
-    </h1>
-  
+        <ul>
+<li>No alive nodes found in your cluster</li>
+</ul>
+<p>在客户端出现这个问题，检查<code>Elasticsearch</code>是不是死掉了。如使用:</p>
+<pre class="line-numbers language-none"><code class="language-none">ps -aux | grep elasticsearch
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" class="archive-article-date">
-  <time class="dt-published" datetime="2016-08-08T15:07:14.000Z" itemprop="datePublished">8月 8</time>
-</a>
+&#x2F;&#x2F; 得到：
+vagrant  13508  0.0  0.0  14228   928 pts&#x2F;0    S+   19:10   0:00 grep --color&#x3D;auto elasitcsearch</code></pre>
+
+<p>那么，重新启动服务。另外，以daemon方式启动，如果出错是看不到错误的。只显示这一行：</p>
+<pre class="line-numbers language-none"><code class="language-none">OpenJDK 64-Bit Server VM warning: Option UseConcMarkSweepGC was deprecated in version 9.0 and will likely be removed in a future release.</code></pre>
+
+<ul>
+<li>mapper [title] of different type, current_type [keyword], merged_type [text]</li>
+</ul>
+<p>完整的报错类似于这样的：</p>
+<pre class="line-numbers language-none"><code class="language-none">Array
+(
+    [error] &#x3D;&gt; Array
+        (
+            [root_cause] &#x3D;&gt; Array
+                (
+                    [0] &#x3D;&gt; Array
+                        (
+                            [type] &#x3D;&gt; illegal_argument_exception
+                            [reason] &#x3D;&gt; mapper [title] of different type, current_type [keyword], merged_type [text]
+                        )
+
+                )
+
+            [type] &#x3D;&gt; illegal_argument_exception
+            [reason] &#x3D;&gt; mapper [title] of different type, current_type [keyword], merged_type [text]
+        )
+
+    [status] &#x3D;&gt; 400
+)</code></pre>
+
+<p>这个是怎么出现的呢？就是先已经将<code>title</code>设定为<code>keyword</code>类型，然后又去设定<code>title</code>为<code>text</code>类型，就造成了这个问题。那么，怎么办呢？<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/7.x/mapping.html#update-mapping">在这里有解释</a>：修改已经存在的字段会使之前已经建立索引的数据无效。但遇到之前建立错了，必须要改，怎么办呢？只能使用新的<code>mappings</code>重新建立一个新的<code>index</code>，然后使用<code>reindex</code>接口去对数据建立索引。</p>
+<ul>
+<li>master not discovered yet, this node has not previously joined a boots and [cluster.initial_master_nodes] is empty on this node</li>
+</ul>
+<p>首先，这个问题发生在我阅读到<code>path.data</code>配置时产生的。在此之前，运行正常，其他没有任何配置改动。那么，可以判断是这个配置造成的，后将其注释，再次启动成功。所以，为什么在配置<code>path.data</code>后就失败了呢？从这句话来看，需要设置<code>cluster.initial_master_nodes</code>的值。我这里是本地就一个单机，先尝试像<code>discovery.seed_hosts: []</code>一样，给个空试试，依然在报这个错误。那先将<code>Node</code>部分的<code>node.name</code>注释去掉，使用默认的<code>node-1</code>，然后将<code>discovery</code>的<code>cluster.initial_master_nodes</code>注释也去掉，并给值<code>node-1</code>，可以启动成功了。</p>
+
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/">如何防止频繁调用Javascript一段代码？</a>
-    </h1>
-  
-
-    </header>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2019/11/19/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86/" data-id="cl7mx190r00026sd3965ehmrk" data-title="Elasticsearch问题收集" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/15/Native-controller-process-has-stopped-no-new-native-processes-can-be-started/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Native controller process has stopped - no new native processes can be started</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

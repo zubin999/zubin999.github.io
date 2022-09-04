@@ -74,6 +74,71 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-vagrant增加虚拟机磁盘空间" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/10/08/vagrant%E5%A2%9E%E5%8A%A0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" class="article-date">
+  <time class="dt-published" datetime="2020-10-08T11:53:21.000Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/10/08/vagrant%E5%A2%9E%E5%8A%A0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/">vagrant增加虚拟机磁盘空间</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在<code>vagrant</code>中增加磁盘空间，可以使用插件<code>vagrant-disksize</code>。</p>
+<ul>
+<li>插件安装</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">vagrant plugin install vagrant-disksize</code></pre>
+
+<p>如果出现超时错误，需要终端设置代理。安装好之后，如果虚拟机已经在运行，先使用<code>vagrant halt</code>关闭，在<code>Vagrantfile</code>中添加配置：</p>
+<pre class="line-numbers language-none"><code class="language-none">config.disksize.size &#x3D; &#39;50GB&#39;</code></pre>
+
+<p>保存后再使用<code>vagrant up</code>启动。启动时，看到一段话：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x3D;&#x3D;&gt; machine5: Resized disk: old 10240 MB, req 51200 MB, new 51200 MB
+&#x3D;&#x3D;&gt; machine5: You may need to resize the filesystem from within the guest.</code></pre>
+
+<ul>
+<li>配置</li>
+</ul>
+<p>启动后进入系统，使用<code>df</code>查看发现，磁盘空间没有还是变化。需要下面几个步骤：</p>
+<ol>
+<li>运行<code>sudo cfdisk /dev/sda</code>，这时候能够看到新增的空间了。如我的原本是<code>10GB</code>，配置里改为了<code>50GB</code>，这里就看到两行，第一行是<code>/dev/sda1</code>有<code>10GB</code>，第二行是新增的<code>40GB</code>。</li>
+<li>使用上下箭头选中第一行，再使用左右箭头选中<code>Resize</code>，后面的提示<code>New size: 50G</code>按回车确认。</li>
+<li>再使用左右箭头选择<code>Write</code>，显示提示<code>Are you sure you want to write the partition table to disk?</code>时输入<code>yes</code>按回车确认。</li>
+<li>选择<code>Quit</code>回车。</li>
+<li>运行<code>sudo resize2fs -p -F /dev/sdaX</code>，X替换为自己对应的数字。如果是centos 7,8这里会提示：<code>resize2fs: Bad magic number in super-block while trying to open /dev/sda1. Couldn&#39;t find valid filesystem superblock.</code>换成运行<code>xfs_grows /dev/sda1</code></li>
+</ol>
+<p>最后，使用<code>df</code>查看，磁盘空间已经增加。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2020/10/08/vagrant%E5%A2%9E%E5%8A%A0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" data-id="cl7mxfovj000vlwd31r2xf1on" data-title="vagrant增加虚拟机磁盘空间" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" rel="tag">vagrant,磁盘空间</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-使用logstash将MySQL数据同步到elasticsearch" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/09/06/%E4%BD%BF%E7%94%A8logstash%E5%B0%86MySQL%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%88%B0elasticsearch/" class="article-date">
@@ -143,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2020/09/06/%E4%BD%BF%E7%94%A8logstash%E5%B0%86MySQL%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%88%B0elasticsearch/" data-id="cl7mxcoli000zc0d32uuu0y17" data-title="使用logstash将MySQL数据同步到elasticsearch" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2020/09/06/%E4%BD%BF%E7%94%A8logstash%E5%B0%86MySQL%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%88%B0elasticsearch/" data-id="cl7mxfovp0011lwd3626j3h9x" data-title="使用logstash将MySQL数据同步到elasticsearch" class="article-share-link">分享</a>
       
       
       
@@ -406,7 +471,7 @@ echo $helper-&gt;before($sec), &quot;\n&quot;;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2020/07/31/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95/" data-id="cl7mxcolh000xc0d39ng1dwcr" data-title="使用Zephir写PHP扩展" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2020/07/31/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95/" data-id="cl7mxfovo000zlwd3160s9em1" data-title="使用Zephir写PHP扩展" class="article-share-link">分享</a>
       
       
       
@@ -512,7 +577,7 @@ curl_multi_close($mh);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2020/02/28/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/" data-id="cl7mxcol6000ic0d3g4dghl4w" data-title="PHP多个CURL请求异步执行" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2020/02/28/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/" data-id="cl7mxfovb000ilwd365pjbs7v" data-title="PHP多个CURL请求异步执行" class="article-share-link">分享</a>
       
       
       
@@ -594,7 +659,7 @@ vagrant  13508  0.0  0.0  14228   928 pts&#x2F;0    S+   19:10   0:00 grep --col
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2019/11/19/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86/" data-id="cl7mxcokp0002c0d38d3a5qjm" data-title="Elasticsearch问题收集" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2019/11/19/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86/" data-id="cl7mxfouw0004lwd378js2z5w" data-title="Elasticsearch问题收集" class="article-share-link">分享</a>
       
       
       
@@ -655,7 +720,7 @@ ERROR: [1] bootstrap checks failed
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2019/11/15/Native-controller-process-has-stopped-no-new-native-processes-can-be-started/" data-id="cl7mxcol3000ec0d3ewfg8azz" data-title="Native controller process has stopped - no new native processes can be started" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2019/11/15/Native-controller-process-has-stopped-no-new-native-processes-can-be-started/" data-id="cl7mxfov7000elwd3085b7uom" data-title="Native controller process has stopped - no new native processes can be started" class="article-share-link">分享</a>
       
       
       
@@ -765,7 +830,7 @@ vagrant@machine2:~&#x2F;elasticsearch-7.4.2&#x2F;bin$ .&#x2F;elasticsearch</code
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2019/11/14/Elasticsearch%E5%AE%89%E8%A3%85/" data-id="cl7mxcokl0001c0d3e6rbhrlv" data-title="Elasticsearch安装" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2019/11/14/Elasticsearch%E5%AE%89%E8%A3%85/" data-id="cl7mxfout0002lwd3gmx2av0h" data-title="Elasticsearch安装" class="article-share-link">分享</a>
       
       
       
@@ -824,7 +889,7 @@ vagrant@machine2:~&#x2F;elasticsearch-7.4.2&#x2F;bin$ .&#x2F;elasticsearch</code
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2019/09/28/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted/" data-id="cl7mxcol5000gc0d3h3888n5c" data-title="Only one usage of each socket address (protocol/network address/port) is normally permitted." class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2019/09/28/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted/" data-id="cl7mxfov9000glwd33askh4cz" data-title="Only one usage of each socket address (protocol/network address/port) is normally permitted." class="article-share-link">分享</a>
       
       
       
@@ -876,7 +941,7 @@ vagrant@machine2:~&#x2F;elasticsearch-7.4.2&#x2F;bin$ .&#x2F;elasticsearch</code
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2019/09/10/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user/" data-id="cl7mxcolc000tc0d3310z8lui" data-title="auth failed from unknown (xx.xx.xx.xx) unauthorised user" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2019/09/10/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user/" data-id="cl7mxfovi000tlwd393i19sg7" data-title="auth failed from unknown (xx.xx.xx.xx) unauthorised user" class="article-share-link">分享</a>
       
       
       
@@ -941,64 +1006,11 @@ unix       tpi_cots_ord  -     loopback  -      -       -</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2019/09/10/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6/" data-id="cl7mxcol9000mc0d3b414hu3y" data-title="Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2019/09/10/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6/" data-id="cl7mxfove000mlwd3h3yzc2oi" data-title="Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-小程序网络请求header头设置Content-Type" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2019/08/16/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type/" class="article-date">
-  <time class="dt-published" datetime="2019-08-15T22:46:04.000Z" itemprop="datePublished">2019-08-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/08/16/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type/">小程序网络请求header头设置Content-Type</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>小程序发起<code>http</code>网络请求，通过<code>wx.request</code>函数的调用。该函数接收一个对象，可以在对象里配置包括<code>地址</code>、<code>header</code>、<code>method</code>等。<code>method</code>默认为<code>post</code>请求。但是，我们在服务器端使用<code>$_POST</code>或框架如Phalcon里的<code>$this-&gt;request-&gt;getPost()</code>等获取参数时，取得结果为空。但是通过流获取:</p>
-<pre class="line-numbers language-none"><code class="language-none">$params &#x3D; file_get_contents(&#39;php:&#x2F;&#x2F;input&#39;)</code></pre>
-
-
-
-<p><code>Phalcon</code>里通过：</p>
-<pre class="line-numbers language-none"><code class="language-none">$params &#x3D; $this-&gt;request-&gt;getJsonRawBody();</code></pre>
-
-<p>这样是能够得到参数的。为什么<code>POST</code>请求，却不能在<code>POST</code>里得到呢？我们注意看文档，会发现此时的<code>header</code>里<code>content-type</code>为<code>application/json</code>(默认方式)，再查看PHP的<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/reserved.variables.post.php">文档</a>，可以看到：</p>
-<blockquote>
-<p>当 HTTP POST 请求的 Content-Type 是 application&#x2F;x-www-form-urlencoded 或 multipart&#x2F;form-data 时，会将变量以关联数组形式传入当前脚本。</p>
-</blockquote>
-<p>也就是说，我们需要重新设置小程序的<code>header</code>头里的<code>content-type</code>为<code>application/x-www-form-urlencoded</code>，就可以获取<code>POST</code>里的参数了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2019/08/16/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type/" data-id="cl7mxcolr001ec0d33vl7f9ia" data-title="小程序网络请求header头设置Content-Type" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li></ul>
 
     </footer>
   </div>
@@ -1026,7 +1038,7 @@ unix       tpi_cots_ord  -     loopback  -      -       -</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">logstash,elasitcsearch,mysql,数据同步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" rel="tag">php,zephir,扩展</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">logstash,elasitcsearch,mysql,数据同步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" rel="tag">php,zephir,扩展</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" rel="tag">vagrant,磁盘空间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
     </div>
   </div>
 
@@ -1036,7 +1048,7 @@ unix       tpi_cots_ord  -     loopback  -      -       -</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="/tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="/tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="/tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="/tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">logstash,elasitcsearch,mysql,数据同步</a> <a href="/tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="/tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="/tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">php,curl,并行请求</a> <a href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" style="font-size: 10px;">php,zephir,扩展</a> <a href="/tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="/tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
+      <a href="/tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="/tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="/tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="/tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="/tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">logstash,elasitcsearch,mysql,数据同步</a> <a href="/tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="/tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="/tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">php,curl,并行请求</a> <a href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" style="font-size: 10px;">php,zephir,扩展</a> <a href="/tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="/tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">vagrant,磁盘空间</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
     </div>
   </div>
 
@@ -1045,7 +1057,7 @@ unix       tpi_cots_ord  -     loopback  -      -       -</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
     </div>
   </div>
 
@@ -1056,6 +1068,10 @@ unix       tpi_cots_ord  -     loopback  -      -       -</code></pre>
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/10/08/vagrant%E5%A2%9E%E5%8A%A0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/">vagrant增加虚拟机磁盘空间</a>
+          </li>
         
           <li>
             <a href="/2020/09/06/%E4%BD%BF%E7%94%A8logstash%E5%B0%86MySQL%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%88%B0elasticsearch/">使用logstash将MySQL数据同步到elasticsearch</a>
@@ -1071,10 +1087,6 @@ unix       tpi_cots_ord  -     loopback  -      -       -</code></pre>
         
           <li>
             <a href="/2019/11/19/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86/">Elasticsearch问题收集</a>
-          </li>
-        
-          <li>
-            <a href="/2019/11/15/Native-controller-process-has-stopped-no-new-native-processes-can-be-started/">Native controller process has stopped - no new native processes can be started</a>
           </li>
         
       </ul>

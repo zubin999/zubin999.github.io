@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>关于我 | 李祖彬的博客</title>
+  <title>ES6之Object.is | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录一些工作中的问题以及解决办法">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于我">
-<meta property="og:url" content="http://zubin999.github.io/about/me.html">
+  <meta name="description" content="当你想比较两个值是否相等时，你可能会用相等运算符“&#x3D;&#x3D;”或“&#x3D;&#x3D;&#x3D;”，这两者的区别在于后者会增加类型的比较，虽然这样，有时依然不能够准确的比较.+0 &#x3D;&#x3D;&#x3D; -0 返回true, 另外，NaN &#x3D;&#x3D;&#x3D; NaN 得到的是false,这需要使用isNaN来检测NaN属性。 ECMAScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6之Object.is">
+<meta property="og:url" content="http://zubin999.github.io/2015/08/02/ES6%E4%B9%8BObject-is/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="记录一些工作中的问题以及解决办法">
+<meta property="og:description" content="当你想比较两个值是否相等时，你可能会用相等运算符“&#x3D;&#x3D;”或“&#x3D;&#x3D;&#x3D;”，这两者的区别在于后者会增加类型的比较，虽然这样，有时依然不能够准确的比较.+0 &#x3D;&#x3D;&#x3D; -0 返回true, 另外，NaN &#x3D;&#x3D;&#x3D; NaN 得到的是false,这需要使用isNaN来检测NaN属性。 ECMAScript">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-09-03T23:57:34.000Z">
-<meta property="article:modified_time" content="2022-09-03T23:57:34.030Z">
+<meta property="article:published_time" content="2015-08-02T15:54:22.000Z">
+<meta property="article:modified_time" content="2022-09-04T02:44:11.927Z">
 <meta property="article:author" content="李祖彬">
 <meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
 <meta name="twitter:card" content="summary">
@@ -74,10 +74,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-ES6之Object-is" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/about/me.html" class="article-date">
-  <time class="dt-published" datetime="2022-09-03T23:57:34.000Z" itemprop="datePublished">2022-09-04</time>
+    <a href="/2015/08/02/ES6%E4%B9%8BObject-is/" class="article-date">
+  <time class="dt-published" datetime="2015-08-02T15:54:22.000Z" itemprop="datePublished">2015-08-02</time>
 </a>
     
   </div>
@@ -88,7 +88,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      关于我
+      ES6之Object.is
     </h1>
   
 
@@ -96,11 +96,28 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <p>当你想比较两个值是否相等时，你可能会用相等运算符“&#x3D;&#x3D;”或“&#x3D;&#x3D;&#x3D;”，这两者的区别在于后者会增加类型的比较，虽然这样，有时依然不能够准确的比较.+0 &#x3D;&#x3D;&#x3D; -0 返回true, 另外，NaN &#x3D;&#x3D;&#x3D; NaN 得到的是false,这需要使用isNaN来检测NaN属性。</p>
+<p>ECMAScript6引入了Object.is()来弥补遗留的这个问题。这个方法接收两个参数并且如果值相等返回true。两个参数在类型和值一样时会被判为相等。大多数情况下，Object.is()和”&#x3D;&#x3D;&#x3D;”是一样的，不同的是使用Object.is()对+0和-0比较，返回false，而NaN返回true。下面是一些例子：</p>
+<pre lang="javascript">
+console.log(+0 == -0);              // true
+console.log(+0 === -0);             // true
+console.log(Object.is(+0, -0));     // false
+
+console.log(NaN == NaN);            // false
+console.log(NaN === NaN);           // false
+console.log(Object.is(NaN, NaN));   // true
+
+console.log(5 == 5);                // true
+console.log(5 == "5");              // true
+console.log(5 === 5);               // true
+console.log(5 === "5");             // false
+console.log(Object.is(5, 5));       // true
+console.log(Object.is(5, "5"));     // false
+</pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/about/me.html" data-id="cl7mqdoy10000lwd30odrhxzp" data-title="关于我" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2015/08/02/ES6%E4%B9%8BObject-is/" data-id="cl7mqdoy50001lwd3hrat4zog" data-title="ES6之Object.is" class="article-share-link">分享</a>
       
       
       
@@ -108,6 +125,16 @@
   </div>
   
     
+<nav id="article-nav">
+  
+  
+    <a href="/2015/07/25/JavaScript%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-ES6%E6%96%B0%E6%96%B9%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">JavaScript参数默认值(ES6新方法)</div>
+    </a>
+  
+</nav>
+
   
 </article>
 

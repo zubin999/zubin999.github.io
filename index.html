@@ -74,6 +74,61 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ES6之Object-is" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2015/08/02/ES6%E4%B9%8BObject-is/" class="article-date">
+  <time class="dt-published" datetime="2015-08-02T15:54:22.000Z" itemprop="datePublished">2015-08-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2015/08/02/ES6%E4%B9%8BObject-is/">ES6之Object.is</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>当你想比较两个值是否相等时，你可能会用相等运算符“&#x3D;&#x3D;”或“&#x3D;&#x3D;&#x3D;”，这两者的区别在于后者会增加类型的比较，虽然这样，有时依然不能够准确的比较.+0 &#x3D;&#x3D;&#x3D; -0 返回true, 另外，NaN &#x3D;&#x3D;&#x3D; NaN 得到的是false,这需要使用isNaN来检测NaN属性。</p>
+<p>ECMAScript6引入了Object.is()来弥补遗留的这个问题。这个方法接收两个参数并且如果值相等返回true。两个参数在类型和值一样时会被判为相等。大多数情况下，Object.is()和”&#x3D;&#x3D;&#x3D;”是一样的，不同的是使用Object.is()对+0和-0比较，返回false，而NaN返回true。下面是一些例子：</p>
+<pre lang="javascript">
+console.log(+0 == -0);              // true
+console.log(+0 === -0);             // true
+console.log(Object.is(+0, -0));     // false
+
+console.log(NaN == NaN);            // false
+console.log(NaN === NaN);           // false
+console.log(Object.is(NaN, NaN));   // true
+
+console.log(5 == 5);                // true
+console.log(5 == "5");              // true
+console.log(5 === 5);               // true
+console.log(5 === "5");             // false
+console.log(Object.is(5, 5));       // true
+console.log(Object.is(5, "5"));     // false
+</pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2015/08/02/ES6%E4%B9%8BObject-is/" data-id="cl7mqdoy50001lwd3hrat4zog" data-title="ES6之Object.is" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-JavaScript参数默认值-ES6新方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2015/07/25/JavaScript%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-ES6%E6%96%B0%E6%96%B9%E6%B3%95/" class="article-date">
@@ -141,7 +196,7 @@ var str = laterToDefaultValue('hello');  //str = "hello world";
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/07/25/JavaScript%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-ES6%E6%96%B0%E6%96%B9%E6%B3%95/" data-id="cl7mprjt60002ggd37yn086rh" data-title="JavaScript参数默认值(ES6新方法)" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2015/07/25/JavaScript%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-ES6%E6%96%B0%E6%96%B9%E6%B3%95/" data-id="cl7mqdoyb0003lwd3fm269v9f" data-title="JavaScript参数默认值(ES6新方法)" class="article-share-link">分享</a>
       
       
       
@@ -200,7 +255,7 @@ var str = laterToDefaultValue('hello');  //str = "hello world";
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/07/03/JavaScript%E4%B8%ADinnerText%E5%92%8CtextContent%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="cl7mprjt20001ggd33o2teegr" data-title="JavaScript中innerText和textContent的区别" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2015/07/03/JavaScript%E4%B8%ADinnerText%E5%92%8CtextContent%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="cl7mqdoy90002lwd3bwtqc3dr" data-title="JavaScript中innerText和textContent的区别" class="article-share-link">分享</a>
       
       
       
@@ -324,7 +379,7 @@ if ($fn) &#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" data-id="cl7mprjta0004ggd382an86k3" data-title="如何使用ajax实现异步上传文件(译文)" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" data-id="cl7mqdoyf0005lwd39nvo6yp0" data-title="如何使用ajax实现异步上传文件(译文)" class="article-share-link">分享</a>
       
       
       
@@ -386,7 +441,7 @@ sum(1,0);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/05/10/%E5%A6%82%E4%BD%95%E7%BB%99JavaScript%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E6%B7%BB%E5%8A%A0%E9%BB%98%E8%AE%A4%E5%80%BC/" data-id="cl7mprjtc0005ggd388uw96ty" data-title="如何给JavaScript中函数的参数添加默认值" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2015/05/10/%E5%A6%82%E4%BD%95%E7%BB%99JavaScript%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E6%B7%BB%E5%8A%A0%E9%BB%98%E8%AE%A4%E5%80%BC/" data-id="cl7mqdoyg0006lwd37synfdqx" data-title="如何给JavaScript中函数的参数添加默认值" class="article-share-link">分享</a>
       
       
       
@@ -432,7 +487,7 @@ sum(1,0);</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
     </div>
   </div>
 
@@ -443,6 +498,10 @@ sum(1,0);</code></pre>
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/08/02/ES6%E4%B9%8BObject-is/">ES6之Object.is</a>
+          </li>
         
           <li>
             <a href="/2015/07/25/JavaScript%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-ES6%E6%96%B0%E6%96%B9%E6%B3%95/">JavaScript参数默认值(ES6新方法)</a>

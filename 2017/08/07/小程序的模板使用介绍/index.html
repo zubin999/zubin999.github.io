@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>Phpstorm代码提示phalcon设置 | 李祖彬的博客</title>
+  <title>小程序的模板使用介绍 | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Phalcon框架因为是以PHP扩展的形式存在，所以不同于其他的框架，安装完成后，IDE还并不能提示代码，这里就需要用到Developer Tools。该工具可在github上找到，**传送门**。  下载项目  使用git工具clone： git clone https:&#x2F;&#x2F;github.com&#x2F;phalcon&#x2F;phalcon-devtools.git   设置PhpStorm  在PhpSto">
+  <meta name="description" content="模板，即一部分业务代码片段，具有通用性。使用模板的好处，自然是方便维护。前端时间在做一个视频小程序时，便遇到了需要模板的场景。 这个小程序是个关于视频的项目，在首页，分类，搜索，个人中心(我发布的视频)都存在视频列表(页面包含列表),所以我打算将列表拿出来做个模板。 小程序定义模板语法： &lt;template name&#x3D;&quot;yourTemplateName&quot;&gt;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Phpstorm代码提示phalcon设置">
-<meta property="og:url" content="http://zubin999.github.io/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/index.html">
+<meta property="og:title" content="小程序的模板使用介绍">
+<meta property="og:url" content="http://zubin999.github.io/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="Phalcon框架因为是以PHP扩展的形式存在，所以不同于其他的框架，安装完成后，IDE还并不能提示代码，这里就需要用到Developer Tools。该工具可在github上找到，**传送门**。  下载项目  使用git工具clone： git clone https:&#x2F;&#x2F;github.com&#x2F;phalcon&#x2F;phalcon-devtools.git   设置PhpStorm  在PhpSto">
+<meta property="og:description" content="模板，即一部分业务代码片段，具有通用性。使用模板的好处，自然是方便维护。前端时间在做一个视频小程序时，便遇到了需要模板的场景。 这个小程序是个关于视频的项目，在首页，分类，搜索，个人中心(我发布的视频)都存在视频列表(页面包含列表),所以我打算将列表拿出来做个模板。 小程序定义模板语法： &lt;template name&#x3D;&quot;yourTemplateName&quot;&gt;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2016-03-21T14:36:53.000Z">
-<meta property="article:modified_time" content="2022-09-04T03:03:03.910Z">
+<meta property="article:published_time" content="2017-08-07T14:10:01.000Z">
+<meta property="article:modified_time" content="2022-09-04T04:38:51.953Z">
 <meta property="article:author" content="李祖彬">
-<meta property="article:tag" content="phpstorm,phalcon">
+<meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="李祖彬的博客" type="application/atom+xml">
@@ -74,10 +74,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Phpstorm代码提示设置" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-小程序的模板使用介绍" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" class="article-date">
-  <time class="dt-published" datetime="2016-03-21T14:36:53.000Z" itemprop="datePublished">2016-03-21</time>
+    <a href="/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" class="article-date">
+  <time class="dt-published" datetime="2017-08-07T14:10:01.000Z" itemprop="datePublished">2017-08-07</time>
 </a>
     
   </div>
@@ -88,7 +88,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Phpstorm代码提示phalcon设置
+      小程序的模板使用介绍
     </h1>
   
 
@@ -96,50 +96,61 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>Phalcon框架因为是以PHP扩展的形式存在，所以不同于其他的框架，安装完成后，IDE还并不能提示代码，这里就需要用到<em><strong>Developer Tools</strong></em>。该工具可在<em>github</em>上找到，**<a target="_blank" rel="noopener" href="https://github.com/phalcon/phalcon-devtools">传送门</a>**。</p>
-<ol>
-<li>下载项目</li>
-</ol>
-<p>使用<code>git</code>工具<code>clone</code>：</p>
-<pre><code>git clone https://github.com/phalcon/phalcon-devtools.git
-</code></pre>
-<ol start="2">
-<li>设置PhpStorm</li>
-</ol>
-<p>在PhpStorm左边项目下面有个<code>External Libraries</code>,双击可弹出对话框，对话框里点击’+’，然后选择你的<code>developer-devtools</code>目录下<code>ide</code>下对应的版本。现在便有提示了。这种方式同时适用于Visual Studio Code.</p>
-<ol start="3">
-<li>另一种方式</li>
-</ol>
-<p>在PhpStorm插件里直接搜索phalcon,有一个autocomplete插件,安装后即可.</p>
+        <p>模板，即一部分业务代码片段，具有通用性。使用模板的好处，自然是方便维护。前端时间在做一个视频小程序时，便遇到了需要模板的场景。</p>
+<p>这个小程序是个关于视频的项目，在首页，分类，搜索，个人中心(我发布的视频)都存在视频列表(页面包含列表),所以我打算将列表拿出来做个模板。</p>
+<p>小程序定义模板语法：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template name&#x3D;&quot;yourTemplateName&quot;&gt;
+    &lt;!--
+        这里是页面布局的代码,例如:
+        &lt;view&gt;
+            &lt;text&gt;hello world!&lt;&#x2F;text&gt;
+        &lt;&#x2F;view&gt;
+    --&gt;
+&lt;&#x2F;template&gt;</code></pre>
+
+<p>定义好模板后保存为一个<code>wxml</code>的文件。</p>
+<p>在需要使用模板的页面，首先引入模板</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;import src&#x3D;&quot;path&#x2F;to&#x2F;template&#x2F;template.wxml&quot; &#x2F;&gt;</code></pre>
+
+<p>然后，在需要展示模板的地方使用模板</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; &#x2F;&gt;</code></pre>
+
+<p>如果，模板里有变量，可以通过<code>data</code>传入</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; data&#x3D;&quot;&#123;&#123;item&#125;&#125;&quot;&#x2F;&gt;</code></pre>
+
+<p>如果有多个值，这样传入</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; data&#x3D;&quot;&#123;&#123;name: theName, age: theAge, gender: theGender&#125;&#125;&quot;&#x2F;&gt;</code></pre>
+
+<p>这是<code>wxml</code>模板的使用,与<code>wxml</code>文件相关联的还有两个文件<code>wxss</code>文件、<code>js</code>文件。<code>wxss</code>文件没有什么可说的，直接在需要的页面的<code>wxss</code>文件里使用<code>import</code>引入即可,这里说下js文件。</p>
+<p>小程序每个页面都需要在<code>js</code>文件里使用<code>Page</code>函数<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/app-service/page.html">注册页面</a>，对于模板里的事件等一系列操作，我们不可能在每个地方都去写一遍。和定义模板一样，我们新建一个独立的js文件,内容如下:</p>
+<pre class="line-numbers language-none"><code class="language-none">export function functionName(params)&#123;
+    #coding here
+&#125;</code></pre>
+
+<p>然后在需要的js页面引入</p>
+<pre class="line-numbers language-none"><code class="language-none">var lib &#x3D; require(path&#x2F;to&#x2F;function);
+
+var fn &#x3D; lib.functionName;</code></pre>
+
+<p>这样，在<code>Page</code>函数里，我们就可以使用<code>fn</code>这个函数了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" data-id="cl7mugkec000atwd3hr780qzy" data-title="Phpstorm代码提示phalcon设置" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" data-id="cl7mugkex000utwd3491a6qb9" data-title="小程序的模板使用介绍" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li></ul>
-
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2016/03/29/Volt-directory-can-t-be-written/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          Volt directory can&#39;t be written
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">JavaScript数组转字符串另类方法</div>
+      <div class="article-nav-title">如何在ios的微信webview里强制刷新</div>
     </a>
   
 </nav>

@@ -74,6 +74,81 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-小程序的模板使用介绍" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" class="article-date">
+  <time class="dt-published" datetime="2017-08-07T14:10:01.000Z" itemprop="datePublished">2017-08-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/">小程序的模板使用介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>模板，即一部分业务代码片段，具有通用性。使用模板的好处，自然是方便维护。前端时间在做一个视频小程序时，便遇到了需要模板的场景。</p>
+<p>这个小程序是个关于视频的项目，在首页，分类，搜索，个人中心(我发布的视频)都存在视频列表(页面包含列表),所以我打算将列表拿出来做个模板。</p>
+<p>小程序定义模板语法：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template name&#x3D;&quot;yourTemplateName&quot;&gt;
+    &lt;!--
+        这里是页面布局的代码,例如:
+        &lt;view&gt;
+            &lt;text&gt;hello world!&lt;&#x2F;text&gt;
+        &lt;&#x2F;view&gt;
+    --&gt;
+&lt;&#x2F;template&gt;</code></pre>
+
+<p>定义好模板后保存为一个<code>wxml</code>的文件。</p>
+<p>在需要使用模板的页面，首先引入模板</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;import src&#x3D;&quot;path&#x2F;to&#x2F;template&#x2F;template.wxml&quot; &#x2F;&gt;</code></pre>
+
+<p>然后，在需要展示模板的地方使用模板</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; &#x2F;&gt;</code></pre>
+
+<p>如果，模板里有变量，可以通过<code>data</code>传入</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; data&#x3D;&quot;&#123;&#123;item&#125;&#125;&quot;&#x2F;&gt;</code></pre>
+
+<p>如果有多个值，这样传入</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; data&#x3D;&quot;&#123;&#123;name: theName, age: theAge, gender: theGender&#125;&#125;&quot;&#x2F;&gt;</code></pre>
+
+<p>这是<code>wxml</code>模板的使用,与<code>wxml</code>文件相关联的还有两个文件<code>wxss</code>文件、<code>js</code>文件。<code>wxss</code>文件没有什么可说的，直接在需要的页面的<code>wxss</code>文件里使用<code>import</code>引入即可,这里说下js文件。</p>
+<p>小程序每个页面都需要在<code>js</code>文件里使用<code>Page</code>函数<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/app-service/page.html">注册页面</a>，对于模板里的事件等一系列操作，我们不可能在每个地方都去写一遍。和定义模板一样，我们新建一个独立的js文件,内容如下:</p>
+<pre class="line-numbers language-none"><code class="language-none">export function functionName(params)&#123;
+    #coding here
+&#125;</code></pre>
+
+<p>然后在需要的js页面引入</p>
+<pre class="line-numbers language-none"><code class="language-none">var lib &#x3D; require(path&#x2F;to&#x2F;function);
+
+var fn &#x3D; lib.functionName;</code></pre>
+
+<p>这样，在<code>Page</code>函数里，我们就可以使用<code>fn</code>这个函数了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" data-id="cl7mugkex000utwd3491a6qb9" data-title="小程序的模板使用介绍" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-如何在ios的微信webview里强制刷新" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" class="article-date">
@@ -109,7 +184,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" data-id="cl7mu5d0a000mb0d378if9o34" data-title="如何在ios的微信webview里强制刷新" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" data-id="cl7mugkev000rtwd34ccs6ngx" data-title="如何在ios的微信webview里强制刷新" class="article-share-link">分享</a>
       
       
       
@@ -164,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2017/05/13/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6/" data-id="cl7mu5czz0009b0d377k0fegk" data-title="MySQL导出数据到文件" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2017/05/13/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6/" data-id="cl7mugkea0009twd36b98dpnn" data-title="MySQL导出数据到文件" class="article-share-link">分享</a>
       
       
       
@@ -221,7 +296,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/" data-id="cl7mu5czx0006b0d30n0z79h1" data-title="MySQL如何支持emoji表情" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/" data-id="cl7mugke90006twd30lz98qwa" data-title="MySQL如何支持emoji表情" class="article-share-link">分享</a>
       
       
       
@@ -425,7 +500,7 @@ document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;,
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-id="cl7mu5d08000ib0d33iwpgtte" data-title="使用Canvas压缩图片" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-id="cl7mugket000ptwd32df06k6f" data-title="使用Canvas压缩图片" class="article-share-link">分享</a>
       
       
       
@@ -479,7 +554,7 @@ document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;,
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" data-id="cl7mu5d0d000qb0d3evjh739a" data-title="如何防止频繁调用Javascript一段代码？" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" data-id="cl7mugkey000vtwd38ianamnp" data-title="如何防止频繁调用Javascript一段代码？" class="article-share-link">分享</a>
       
       
       
@@ -527,7 +602,7 @@ document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;,
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" data-id="cl7mu5d02000cb0d3gmgh39e0" data-title="Uncaught RangeError:Maximum call stack size exceeded" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" data-id="cl7mugked000ctwd3c4ot8zk9" data-title="Uncaught RangeError:Maximum call stack size exceeded" class="article-share-link">分享</a>
       
       
       
@@ -671,7 +746,7 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/05/10/Web%E7%89%882048%E5%AE%9E%E7%8E%B0/" data-id="cl7mu5d06000gb0d3fanm4u2p" data-title="Web版2048实现" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/05/10/Web%E7%89%882048%E5%AE%9E%E7%8E%B0/" data-id="cl7mugkeh000gtwd37ytwfxgw" data-title="Web版2048实现" class="article-share-link">分享</a>
       
       
       
@@ -726,7 +801,7 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/03/29/Volt-directory-can-t-be-written/" data-id="cl7mu5d05000eb0d347uh4s0s" data-title="Volt directory can&#39;t be written" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/03/29/Volt-directory-can-t-be-written/" data-id="cl7mugkef000etwd37iehd6tg" data-title="Volt directory can&#39;t be written" class="article-share-link">分享</a>
       
       
       
@@ -781,69 +856,11 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" data-id="cl7mu5d00000ab0d30hui6r28" data-title="Phpstorm代码提示phalcon设置" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" data-id="cl7mugkec000atwd3hr780qzy" data-title="Phpstorm代码提示phalcon设置" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-JavaScript数组转字符串另类方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/" class="article-date">
-  <time class="dt-published" datetime="2015-12-07T14:19:17.000Z" itemprop="datePublished">2015-12-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/">JavaScript数组转字符串另类方法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>通常，当我们想将一个数组，如*[‘hello’,’world’]*转换为字符串的话，会使用join方法将其连接为一个字符串。前两天在看书的时候，学到了新的方法,虽然不是什么高级技巧，但是，也在此记录一下，说明自己以前没有去思考过。</p>
-<ul>
-<li>方法一,使用toString方法：</li>
-</ul>
-<pre lang="javascript">
-var a = ['hello','world'];
-console.log(a.toString()); //hello,word
-</pre>
-
-<ul>
-<li>方法二,使用强制类型转换：</li>
-</ul>
-<pre lang='javascript'>
-var a = ['hello','world'];
-console.log(String(a));
-</pre>
-
-<p>但是，需要注意的是，这里的两个方法只能以逗号将其连接，如果要以其他的方式，还是需要使用join方法。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/" data-id="cl7mu5czw0005b0d339bpbygc" data-title="JavaScript数组转字符串另类方法" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li></ul>
 
     </footer>
   </div>
@@ -890,7 +907,7 @@ console.log(String(a));
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
     </div>
   </div>
 
@@ -901,6 +918,10 @@ console.log(String(a));
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/">小程序的模板使用介绍</a>
+          </li>
         
           <li>
             <a href="/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/">如何在ios的微信webview里强制刷新</a>
@@ -916,10 +937,6 @@ console.log(String(a));
         
           <li>
             <a href="/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/">使用Canvas压缩图片</a>
-          </li>
-        
-          <li>
-            <a href="/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/">如何防止频繁调用Javascript一段代码？</a>
           </li>
         
       </ul>

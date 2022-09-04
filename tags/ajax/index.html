@@ -4,19 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>小程序网络请求header头设置Content-Type | 李祖彬的博客</title>
+  <title>标签: ajax | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="小程序发起http网络请求，通过wx.request函数的调用。该函数接收一个对象，可以在对象里配置包括地址、header、method等。method默认为post请求。但是，我们在服务器端使用$_POST或框架如Phalcon里的$this-&gt;request-&gt;getPost()等获取参数时，取得结果为空。但是通过流获取: $params &#x3D; file_get_conte">
-<meta property="og:type" content="article">
-<meta property="og:title" content="小程序网络请求header头设置Content-Type">
-<meta property="og:url" content="http://zubin999.github.io/2019/08/16/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type/index.html">
+  <meta name="description" content="记录一些工作中的问题以及解决办法">
+<meta property="og:type" content="website">
+<meta property="og:title" content="李祖彬的博客">
+<meta property="og:url" content="http://zubin999.github.io/tags/ajax/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="小程序发起http网络请求，通过wx.request函数的调用。该函数接收一个对象，可以在对象里配置包括地址、header、method等。method默认为post请求。但是，我们在服务器端使用$_POST或框架如Phalcon里的$this-&gt;request-&gt;getPost()等获取参数时，取得结果为空。但是通过流获取: $params &#x3D; file_get_conte">
+<meta property="og:description" content="记录一些工作中的问题以及解决办法">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-08-15T22:46:04.000Z">
-<meta property="article:modified_time" content="2022-09-04T05:03:21.644Z">
 <meta property="article:author" content="李祖彬">
-<meta property="article:tag" content="小程序,header">
+<meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="李祖彬的博客" type="application/atom+xml">
@@ -74,67 +72,39 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-小程序网络请求header头设置Content-Type" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2019/08/16/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type/" class="article-date">
-  <time class="dt-published" datetime="2019-08-15T22:46:04.000Z" itemprop="datePublished">2019-08-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        <section id="main">
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      小程序网络请求header头设置Content-Type
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" class="archive-article-date">
+  <time class="dt-published" datetime="2016-07-12T13:56:59.000Z" itemprop="datePublished">7月 12</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/">Uncaught RangeError:Maximum call stack size exceeded</a>
     </h1>
   
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>小程序发起<code>http</code>网络请求，通过<code>wx.request</code>函数的调用。该函数接收一个对象，可以在对象里配置包括<code>地址</code>、<code>header</code>、<code>method</code>等。<code>method</code>默认为<code>post</code>请求。但是，我们在服务器端使用<code>$_POST</code>或框架如Phalcon里的<code>$this-&gt;request-&gt;getPost()</code>等获取参数时，取得结果为空。但是通过流获取:</p>
-<pre class="line-numbers language-none"><code class="language-none">$params &#x3D; file_get_contents(&#39;php:&#x2F;&#x2F;input&#39;)</code></pre>
-
-
-
-<p><code>Phalcon</code>里通过：</p>
-<pre class="line-numbers language-none"><code class="language-none">$params &#x3D; $this-&gt;request-&gt;getJsonRawBody();</code></pre>
-
-<p>这样是能够得到参数的。为什么<code>POST</code>请求，却不能在<code>POST</code>里得到呢？我们注意看文档，会发现此时的<code>header</code>里<code>content-type</code>为<code>application/json</code>(默认方式)，再查看PHP的<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/reserved.variables.post.php">文档</a>，可以看到：</p>
-<blockquote>
-<p>当 HTTP POST 请求的 Content-Type 是 application&#x2F;x-www-form-urlencoded 或 multipart&#x2F;form-data 时，会将变量以关联数组形式传入当前脚本。</p>
-</blockquote>
-<p>也就是说，我们需要重新设置小程序的<code>header</code>头里的<code>content-type</code>为<code>application/x-www-form-urlencoded</code>，就可以获取<code>POST</code>里的参数了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2019/08/16/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type/" data-id="cl7mvipyq000xgsd3fr53gh5t" data-title="小程序网络请求header头设置Content-Type" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2019/08/02/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">在Phalcon中为View添加缓存</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
 
 
 </section>

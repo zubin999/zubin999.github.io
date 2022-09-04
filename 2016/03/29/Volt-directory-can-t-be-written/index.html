@@ -4,15 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>归档: 2016 | 李祖彬的博客</title>
+  <title>Volt directory can&#39;t be written | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录一些工作中的问题以及解决办法">
-<meta property="og:type" content="website">
-<meta property="og:title" content="李祖彬的博客">
-<meta property="og:url" content="http://zubin999.github.io/archives/2016/index.html">
+  <meta name="description" content="上周开始在新公司工作，公司使用的是Phalcon框架。以前只是听说过这个名字….(此处省略1万字).当我在使用git克隆项目代码到本地时，访问项目出现了此错误： Volt directory can&#39;t be written  看到不能被写入，首先想到的是文件权限问题，但是，我是在windows下，哪里来的权限问题？！那是什么问题呢？Volt是Phalcon框架的模板引擎，会将views下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Volt directory can&#39;t be written">
+<meta property="og:url" content="http://zubin999.github.io/2016/03/29/Volt-directory-can-t-be-written/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="记录一些工作中的问题以及解决办法">
+<meta property="og:description" content="上周开始在新公司工作，公司使用的是Phalcon框架。以前只是听说过这个名字….(此处省略1万字).当我在使用git克隆项目代码到本地时，访问项目出现了此错误： Volt directory can&#39;t be written  看到不能被写入，首先想到的是文件权限问题，但是，我是在windows下，哪里来的权限问题？！那是什么问题呢？Volt是Phalcon框架的模板引擎，会将views下">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-03-29T14:14:45.000Z">
+<meta property="article:modified_time" content="2022-09-04T03:05:19.056Z">
 <meta property="article:author" content="李祖彬">
 <meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
 <meta name="twitter:card" content="summary">
@@ -72,58 +74,69 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/29/Volt-directory-can-t-be-written/" class="archive-article-date">
-  <time class="dt-published" datetime="2016-03-29T14:14:45.000Z" itemprop="datePublished">3月 29</time>
+        <section id="main"><article id="post-Volt-directory-can-t-be-written" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/03/29/Volt-directory-can-t-be-written/" class="article-date">
+  <time class="dt-published" datetime="2016-03-29T14:14:45.000Z" itemprop="datePublished">2016-03-29</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/29/Volt-directory-can-t-be-written/">Volt directory can&#39;t be written</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      Volt directory can&#39;t be written
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" class="archive-article-date">
-  <time class="dt-published" datetime="2016-03-21T14:36:53.000Z" itemprop="datePublished">3月 21</time>
-</a>
+    <div class="e-content article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/">Phpstorm代码提示phalcon设置</a>
-    </h1>
-  
+        <p>上周开始在新公司工作，公司使用的是Phalcon框架。以前只是听说过这个名字….(此处省略1万字).<br>当我在使用git克隆项目代码到本地时，访问项目出现了此错误：</p>
+<pre class="line-numbers language-none"><code class="language-none">Volt directory can&#39;t be written</code></pre>
 
-    </header>
+<p>看到不能被写入，首先想到的是文件权限问题，但是，我是在windows下，哪里来的权限问题？！那是什么问题呢？Volt是Phalcon框架的模板引擎，会将<code>views</code>下的文件重新编译后放在<code>cache</code>目录下。再一看项目第一级文件结构，没有<code>cache</code>文件，会不会是放在<code>app</code>或其他目录下呢？还是来看配置文件吧。</p>
+<p>在<code>app/config/config.php</code>文件里找到了<code>cache</code>的位置：</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">&#39;application&#39; &#x3D;&gt; array(
+        &#39;controllersDir&#39; &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;controllers&#x2F;&#39;,
+        &#39;modelsDir&#39;      &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;models&#x2F;&#39;,
+        &#39;migrationsDir&#39;  &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;migrations&#x2F;&#39;,
+        &#39;viewsDir&#39;       &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;views&#x2F;&#39;,
+        &#39;pluginsDir&#39;     &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;plugins&#x2F;&#39;,
+        &#39;libraryDir&#39;     &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;library&#x2F;&#39;,
+        &#39;cacheDir&#39;       &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;cache&#x2F;&#39;,
+        &#39;baseUri&#39;        &#x3D;&gt; &#39;&#x2F;&#39;,
+    )</code></pre>
+
+<p>所以，在<code>app</code>下建立一个<code>cache</code>文件夹，再次在浏览器刷新，项目可以正常访问了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2016/03/29/Volt-directory-can-t-be-written/" data-id="cl7mr4t7o0009g0d342fa5356" data-title="Volt directory can&#39;t be written" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Phpstorm代码提示phalcon设置</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

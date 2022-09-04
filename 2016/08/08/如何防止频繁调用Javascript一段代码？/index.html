@@ -4,15 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>标签: phpstorm,phalcon | 李祖彬的博客</title>
+  <title>如何防止频繁调用Javascript一段代码？ | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录一些工作中的问题以及解决办法">
-<meta property="og:type" content="website">
-<meta property="og:title" content="李祖彬的博客">
-<meta property="og:url" content="http://zubin999.github.io/tags/phpstorm-phalcon/index.html">
+  <meta name="description" content="应用场景首先说下什么时候会用到，当我们给页面注册了scroll,resize等这类事件时，可能就需要用到了。为什么呢？比如，我们需要做一个页面滚动条滚动到底部时就自动加载下一页的功能，那么当滚动条滚动时就会频繁的触发scroll事件。为了减少js的执行，提升页面的性能，我们就需要滚动条在页面底部时才触发加载。 代码实现 function debounce(func, wait, immediate">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何防止频繁调用Javascript一段代码？">
+<meta property="og:url" content="http://zubin999.github.io/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="记录一些工作中的问题以及解决办法">
+<meta property="og:description" content="应用场景首先说下什么时候会用到，当我们给页面注册了scroll,resize等这类事件时，可能就需要用到了。为什么呢？比如，我们需要做一个页面滚动条滚动到底部时就自动加载下一页的功能，那么当滚动条滚动时就会频繁的触发scroll事件。为了减少js的执行，提升页面的性能，我们就需要滚动条在页面底部时才触发加载。 代码实现 function debounce(func, wait, immediate">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-08-08T15:07:14.000Z">
+<meta property="article:modified_time" content="2022-09-04T03:19:05.016Z">
 <meta property="article:author" content="李祖彬">
 <meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
 <meta name="twitter:card" content="summary">
@@ -72,39 +74,68 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" class="archive-article-date">
-  <time class="dt-published" datetime="2016-03-21T14:36:53.000Z" itemprop="datePublished">3月 21</time>
+        <section id="main"><article id="post-如何防止频繁调用Javascript一段代码？" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" class="article-date">
+  <time class="dt-published" datetime="2016-08-08T15:07:14.000Z" itemprop="datePublished">2016-08-08</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/">Phpstorm代码提示phalcon设置</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      如何防止频繁调用Javascript一段代码？
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>应用场景</strong><br>首先说下什么时候会用到，当我们给页面注册了<code>scroll</code>,<code>resize</code>等这类事件时，可能就需要用到了。为什么呢？比如，我们需要做一个页面滚动条滚动到底部时就自动加载下一页的功能，那么当滚动条滚动时就会频繁的触发<code>scroll</code>事件。为了减少js的执行，提升页面的性能，我们就需要滚动条在页面底部时才触发加载。</p>
+<p><strong>代码实现</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">function debounce(func, wait, immediate) &#123;
+        var timeout;
+        return function() &#123;
+            var context &#x3D; this, args &#x3D; arguments;
+            var later &#x3D; function() &#123;
+                timeout &#x3D; null;
+                if (!immediate) func.apply(context, args);
+            &#125;;
+            var callNow &#x3D; immediate &amp;&amp; !timeout;
+            clearTimeout(timeout);
+            timeout &#x3D; setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        &#125;;
+    &#125;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" data-id="cl7mrqnol000iqcd3h0u97l1o" data-title="如何防止频繁调用Javascript一段代码？" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Uncaught RangeError:Maximum call stack size exceeded</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

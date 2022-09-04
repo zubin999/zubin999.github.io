@@ -74,6 +74,588 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-SimpleAjaxUploader上传后赋值失败问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/" class="article-date">
+  <time class="dt-published" datetime="2022-05-16T13:51:55.000Z" itemprop="datePublished">2022-05-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/">SimpleAjaxUploader上传后赋值失败问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>项目中有这样一段关于上传图片的代码:</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;label class&#x3D;&quot;label required&quot;&gt;频道icon:&lt;&#x2F;label&gt;
+            &lt;div class&#x3D;&quot;form-item mb-0&quot;&gt;
+                &lt;input class&#x3D;&quot;form-control&quot; readonly name&#x3D;&quot;img&quot; value&#x3D;&quot;&#123;&#123;data[&#39;img&#39;]&#125;&#125;&quot;&#x2F;&gt;
+                &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; id&#x3D;&quot;uploadImage&quot;&gt;上传&lt;&#x2F;button&gt;
+            &lt;&#x2F;div&gt;
+            &lt;div class&#x3D;&quot;form-text help-block&quot;&gt;图片的最佳尺寸：100*100，其他尺寸会影响页面效果，格式png，jpg，gif。大小不超过2M&lt;&#x2F;div&gt;
+            &lt;div class&#x3D;&quot;form-item mb-4&quot;&gt;
+                &lt;div class&#x3D;&quot;col-4&quot;&gt;
+                    &lt;img src&#x3D;&quot;&#123;&#123;data[&#39;img&#39;]|default(default_image)&#125;&#125;&quot; id&#x3D;&quot;imgPreview&quot; class&#x3D;&quot;img-responsive&quot;&#x2F;&gt;
+                &lt;&#x2F;div&gt;
+            &lt;&#x2F;div&gt;</code></pre>
+
+<p>上传插件使用的是<a target="_blank" rel="noopener" href="https://www.lpology.com/code/ajaxuploader/docs.php">Simple Ajax Uploader</a>,在上传完成后对input和img赋值:</p>
+<pre class="line-numbers language-none"><code class="language-none">onComplete: function(filename, res, uploadBtn) &#123;
+                if(res.error_code !&#x3D; 0)&#123;
+                    &#x2F;&#x2F; error msg
+                &#125;else&#123;
+                    $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);
+                    $(&#39;#imgPreview&#39;).prop(&#39;src&#39;, res.thumb[0].url);
+                &#125;
+            &#125;,</code></pre>
+
+<p>这时候,问题出现了,input框赋值成功,但是img的src值没有改变,控制台也没有任何错误信息.将两行赋值代码交换顺序:</p>
+<pre class="line-numbers language-none"><code class="language-none">$(&#39;#imgPreview&#39;).prop(&#39;src&#39;, res.thumb[0].url);
+$(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
+
+<p>img的src正常复制,input正常复制.这就非常奇怪了.</p>
+<p>经过多次调试,最后在input赋值之前加上debugger调试,发现给input赋值之后又进入了上传插件中:</p>
+<pre class="line-numbers language-none"><code class="language-none">_finish: function (r, p, q, o, n, s, w, t, v, u) &#123;
+     this.log(&#39;Server response: &#39; + q);
+     if (this._opts.responseType.toLowerCase() &#x3D;&#x3D; &#39;json&#39;) &#123;
+       q &#x3D; m.parseJSON(q);
+       if (q &#x3D;&#x3D;&#x3D; false) &#123;
+         this._errorFinish(r, p, false, &#39;parseerror&#39;, o, n, s, t, v, u);
+         return
+       &#125;
+     &#125;
+     this._opts.onComplete.call(this, o, q, u);
+     this._last(n, s, w, t, v);
+     r &#x3D; p &#x3D; q &#x3D; o &#x3D; n &#x3D; s &#x3D; w &#x3D; t &#x3D; v &#x3D; u &#x3D; null
+   &#125;,</code></pre>
+
+<p>执行到了onComplete这一行,进入后看到错误:</p>
+<pre class="line-numbers language-none"><code class="language-none">&quot;Failed to set the &#39;value&#39; property on &#39;HTMLInputElement&#39;: This input element accepts a filename, which may only be programmatically set to the empty string.&quot;</code></pre>
+
+<p>上传插件添加OnError回调同样得到错误:</p>
+<pre class="line-numbers language-none"><code class="language-none">An attempt was made to use an object that is not, or is no longer, usable</code></pre>
+
+<p>为什么会再次进入上传插件SimpleAjaxUploader.js呢?最后发现,该上传插件所创建input的name也是img:</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;div style&#x3D;&quot;display: block; position: absolute; overflow: hidden; margin: 0px; padding: 0px; opacity: 0; direction: ltr; z-index: 2147483583;&quot;&gt;&lt;input type&#x3D;&quot;file&quot; name&#x3D;&quot;img&quot; multiple&#x3D;&quot;&quot; style&#x3D;&quot;position: absolute; right: 0px; margin: 0px; padding: 0px; font-size: 480px; font-family: sans-serif; cursor: pointer;&quot;&gt;&lt;&#x2F;div&gt;</code></pre>
+
+<p>所以,在给input赋值时,也给上面这个input赋值了,从而出错!而这个img来源于配置里的name,所以也可以修改配置.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/" data-id="cl7n0mnid000misd3b3cj9woo" data-title="SimpleAjaxUploader上传后赋值失败问题" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-Valid-Parentheses" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/04/11/leetcode-Valid-Parentheses/" class="article-date">
+  <time class="dt-published" datetime="2022-04-11T13:34:38.000Z" itemprop="datePublished">2022-04-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/04/11/leetcode-Valid-Parentheses/">leetcode:Valid Parentheses</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p>Given a string s containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘ and ‘]’, determine if the input string is valid.</p>
+<p>An input string is valid if:</p>
+<ol>
+<li>Open brackets must be closed by the same type of brackets.</li>
+<li>Open brackets must be closed in the correct order.</li>
+</ol>
+</blockquote>
+<ul>
+<li>解决</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+
+    &#x2F;**
+     * @param String $s
+     * @return Boolean
+     *&#x2F;
+    function isValid($s) &#123;
+        if(strlen($s) % 2) &#123;
+            return false;
+        &#125;
+
+        while(true)&#123;
+            $c &#x3D; $s[0];
+            $s &#x3D; substr($s, 1);
+            $i &#x3D; $this-&gt;match($c, $s);
+            if($i &#x3D;&#x3D;&#x3D; false)&#123;
+                return false;
+            &#125;
+
+            $s &#x3D; substr($s, 0, $i) . substr($s, $i + 1);
+            if(empty($s))&#123;
+                break;
+            &#125;
+        &#125;
+
+        return true;
+    &#125;
+
+    function match($c, $s)
+    &#123;
+        $map &#x3D; [
+            &#39;(&#39; &#x3D;&gt; &#39;)&#39;,
+            &#39;&#123;&#39; &#x3D;&gt; &#39;&#125;&#39;,
+            &#39;[&#39; &#x3D;&gt; &#39;]&#39;
+        ];
+
+        if($s[0] &#x3D;&#x3D;&#x3D; $map[$c]) &#123;
+            return 0;
+        &#125;
+
+        $offset &#x3D; 0;
+        for($i &#x3D; 0, $len &#x3D; strlen($s); $i &lt; $len; $i++) &#123;
+            if(in_array($s[$i], [&#39;(&#39;, &#39;&#123;&#39;, &#39;[&#39;], true)) &#123;
+                $offset +&#x3D; 2;
+            &#125;
+
+            if($s[$i] &#x3D;&#x3D;&#x3D; $map[$c] &amp;&amp; $offset &#x3D;&#x3D;&#x3D; $i) &#123;
+                return $offset;
+            &#125;
+        &#125;
+
+        return false;
+    &#125;
+&#125;</code></pre>
+
+<p>主要找到对应位置,然后比较对应位置是否正确并不断将正确的从字符串中移除.运行效率很低,500ms~900ms之间.<br>看社区排名前面的解决方法(python,java,c++)都是通过栈来解决–先进后出.修改如下:</p>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+
+    &#x2F;**
+     * @param String $s
+     * @return Boolean
+     *&#x2F;
+    function isValid($s)
+    &#123;
+        $stack &#x3D; [];
+
+        $map &#x3D; [&#39;(&#39; &#x3D;&gt; &#39;)&#39;, &#39;&#123;&#39; &#x3D;&gt; &#39;&#125;&#39;, &#39;[&#39; &#x3D;&gt; &#39;]&#39;];
+        for($i &#x3D; 0, $len &#x3D; strlen($s); $i &lt; $len; $i++) &#123;
+
+            if(isset($map[$s[$i]])) &#123;
+                $stack[] &#x3D; $map[$s[$i]];
+                continue;
+            &#125;
+            
+            if(in_array($s[$i], $map, true)) &#123;
+                if($stack &#x3D;&#x3D;&#x3D; []) &#123;
+                    return false;
+                &#125;
+
+                $last &#x3D; array_pop($stack);
+                if($s[$i] !&#x3D;&#x3D; $last) &#123;
+                    return false;
+                &#125;
+            &#125;
+        &#125;
+
+        return $stack &#x3D;&#x3D;&#x3D; [];
+    &#125;
+&#125;</code></pre>
+
+<p>运行时间最快只需8ms以内.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2022/04/11/leetcode-Valid-Parentheses/" data-id="cl7n0mnj3001pisd3a0oy7r4t" data-title="leetcode:Valid Parentheses" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-直播问题记录" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" class="article-date">
+  <time class="dt-published" datetime="2022-03-31T08:13:56.000Z" itemprop="datePublished">2022-03-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">直播问题记录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>体验版IM账号达到100个,需要删除账号小直播服务器数据库中账号和项目数据库中表中对应的记录</p>
+</li>
+<li><p>直播回顾生成</p>
+<ol>
+<li>云直播中直播回顾创建一个hls模板</li>
+<li>代码中开播会调用该模板设置录制任务</li>
+<li>推流结束后,录制文件会存在云点播,录制回调中根据推流的类型(电台直播,视频直播等)调用不同的云点播任务流对录制文件转码为mp3和mp4</li>
+<li>云点播回调根据file_id更新对应直播回顾,回顾生成完成</li>
+<li>需注意直播录制回调时间根据直播录制模板中设置的续录等待时长而定,如设置600秒的续录等待时间,则断流10分钟后才会产生录制回调,中间有新推流,最终录制会合并为一个文件</li>
+</ol>
+</li>
+<li><p>im回调中cmd值与表示:</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>表示意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>文本消息</td>
+</tr>
+<tr>
+<td>2</td>
+<td>进入直播间</td>
+</tr>
+<tr>
+<td>3</td>
+<td>退出直播间</td>
+</tr>
+<tr>
+<td>4</td>
+<td>点赞</td>
+</tr>
+<tr>
+<td>5</td>
+<td>弹幕</td>
+</tr>
+<tr>
+<td>6</td>
+<td>连麦</td>
+</tr>
+<tr>
+<td>10</td>
+<td>打赏</td>
+</tr>
+<tr>
+<td>11</td>
+<td>红包</td>
+</tr>
+<tr>
+<td>12</td>
+<td>抢红包成功</td>
+</tr>
+<tr>
+<td>13</td>
+<td>发抽奖</td>
+</tr>
+<tr>
+<td>14</td>
+<td>图片消息</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>IM回调返回ErrorCode值说明:</p>
+<ol>
+<li><code>0</code>表示下发消息,所有用户可看到消息</li>
+<li><code>1</code>表示禁言,所有用户看不到消息</li>
+<li><code>2</code>表示静默丢弃,所有用户看不到消息</li>
+<li><code>10100</code>~&#96;10200&#96;之间,用户自定义错误信息,所有用户看不到消息</li>
+</ol>
+</li>
+<li><p>如果IM回调返回非0值,但是前端所有用户能正常收到消息,可能接口有报错,使用postman请求接口查看</p>
+</li>
+<li><p>创建直播间失败,日志显示:</p>
+</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">Array
+(
+    [ActionStatus] &#x3D;&gt; FAIL
+    [ErrorCode] &#x3D;&gt; 10036
+    [ErrorInfo] &#x3D;&gt; Fail to create AVchatroom. You&#39;ve reached AVchatroom amount limit. Please upgrade your package on the console
+)</code></pre>
+
+<p>体验版IM的AVChatroom数量上限是10个</p>
+<ul>
+<li>FM直播间hls录制回顾不生成</li>
+</ul>
+<p>FM为纯音频流,要录制生成hls文件,需在腾讯云开启音视频探测服务,该服务默认是关闭的,可提工单开启</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" data-id="cl7n0mnjk002iisd30m5p2iqi" data-title="直播问题记录" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-4Sum" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/03/29/leetcode-4Sum/" class="article-date">
+  <time class="dt-published" datetime="2022-03-29T13:36:20.000Z" itemprop="datePublished">2022-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/03/29/leetcode-4Sum/">leetcode:4Sum</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p> Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:</p>
+</blockquote>
+<p>0 &lt;&#x3D; a, b, c, d &lt; n<br>a, b, c, and d are distinct.<br>nums[a] + nums[b] + nums[c] + nums[d] &#x3D;&#x3D; target<br>You may return the answer in any order.</p>
+<ul>
+<li>难度</li>
+</ul>
+<p>中等</p>
+<ul>
+<li>代码</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">class Solution
+&#123;
+
+    &#x2F;**
+     * @param Integer[] $nums
+     * @param Integer $target
+     * @return Integer[][]
+     *&#x2F;
+    public function fourSum($nums, $target)
+    &#123;
+        $len &#x3D; count($nums);
+        if (!$len) &#123;
+            return [];
+        &#125;
+
+        sort($nums);
+
+        $res &#x3D; [];
+        for ($i &#x3D; 0, $l1 &#x3D; $len - 3; $i &lt; $l1; $i++) &#123;
+            if ($i &amp;&amp; $nums[$i] &#x3D;&#x3D;&#x3D; $nums[$i - 1]) &#123;
+                continue;
+            &#125;
+
+            $sum &#x3D; $target - $nums[$i];
+            for ($j &#x3D; $i + 1, $len1 &#x3D; $len - 2; $j &lt; $len1; $j++) &#123;
+                if ($j &#x3D;&#x3D;&#x3D; ($i + 1) || $nums[$j] !&#x3D;&#x3D; $nums[$j - 1]) &#123;
+                    $x &#x3D; $j + 1;
+                    $y &#x3D; $len - 1;
+
+                    while ($x &lt; $y) &#123;
+                        $s &#x3D; $nums[$j] + $nums[$x] + $nums[$y];
+                        if ($s &#x3D;&#x3D;&#x3D; $sum) &#123;
+                            $res[] &#x3D; [$nums[$i], $nums[$j], $nums[$x], $nums[$y]];
+                            $x++;
+                        &#125; else if ($s &gt; $sum) &#123;
+                            $y--;
+                        &#125; else &#123;
+                            $x++;
+                        &#125;
+
+                        while ($x &lt; $y &amp;&amp; ($x - 1) &gt; $j &amp;&amp; $nums[$x] &#x3D;&#x3D;&#x3D; $nums[$x - 1]) &#123;
+                            $x++;
+                        &#125;
+
+                        while ($x &lt; $y &amp;&amp; $nums[$y] &#x3D;&#x3D;&#x3D; $nums[$y + 1]) &#123;
+                            $y--;
+                        &#125;
+
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+
+        return $res;
+    &#125;
+&#125;</code></pre>
+
+<p>这题思路和前面的求3个数差不多,也是利用那里的方法来解,开始在<code>[-2, -1, 0, 0, 1, 2]</code>这个测试没有通过,少了一个答案<code>[-1,0,0,1]</code>, 经过一番测试, 发现在最后判断<code>$x</code>相同值时需要加上<code>($x - 1) &gt; $j</code>条件.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2022/03/29/leetcode-4Sum/" data-id="cl7n0mnio0011isd39x0ng06e" data-title="leetcode:4Sum" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php-4sum/" rel="tag">leetcode,php,4sum</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-Letter-Combinations-of-a-Phone-Number" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/03/16/leetcode-Letter-Combinations-of-a-Phone-Number/" class="article-date">
+  <time class="dt-published" datetime="2022-03-16T11:38:02.000Z" itemprop="datePublished">2022-03-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/03/16/leetcode-Letter-Combinations-of-a-Phone-Number/">leetcode:Letter Combinations of a Phone Number</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<p>Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.</p>
+<p>A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.</p>
+<ul>
+<li>结果</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+
+    public $keyboard &#x3D; [
+            &#39;2&#39; &#x3D;&gt; [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],
+            &#39;3&#39; &#x3D;&gt; [&#39;d&#39;, &#39;e&#39;, &#39;f&#39;],
+            &#39;4&#39; &#x3D;&gt; [&#39;g&#39;, &#39;h&#39;, &#39;i&#39;],
+            &#39;5&#39; &#x3D;&gt; [&#39;j&#39;, &#39;k&#39;, &#39;l&#39;],
+            &#39;6&#39; &#x3D;&gt; [&#39;m&#39;, &#39;n&#39;, &#39;o&#39;],
+            &#39;7&#39; &#x3D;&gt; [&#39;p&#39;, &#39;q&#39;, &#39;r&#39;, &#39;s&#39;],
+            &#39;8&#39; &#x3D;&gt; [&#39;t&#39;, &#39;u&#39;, &#39;v&#39;],
+            &#39;9&#39; &#x3D;&gt; [&#39;w&#39;, &#39;x&#39;, &#39;y&#39;, &#39;z&#39;],
+    ];
+
+    &#x2F;**
+     * @param String $digits
+     * @return String[]
+     *&#x2F;
+    function letterCombinations($digits) &#123;
+        if(!$digits) &#123;
+            return [];
+        &#125;
+
+        $len &#x3D; strlen($digits);
+        if($len &#x3D;&#x3D;&#x3D; 1) &#123;
+            return $this-&gt;keyboard[$digits];
+        &#125;
+        
+        $first &#x3D; $this-&gt;keyboard[$digits[0]];
+        $i &#x3D; 1;
+
+        do&#123;
+            $str &#x3D; substr($digits, $i++, 1);
+            if(empty($str))&#123;
+                break;
+            &#125;
+
+            $first &#x3D; $this-&gt;combination($first, $str);
+        &#125;while(true);
+
+        return $first;
+    &#125;
+
+    function combination($arr1, $str)
+    &#123;
+        $res &#x3D; [];
+        $arr &#x3D; $this-&gt;keyboard[$str];
+        foreach ($arr1 as $ch) &#123;
+            foreach($arr as $item) &#123;
+                $res[] &#x3D; $ch . $item;
+            &#125;
+        &#125;
+
+        return $res;
+    &#125;
+&#125;</code></pre>
+
+<p>这个题根据数字要列出所有的字母组合,假如输入<code>239</code>,那么需要用<code>2</code>对应的每一个字母先和<code>3</code>所有的字母组合,然后再和<code>9</code>所有的字母组合,如果再有数字,那么接着和下一个数字的所有字母组合.可以发现这里一直在重复着用上一个字母组合数组去和下一个字母数组组合成一个新的数组直到结束.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2022/03/16/leetcode-Letter-Combinations-of-a-Phone-Number/" data-id="cl7n0mnis0018isd3czs36alq" data-title="leetcode:Letter Combinations of a Phone Number" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-leetcode-Container-With-Most-Water" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/03/09/leetcode-Container-With-Most-Water/" class="article-date">
@@ -103,10 +685,6 @@
 <p>Given n non-negative integers a1, a2, …, an , where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of the line i is at (i, ai) and (i, 0). Find two lines, which, together with the x-axis forms a container, such that the container contains the most water.</p>
 </blockquote>
 <p>这里有一个数组,长度在2~10^5之间.求这些数字在坐标中组成的最大的长方形面积.</p>
-<ul>
-<li>难度</li>
-</ul>
-<p>中等</p>
 <ul>
 <li>解决</li>
 </ul>
@@ -163,7 +741,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2022/03/09/leetcode-Container-With-Most-Water/" data-id="cl7n05jl40011mwd32sqh5ulo" data-title="leetcode:Container With Most Water" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2022/03/09/leetcode-Container-With-Most-Water/" data-id="cl7n0mniq0014isd3bxg4exz9" data-title="leetcode:Container With Most Water" class="article-share-link">分享</a>
       
       
       
@@ -232,7 +810,7 @@ x.send();</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2022/02/25/a%E6%A0%87%E7%AD%BE%E8%B7%A8%E5%9F%9F%E4%B8%8B%E8%BD%BD%E8%B5%84%E6%BA%90/" data-id="cl7n05jl1000xmwd3bbd1g256" data-title="a标签跨域下载资源" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2022/02/25/a%E6%A0%87%E7%AD%BE%E8%B7%A8%E5%9F%9F%E4%B8%8B%E8%BD%BD%E8%B5%84%E6%BA%90/" data-id="cl7n0mnin000zisd3err6fcq5" data-title="a标签跨域下载资源" class="article-share-link">分享</a>
       
       
       
@@ -291,7 +869,7 @@ x.send();</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2022/01/12/Uncaught-TypeError-window-opener-is-null/" data-id="cl7n05jkv000qmwd34347hfr2" data-title="Uncaught TypeError: window.opener is null" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2022/01/12/Uncaught-TypeError-window-opener-is-null/" data-id="cl7n0mnig000risd35pjwealb" data-title="Uncaught TypeError: window.opener is null" class="article-share-link">分享</a>
       
       
       
@@ -404,7 +982,7 @@ x.send();</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2021/12/06/leetcode-3Sum/" data-id="cl7n05jl2000zmwd30lgeht7r" data-title="leetcode:3Sum" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2021/12/06/leetcode-3Sum/" data-id="cl7n0mnip0013isd38xybfmv5" data-title="leetcode:3Sum" class="article-share-link">分享</a>
       
       
       
@@ -489,478 +1067,11 @@ x.send();</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2021/11/26/leetcode-Longest-Common-Prefix/" data-id="cl7n05jl70014mwd369ha8jqb" data-title="leetcode:Longest Common Prefix" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2021/11/26/leetcode-Longest-Common-Prefix/" data-id="cl7n0mnit001aisd32x3g4d67" data-title="leetcode:Longest Common Prefix" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-leetcode-Integer-to-Roman" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/11/25/leetcode-Integer-to-Roman/" class="article-date">
-  <time class="dt-published" datetime="2021-11-25T09:34:59.000Z" itemprop="datePublished">2021-11-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/11/25/leetcode-Integer-to-Roman/">leetcode:Integer to Roman</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>题目</li>
-</ul>
-<p>Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.</p>
-<pre class="line-numbers language-none"><code class="language-none">I    1
-V    5
-X    10
-L    50
-C    100
-D    500
-M    1000</code></pre>
-
-
-<ul>
-<li>代码</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">class Solution
-&#123;
-
-    &#x2F;**
-     * @param Integer $num
-     * @return String
-     *&#x2F;
-    public function intToRoman($num)
-    &#123;
-        $roman &#x3D; &#39;&#39;;
-
-        $nine   &#x3D; [&#39;&#39;, &#39;CM&#39;, &#39;XC&#39;, &#39;IX&#39;];
-        $four   &#x3D; [&#39;&#39;, &#39;CD&#39;, &#39;XL&#39;, &#39;IV&#39;];
-        $greate &#x3D; [&#39;&#39;, &#39;D&#39;, &#39;L&#39;, &#39;V&#39;];
-        $less   &#x3D; [&#39;M&#39;, &#39;C&#39;, &#39;X&#39;, &#39;I&#39;];
-        $steps  &#x3D; [1000, 100, 10, 1];
-
-        $i &#x3D; 0;
-        while ($i &lt; 4) &#123;
-            $x &#x3D; intval($num &#x2F; $steps[$i]);
-            if ($x &lt; 1) &#123;
-                $i++;
-                continue;
-            &#125;
-            $num &#x3D; $num % $steps[$i];
-
-            $times &#x3D; $x % 5;
-            if ($times &#x3D;&#x3D;&#x3D; 4) &#123;
-                if ($x &gt; 5) &#123;
-                    $roman .&#x3D; $nine[$i];
-                    $i++;
-                    continue;
-                &#125;
-
-                $roman .&#x3D; $four[$i];
-                $i++;
-                continue;
-            &#125;
-
-            if ($x &gt;&#x3D; 5) &#123;
-                $roman .&#x3D; $greate[$i] . str_repeat($less[$i], $times);
-                $i++;
-                continue;
-            &#125;
-
-            $roman .&#x3D; str_repeat($less[$i], $times);
-            $i++;
-        &#125;
-
-        return $roman;
-    &#125;
-&#125;</code></pre>
-
-<ul>
-<li>结果</li>
-</ul>
-<blockquote>
-<p>Accepted<br>3999&#x2F;3999 cases passed (20 ms)<br>Your runtime beats 70.13 % of php submissions<br>Your memory usage beats 94.81 % of php submissions (15.4 MB)</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2021/11/25/leetcode-Integer-to-Roman/" data-id="cl7n05jl60013mwd35bel2kvs" data-title="leetcode:Integer to Roman" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-leetcode-Longest-Palindromic-Substring" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/11/03/leetcode-Longest-Palindromic-Substring/" class="article-date">
-  <time class="dt-published" datetime="2021-11-03T01:56:46.000Z" itemprop="datePublished">2021-11-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/11/03/leetcode-Longest-Palindromic-Substring/">leetcode: Longest Palindromic Substring</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>问题</li>
-</ul>
-<blockquote>
-<p>Given a string s, return the longest palindromic substring in s.</p>
-</blockquote>
-<ul>
-<li>代码</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
-
-    &#x2F;**
-     * @param String $s
-     * @return String
-     *&#x2F;
-    function longestPalindrome($s) &#123;
-        $len &#x3D; strlen($s);
-        if ($len &#x3D;&#x3D;&#x3D; 1) &#123;
-            return $s;
-        &#125;
-
-        if ($len &#x3D;&#x3D;&#x3D; 2) &#123;
-            if ($s[0] &#x3D;&#x3D;&#x3D; $s[1]) &#123;
-                return $s;
-            &#125;
-
-            return $s[0];
-        &#125;
-
-        $palindromic &#x3D; $s[0];
-        $max &#x3D; 1;
-        for($i &#x3D; 0; $i &lt; $len; $i++) &#123;
-            if (strlen(substr($s, $i)) &lt; $max) &#123;
-                break;
-            &#125;
-            
-            for($j &#x3D; $len - $i - 1; $j &gt;&#x3D; 0; $j--) &#123;
-                if ($j + 1 &lt; $max) &#123;
-                    break;
-                &#125;
-
-                $str &#x3D; substr($s, $i, $j + 1);
-                $sub &#x3D; strrev($str);
-                if ($sub &#x3D;&#x3D;&#x3D; $str) &#123;
-                    if($max &lt; strlen($sub)) &#123;
-                        $palindromic &#x3D; $sub;
-                        $max &#x3D; strlen($sub);
-                    &#125;
-
-                    break;
-                &#125;
-            &#125;
-        &#125;
-
-        return $palindromic;
-    &#125;
-&#125;</code></pre>
-
-<ul>
-<li>结果</li>
-</ul>
-<blockquote>
-<p>11510&#x2F;11510 cases passed (90 ms)<br>Your runtime beats 9.13 % of php submissions<br>Your memory usage beats 99.87 % of php submissions (15.1 MB)</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2021/11/03/leetcode-Longest-Palindromic-Substring/" data-id="cl7n05jl90017mwd37fx02gcu" data-title="leetcode: Longest Palindromic Substring" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-leetcode-Median-of-Two-Sorted-Arrays" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/11/03/leetcode-Median-of-Two-Sorted-Arrays/" class="article-date">
-  <time class="dt-published" datetime="2021-11-03T01:53:45.000Z" itemprop="datePublished">2021-11-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/11/03/leetcode-Median-of-Two-Sorted-Arrays/">leetcode: Median of Two Sorted Arrays</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>问题</li>
-</ul>
-<blockquote>
-<p>Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.</p>
-<p>The overall run time complexity should be O(log (m+n)).</p>
-</blockquote>
-<ul>
-<li>代码</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
-
-    &#x2F;**
-     * @param Integer[] $nums1
-     * @param Integer[] $nums2
-     * @return Float
-     *&#x2F;
-    function findMedianSortedArrays($nums1, $nums2) &#123;
-        $nums &#x3D; array_merge($nums1, $nums2);
-        $len &#x3D; count($nums);
-        $nums &#x3D; $this-&gt;bubbleSort($nums, $len);
-
-        if ($len % 2) &#123;
-            return $nums[floor($len &#x2F; 2)];
-        &#125;
-
-        return ($nums[$len &#x2F; 2] + $nums[$len &#x2F; 2 - 1]) &#x2F; 2;
-    &#125;
-
-    function bubbleSort($arr, $n)
-    &#123;
-        for($i &#x3D; 0; $i &lt; $n; $i++)
-        &#123;
-            $swapped &#x3D; false;
-            for ($j &#x3D; 0; $j &lt; $n - $i - 1; $j++)
-            &#123;
-                if ($arr[$j] &gt; $arr[$j+1])
-                &#123;
-                    $t &#x3D; $arr[$j];
-                    $arr[$j] &#x3D; $arr[$j+1];
-                    $arr[$j+1] &#x3D; $t;
-                    $swapped &#x3D; true;
-                &#125;
-            &#125;
-
-            if($swapped &#x3D;&#x3D;&#x3D; false) &#123;
-                break;
-            &#125;
-        &#125;
-
-        return $arr;
-    &#125;
-&#125;</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2021/11/03/leetcode-Median-of-Two-Sorted-Arrays/" data-id="cl7n05jla0018mwd3atnrevi0" data-title="leetcode: Median of Two Sorted Arrays" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-leetcode-String-to-Integer-atoi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/10/28/leetcode-String-to-Integer-atoi/" class="article-date">
-  <time class="dt-published" datetime="2021-10-28T01:02:42.000Z" itemprop="datePublished">2021-10-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/10/28/leetcode-String-to-Integer-atoi/">leetcode: String to Integer (atoi)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <pre class="line-numbers language-none"><code class="language-none">class Solution
-&#123;
-
-    &#x2F;**
-     * @param String $s
-     * @return Integer
-     *&#x2F;
-    public function myAtoi($s)
-    &#123;
-        $s &#x3D; ltrim($s);
-        if (empty($s)) &#123;
-            return 0;
-        &#125;
-
-        $ascii &#x3D; ord($s[0]);
-        $sign  &#x3D; $ascii &#x3D;&#x3D;&#x3D; 45;
-        if ($ascii &#x3D;&#x3D;&#x3D; 45 || $ascii &#x3D;&#x3D;&#x3D; 43) &#123;
-            $sum &#x3D; 0;
-        &#125; elseif ($ascii &gt;&#x3D; 48 &amp;&amp; $ascii &lt;&#x3D; 57) &#123;
-            $sum &#x3D; intval($s[0]);
-        &#125; else &#123;
-            return 0;
-        &#125;
-
-        for ($i &#x3D; 1, $len &#x3D; strlen($s); $i &lt; $len; ++$i) &#123;
-            $ascii &#x3D; ord($s[$i]);
-            if ($ascii &lt; 48 || $ascii &gt; 57) &#123;
-                break;
-            &#125;
-
-            $sum &#x3D; $sum * 10 + intval($s[$i]);
-        &#125;
-
-        if ($sign) &#123;
-            $sum *&#x3D; -1;
-        &#125;
-
-        $boundry &#x3D; pow(2, 31);
-        if ($sum &lt;&#x3D; -$boundry) &#123;
-            return -$boundry;
-        &#125; elseif ($sum &gt;&#x3D; --$boundry) &#123;
-            return $boundry;
-        &#125;
-
-        return $sum;
-    &#125;
-&#125;</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2021/10/28/leetcode-String-to-Integer-atoi/" data-id="cl7n05jlf001emwd370b3atjk" data-title="leetcode: String to Integer (atoi)" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-leetcode-Palindrome-Number" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/10/28/leetcode-Palindrome-Number/" class="article-date">
-  <time class="dt-published" datetime="2021-10-28T01:00:17.000Z" itemprop="datePublished">2021-10-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/10/28/leetcode-Palindrome-Number/">leetcode: Palindrome Number</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
-
-    &#x2F;**
-     * @param Integer $x
-     * @return Boolean
-     *&#x2F;
-    function isPalindrome($x) &#123;
-        if($x &gt;&#x3D; 0 &amp;&amp; $x &lt; 10)&#123;
-            return true;
-        &#125;
-
-        if ($x &lt; 0 || $x % 10 &#x3D;&#x3D;&#x3D; 0) &#123;
-            return false;
-        &#125;
-
-
-        return $this-&gt;reverse($x) &#x3D;&#x3D;&#x3D; $x;
-    &#125;
-
-    function reverse($x)&#123;
-        $sum &#x3D; 0;
-        while($x &gt;&#x3D; 10)&#123;
-            $last &#x3D; $x % 10;
-            $x &#x3D; intval($x &#x2F; 10);
-            $sum &#x3D; $sum * 10 + $last;
-        &#125;
-
-        return $sum * 10 + $x;
-    &#125;
-&#125;</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2021/10/28/leetcode-Palindrome-Number/" data-id="cl7n05jlc001amwd341x20z3n" data-title="leetcode: Palindrome Number" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php-paligdrome/" rel="tag">leetcode,php,paligdrome</a></li></ul>
 
     </footer>
   </div>
@@ -988,7 +1099,7 @@ M    1000</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasitcsearch-memory/" rel="tag">elasitcsearch,memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-window-opener/" rel="tag">javascript,window.opener</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-ZigZag/" rel="tag">leetcode,php,ZigZag</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-add-two-numbers/" rel="tag">leetcode,php,add two numbers</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-paligdrome/" rel="tag">leetcode,php,paligdrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-reverse/" rel="tag">leetcode,php,reverse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-tow-sum/" rel="tag">leetcode,php,tow sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">logstash,elasitcsearch,mysql,数据同步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" rel="tag">php,zephir,扩展</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" rel="tag">vagrant,磁盘空间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasitcsearch-memory/" rel="tag">elasitcsearch,memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-window-opener/" rel="tag">javascript,window.opener</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-4sum/" rel="tag">leetcode,php,4sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-ZigZag/" rel="tag">leetcode,php,ZigZag</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-add-two-numbers/" rel="tag">leetcode,php,add two numbers</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-paligdrome/" rel="tag">leetcode,php,paligdrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-reverse/" rel="tag">leetcode,php,reverse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-tow-sum/" rel="tag">leetcode,php,tow sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">logstash,elasitcsearch,mysql,数据同步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" rel="tag">php,zephir,扩展</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" rel="tag">vagrant,磁盘空间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
     </div>
   </div>
 
@@ -998,7 +1109,7 @@ M    1000</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="/tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="/tags/elasitcsearch-memory/" style="font-size: 10px;">elasitcsearch,memory</a> <a href="/tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="/tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="/tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="/tags/javascript-window-opener/" style="font-size: 10px;">javascript,window.opener</a> <a href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="/tags/leetcode-php/" style="font-size: 20px;">leetcode,php</a> <a href="/tags/leetcode-php-ZigZag/" style="font-size: 10px;">leetcode,php,ZigZag</a> <a href="/tags/leetcode-php-add-two-numbers/" style="font-size: 10px;">leetcode,php,add two numbers</a> <a href="/tags/leetcode-php-paligdrome/" style="font-size: 10px;">leetcode,php,paligdrome</a> <a href="/tags/leetcode-php-reverse/" style="font-size: 10px;">leetcode,php,reverse</a> <a href="/tags/leetcode-php-tow-sum/" style="font-size: 10px;">leetcode,php,tow sum</a> <a href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">logstash,elasitcsearch,mysql,数据同步</a> <a href="/tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="/tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="/tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">php,curl,并行请求</a> <a href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" style="font-size: 10px;">php,zephir,扩展</a> <a href="/tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="/tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">vagrant,磁盘空间</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
+      <a href="/tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="/tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="/tags/elasitcsearch-memory/" style="font-size: 10px;">elasitcsearch,memory</a> <a href="/tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="/tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="/tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="/tags/javascript-window-opener/" style="font-size: 10px;">javascript,window.opener</a> <a href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="/tags/leetcode-php/" style="font-size: 20px;">leetcode,php</a> <a href="/tags/leetcode-php-4sum/" style="font-size: 10px;">leetcode,php,4sum</a> <a href="/tags/leetcode-php-ZigZag/" style="font-size: 10px;">leetcode,php,ZigZag</a> <a href="/tags/leetcode-php-add-two-numbers/" style="font-size: 10px;">leetcode,php,add two numbers</a> <a href="/tags/leetcode-php-paligdrome/" style="font-size: 10px;">leetcode,php,paligdrome</a> <a href="/tags/leetcode-php-reverse/" style="font-size: 10px;">leetcode,php,reverse</a> <a href="/tags/leetcode-php-tow-sum/" style="font-size: 10px;">leetcode,php,tow sum</a> <a href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">logstash,elasitcsearch,mysql,数据同步</a> <a href="/tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="/tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="/tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">php,curl,并行请求</a> <a href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" style="font-size: 10px;">php,zephir,扩展</a> <a href="/tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="/tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">vagrant,磁盘空间</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
     </div>
   </div>
 
@@ -1007,7 +1118,7 @@ M    1000</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
     </div>
   </div>
 
@@ -1020,23 +1131,23 @@ M    1000</code></pre>
       <ul>
         
           <li>
-            <a href="/2022/03/09/leetcode-Container-With-Most-Water/">leetcode:Container With Most Water</a>
+            <a href="/2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/">SimpleAjaxUploader上传后赋值失败问题</a>
           </li>
         
           <li>
-            <a href="/2022/02/25/a%E6%A0%87%E7%AD%BE%E8%B7%A8%E5%9F%9F%E4%B8%8B%E8%BD%BD%E8%B5%84%E6%BA%90/">a标签跨域下载资源</a>
+            <a href="/2022/04/11/leetcode-Valid-Parentheses/">leetcode:Valid Parentheses</a>
           </li>
         
           <li>
-            <a href="/2022/01/12/Uncaught-TypeError-window-opener-is-null/">Uncaught TypeError: window.opener is null</a>
+            <a href="/2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">直播问题记录</a>
           </li>
         
           <li>
-            <a href="/2021/12/06/leetcode-3Sum/">leetcode:3Sum</a>
+            <a href="/2022/03/29/leetcode-4Sum/">leetcode:4Sum</a>
           </li>
         
           <li>
-            <a href="/2021/11/26/leetcode-Longest-Common-Prefix/">leetcode:Longest Common Prefix</a>
+            <a href="/2022/03/16/leetcode-Letter-Combinations-of-a-Phone-Number/">leetcode:Letter Combinations of a Phone Number</a>
           </li>
         
       </ul>

@@ -4,17 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>标签: phpstorm,phalcon | 李祖彬的博客</title>
+  <title>Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6 | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录一些工作中的问题以及解决办法">
-<meta property="og:type" content="website">
-<meta property="og:title" content="李祖彬的博客">
-<meta property="og:url" content="http://zubin999.github.io/tags/phpstorm-phalcon/index.html">
+  <meta name="description" content="在安装好nfs后，重启服务： service nfs restart1  得到下面报错： Starting kernel based NFS server: idmapd mountdrpc.mountd: svc_tli_create: could not open connection for udp6 rpc.mountd: svc_tli_create: could not open co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6">
+<meta property="og:url" content="http://zubin999.github.io/2019/09/10/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="记录一些工作中的问题以及解决办法">
+<meta property="og:description" content="在安装好nfs后，重启服务： service nfs restart1  得到下面报错： Starting kernel based NFS server: idmapd mountdrpc.mountd: svc_tli_create: could not open connection for udp6 rpc.mountd: svc_tli_create: could not open co">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-09-10T04:55:18.000Z">
+<meta property="article:modified_time" content="2022-09-04T05:16:22.830Z">
 <meta property="article:author" content="李祖彬">
-<meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
+<meta property="article:tag" content="nfs,ipv6">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="李祖彬的博客" type="application/atom+xml">
@@ -72,39 +74,79 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" class="archive-article-date">
-  <time class="dt-published" datetime="2016-03-21T14:36:53.000Z" itemprop="datePublished">3月 21</time>
+        <section id="main"><article id="post-Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/09/10/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6/" class="article-date">
+  <time class="dt-published" datetime="2019-09-10T04:55:18.000Z" itemprop="datePublished">2019-09-10</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/">Phpstorm代码提示phalcon设置</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在安装好nfs后，重启服务：</p>
+<pre class="line-numbers language-none"><code class="language-none">service nfs restart1</code></pre>
+
+<p>得到下面报错：</p>
+<pre class="line-numbers language-none"><code class="language-none">Starting kernel based NFS server: idmapd mountdrpc.mountd: svc_tli_create:
+could not open connection for udp6
+rpc.mountd: svc_tli_create: could not open connection for tcp6
+rpc.mountd: svc_tli_create: could not open connection for udp6
+rpc.mountd: svc_tli_create: could not open connection for tcp6
+rpc.mountd: svc_tli_create: could not open connection for udp6
+rpc.mountd: svc_tli_create: could not open connection for tcp6
+statd nfsdrpc.nfsd: address family inet6 not supported by protocol TCP
+sm-notify
+done</code></pre>
+
+
+<p>udp6是用于IPV6的，所以这里可以在<code>/etc/netconfig</code>中IPV6的注释掉：</p>
+<pre class="line-numbers language-none"><code class="language-none">udp        tpi_clts      v     inet     udp     -       -
+tcp        tpi_cots_ord  v     inet     tcp     -       -
+#udp6       tpi_clts      v     inet6    udp     -       -
+#tcp6       tpi_cots_ord  v     inet6    tcp     -       -
+rawip      tpi_raw       -     inet      -      -       -
+local      tpi_cots_ord  -     loopback  -      -       -
+unix       tpi_cots_ord  -     loopback  -      -       -</code></pre>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2019/09/10/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6/" data-id="cl7mvstee000cokd30jx3aj66" data-title="Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/16/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">小程序网络请求header头设置Content-Type</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

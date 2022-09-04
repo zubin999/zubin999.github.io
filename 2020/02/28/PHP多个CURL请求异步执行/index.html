@@ -4,17 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>标签: ajax,上传文件 | 李祖彬的博客</title>
+  <title>PHP多个CURL请求异步执行 | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录一些工作中的问题以及解决办法">
-<meta property="og:type" content="website">
-<meta property="og:title" content="李祖彬的博客">
-<meta property="og:url" content="http://zubin999.github.io/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/index.html">
+  <meta name="description" content="先看PHP简单的curl请求: $ch &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example.com&#39;); curl_setopt($ch, CURLOPT_HEADER, 0); curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); curl_exec($ch); curl_close($ch);  如果有多个请">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP多个CURL请求异步执行">
+<meta property="og:url" content="http://zubin999.github.io/2020/02/28/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="记录一些工作中的问题以及解决办法">
+<meta property="og:description" content="先看PHP简单的curl请求: $ch &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example.com&#39;); curl_setopt($ch, CURLOPT_HEADER, 0); curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); curl_exec($ch); curl_close($ch);  如果有多个请">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-28T02:38:26.000Z">
+<meta property="article:modified_time" content="2022-09-04T05:54:52.299Z">
 <meta property="article:author" content="李祖彬">
-<meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
+<meta property="article:tag" content="php,curl,并行请求">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="李祖彬的博客" type="application/atom+xml">
@@ -72,39 +74,120 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" class="archive-article-date">
-  <time class="dt-published" datetime="2015-06-24T00:49:20.000Z" itemprop="datePublished">6月 24</time>
+        <section id="main"><article id="post-PHP多个CURL请求异步执行" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/28/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time class="dt-published" datetime="2020-02-28T02:38:26.000Z" itemprop="datePublished">2020-02-28</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/">如何使用ajax实现异步上传文件(译文)</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      PHP多个CURL请求异步执行
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>先看PHP简单的curl请求:</p>
+<pre class="line-numbers language-none"><code class="language-none">$ch &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example.com&#39;);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_exec($ch);
+curl_close($ch);</code></pre>
+
+<p>如果有多个请求,那么需要多次重复上面的操作:</p>
+<pre class="line-numbers language-none"><code class="language-none">$ch &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example1.com&#39;);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_exec($ch);
+curl_close($ch);
+
+$ch &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example2.com&#39;);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_exec($ch);
+curl_close($ch);
+
+&#x2F;&#x2F; 更多的请求...</code></pre>
+
+<p>这样,所需时间是每个请求消耗的时间之和.如果有5个请求,每个请求耗时1秒,那么需要5秒的时间.换作异步执行,所需耗时是最长时间的那个请求的时间,那么久只需要1秒钟完成5个请求.</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 同样先初始化curl
+$ch1 &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example1.com&#39;);
+curl_setopt($ch1, CURLOPT_HEADER, 0);
+curl_setopt($ch1, CURLOPT_RETURNTRANSFER, 1);
+&#x2F;&#x2F; 这里不再使用curl_exec
+$ch2 &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example2.com&#39;);
+curl_setopt($ch2, CURLOPT_HEADER, 0);
+curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
+&#x2F;&#x2F; 初始化异步多请求
+$mh &#x3D; curl_multi_init();
+&#x2F;&#x2F; 添加前面的每个handle
+curl_multi_add_handle($mh, $ch1);
+curl_multi_add_handle($mh, $ch2);
+
+&#x2F;&#x2F; 执行请求
+$active &#x3D; null;
+do &#123;
+    $status &#x3D; curl_multi_exec($mh, $active);
+&#125;while($status &#x3D;&#x3D;&#x3D; CURLM_CALL_MULTI_PERFORM);
+while ($active &amp;&amp; $status &#x3D;&#x3D; CURLM_OK)&#123;
+    &#x2F;&#x2F; 即使未还有未执行完的请求这里也可能是-1
+    &#x2F;&#x2F; 参考: https:&#x2F;&#x2F;www.php.net&#x2F;manual&#x2F;en&#x2F;function.curl-multi-select.php#115381
+    if(curl_multi_select($mh) &#x3D;&#x3D;&#x3D; -1)&#123;
+        usleep(100);
+    &#125;
+        
+    do &#123;
+        $status &#x3D; curl_multi_exec($mh, $active);
+    &#125;while ($status &#x3D;&#x3D;&#x3D; CURLM_CALL_MULTI_PERFORM);
+&#125;
+
+&#x2F;&#x2F; 如果需要返回结果
+$res[] &#x3D; curl_multi_getcontent($ch1);
+$res[] &#x3D; curl_multi_getcontent($ch2);
+
+&#x2F;&#x2F; 移除handle
+curl_multi_remove_handle($ch1);
+curl_multi_remove_handle($ch2);
+
+&#x2F;&#x2F; 关闭
+curl_multi_close($mh);</code></pre>
+
+<p>在具体业务中,可能就是以数组的形式传入所需请求的URL,参数等.我们可以使用循环来操作.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2020/02/28/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/" data-id="cl7mx6kcf000io4d3dqxybsvf" data-title="PHP多个CURL请求异步执行" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/19/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Elasticsearch问题收集</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

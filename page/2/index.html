@@ -74,6 +74,83 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-小程序的模板使用介绍" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" class="article-date">
+  <time class="dt-published" datetime="2017-08-07T14:10:01.000Z" itemprop="datePublished">2017-08-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/">小程序的模板使用介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>模板，即一部分业务代码片段，具有通用性。使用模板的好处，自然是方便维护。前端时间在做一个视频小程序时，便遇到了需要模板的场景。</p>
+<p>这个小程序是个关于视频的项目，在首页，分类，搜索，个人中心(我发布的视频)都存在视频列表(页面包含列表),所以我打算将列表拿出来做个模板。</p>
+<p>小程序定义模板语法：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template name&#x3D;&quot;yourTemplateName&quot;&gt;
+    &lt;!--
+        这里是页面布局的代码,例如:
+        &lt;view&gt;
+            &lt;text&gt;hello world!&lt;&#x2F;text&gt;
+        &lt;&#x2F;view&gt;
+    --&gt;
+&lt;&#x2F;template&gt;</code></pre>
+
+<p>定义好模板后保存为一个<code>wxml</code>的文件。</p>
+<p>在需要使用模板的页面，首先引入模板</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;import src&#x3D;&quot;path&#x2F;to&#x2F;template&#x2F;template.wxml&quot; &#x2F;&gt;</code></pre>
+
+<p>然后，在需要展示模板的地方使用模板</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; &#x2F;&gt;</code></pre>
+
+<p>如果，模板里有变量，可以通过<code>data</code>传入</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; data&#x3D;&quot;&#123;&#123;item&#125;&#125;&quot;&#x2F;&gt;</code></pre>
+
+<p>如果有多个值，这样传入</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; data&#x3D;&quot;&#123;&#123;name: theName, age: theAge, gender: theGender&#125;&#125;&quot;&#x2F;&gt;</code></pre>
+
+<p>这是<code>wxml</code>模板的使用,与<code>wxml</code>文件相关联的还有两个文件<code>wxss</code>文件、<code>js</code>文件。<code>wxss</code>文件没有什么可说的，直接在需要的页面的<code>wxss</code>文件里使用<code>import</code>引入即可,这里说下js文件。</p>
+<p>小程序每个页面都需要在<code>js</code>文件里使用<code>Page</code>函数<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/app-service/page.html">注册页面</a>，对于模板里的事件等一系列操作，我们不可能在每个地方都去写一遍。和定义模板一样，我们新建一个独立的js文件,内容如下:</p>
+<pre class="line-numbers language-none"><code class="language-none">export function functionName(params)&#123;
+    #coding here
+&#125;</code></pre>
+
+<p>然后在需要的js页面引入</p>
+<pre class="line-numbers language-none"><code class="language-none">var lib &#x3D; require(path&#x2F;to&#x2F;function);
+
+var fn &#x3D; lib.functionName;</code></pre>
+
+<p>这样，在<code>Page</code>函数里，我们就可以使用<code>fn</code>这个函数了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" data-id="cl7mx6kcy0018o4d3gjukbnls" data-title="小程序的模板使用介绍" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-如何在ios的微信webview里强制刷新" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" class="article-date">
@@ -109,7 +186,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" data-id="cl7mx191k000x6sd37d5e9on7" data-title="如何在ios的微信webview里强制刷新" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" data-id="cl7mx6kct0011o4d363f38m8f" data-title="如何在ios的微信webview里强制刷新" class="article-share-link">分享</a>
       
       
       
@@ -166,7 +243,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2017/05/13/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6/" data-id="cl7mx1911000a6sd3edl24gz8" data-title="MySQL导出数据到文件" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2017/05/13/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6/" data-id="cl7mx6kca000co4d34xrb5mft" data-title="MySQL导出数据到文件" class="article-share-link">分享</a>
       
       
       
@@ -225,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/" data-id="cl7mx190z00096sd347mi5u17" data-title="MySQL如何支持emoji表情" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/" data-id="cl7mx6kc7000ao4d31p27b70r" data-title="MySQL如何支持emoji表情" class="article-share-link">分享</a>
       
       
       
@@ -429,7 +506,7 @@ document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;,
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-id="cl7mx191e000r6sd333x76jl3" data-title="使用Canvas压缩图片" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-id="cl7mx6kcn000vo4d3am2gga0e" data-title="使用Canvas压缩图片" class="article-share-link">分享</a>
       
       
       
@@ -485,7 +562,7 @@ document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;,
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" data-id="cl7mx191n00136sd3clh7hy8j" data-title="如何防止频繁调用Javascript一段代码？" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" data-id="cl7mx6kcv0014o4d36cebc1a7" data-title="如何防止频繁调用Javascript一段代码？" class="article-share-link">分享</a>
       
       
       
@@ -535,7 +612,7 @@ document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;,
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" data-id="cl7mx191b000m6sd34x655sri" data-title="Uncaught RangeError:Maximum call stack size exceeded" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" data-id="cl7mx6kci000mo4d3h2xmasvl" data-title="Uncaught RangeError:Maximum call stack size exceeded" class="article-share-link">分享</a>
       
       
       
@@ -681,7 +758,7 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/05/10/Web%E7%89%882048%E5%AE%9E%E7%8E%B0/" data-id="cl7mx191c000n6sd3cx7h3tg6" data-title="Web版2048实现" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/05/10/Web%E7%89%882048%E5%AE%9E%E7%8E%B0/" data-id="cl7mx6kcl000ro4d38dvv7k42" data-title="Web版2048实现" class="article-share-link">分享</a>
       
       
       
@@ -738,7 +815,7 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/03/29/Volt-directory-can-t-be-written/" data-id="cl7mx191f000t6sd3be3s5mur" data-title="Volt directory can&#39;t be written" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/03/29/Volt-directory-can-t-be-written/" data-id="cl7mx6kck000qo4d3housacoh" data-title="Volt directory can&#39;t be written" class="article-share-link">分享</a>
       
       
       
@@ -793,69 +870,11 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" data-id="cl7mx1919000k6sd36oibb13m" data-title="Phpstorm代码提示phalcon设置" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" data-id="cl7mx6kch000ko4d3akk0e7yn" data-title="Phpstorm代码提示phalcon设置" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-JavaScript数组转字符串另类方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/" class="article-date">
-  <time class="dt-published" datetime="2015-12-07T14:19:17.000Z" itemprop="datePublished">2015-12-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/">JavaScript数组转字符串另类方法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>通常，当我们想将一个数组，如*[‘hello’,’world’]*转换为字符串的话，会使用join方法将其连接为一个字符串。前两天在看书的时候，学到了新的方法,虽然不是什么高级技巧，但是，也在此记录一下，说明自己以前没有去思考过。</p>
-<ul>
-<li>方法一,使用toString方法：</li>
-</ul>
-<pre lang="javascript">
-var a = ['hello','world'];
-console.log(a.toString()); //hello,word
-</pre>
-
-<ul>
-<li>方法二,使用强制类型转换：</li>
-</ul>
-<pre lang='javascript'>
-var a = ['hello','world'];
-console.log(String(a));
-</pre>
-
-<p>但是，需要注意的是，这里的两个方法只能以逗号将其连接，如果要以其他的方式，还是需要使用join方法。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/" data-id="cl7mx1912000c6sd30pbldrit" data-title="JavaScript数组转字符串另类方法" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li></ul>
 
     </footer>
   </div>
@@ -883,7 +902,7 @@ console.log(String(a));
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
     </div>
   </div>
 
@@ -893,7 +912,7 @@ console.log(String(a));
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="/tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="/tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="/tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="/tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="/tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="/tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="/tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="/tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="/tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
+      <a href="/tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="/tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="/tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="/tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="/tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="/tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="/tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="/tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">php,curl,并行请求</a> <a href="/tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="/tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
     </div>
   </div>
 
@@ -902,7 +921,7 @@ console.log(String(a));
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
     </div>
   </div>
 
@@ -913,6 +932,10 @@ console.log(String(a));
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/02/28/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/">PHP多个CURL请求异步执行</a>
+          </li>
         
           <li>
             <a href="/2019/11/19/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86/">Elasticsearch问题收集</a>
@@ -928,10 +951,6 @@ console.log(String(a));
         
           <li>
             <a href="/2019/09/28/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted/">Only one usage of each socket address (protocol/network address/port) is normally permitted.</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/10/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user/">auth failed from unknown (xx.xx.xx.xx) unauthorised user</a>
           </li>
         
       </ul>

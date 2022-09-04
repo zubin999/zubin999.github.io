@@ -4,17 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>归档 | 李祖彬的博客</title>
+  <title>如何使用ajax实现上传文件 | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录一些工作中的问题以及解决办法">
-<meta property="og:type" content="website">
-<meta property="og:title" content="李祖彬的博客">
-<meta property="og:url" content="http://zubin999.github.io/archives/index.html">
+  <meta name="description" content="原文: http:&#x2F;&#x2F;www.sitepoint.com&#x2F;html5-ajax-file-upload&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用ajax实现上传文件">
+<meta property="og:url" content="http://zubin999.github.io/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="记录一些工作中的问题以及解决办法">
+<meta property="og:description" content="原文: http:&#x2F;&#x2F;www.sitepoint.com&#x2F;html5-ajax-file-upload&#x2F;">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-06-24T00:49:20.000Z">
+<meta property="article:modified_time" content="2022-09-04T00:51:30.771Z">
 <meta property="article:author" content="李祖彬">
-<meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
+<meta property="article:tag" content="ajax,上传文件">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="李祖彬的博客" type="application/atom+xml">
@@ -72,58 +74,57 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" class="archive-article-date">
-  <time class="dt-published" datetime="2015-06-24T00:49:20.000Z" itemprop="datePublished">6月 24</time>
+        <section id="main"><article id="post-如何使用ajax实现上传文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2015-06-24T00:49:20.000Z" itemprop="datePublished">2015-06-24</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/">如何使用ajax实现上传文件</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      如何使用ajax实现上传文件
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/05/10/%E5%A6%82%E4%BD%95%E7%BB%99JavaScript%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E6%B7%BB%E5%8A%A0%E9%BB%98%E8%AE%A4%E5%80%BC/" class="archive-article-date">
-  <time class="dt-published" datetime="2015-05-10T00:10:48.000Z" itemprop="datePublished">5月 10</time>
-</a>
+    <div class="e-content article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/05/10/%E5%A6%82%E4%BD%95%E7%BB%99JavaScript%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E6%B7%BB%E5%8A%A0%E9%BB%98%E8%AE%A4%E5%80%BC/">如何给JavaScript中函数的参数添加默认值</a>
-    </h1>
-  
+        <blockquote>
+<p>原文: <a target="_blank" rel="noopener" href="http://www.sitepoint.com/html5-ajax-file-upload/">http://www.sitepoint.com/html5-ajax-file-upload/</a></p>
+</blockquote>
 
-    </header>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" data-id="cl7mmc63h0001eod3bxq5h6wn" data-title="如何使用ajax实现上传文件" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/05/10/%E5%A6%82%E4%BD%95%E7%BB%99JavaScript%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E6%B7%BB%E5%8A%A0%E9%BB%98%E8%AE%A4%E5%80%BC/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">如何给JavaScript中函数的参数添加默认值</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

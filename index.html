@@ -74,6 +74,171 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-在Phalcon中为View添加缓存" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/08/02/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/" class="article-date">
+  <time class="dt-published" datetime="2019-08-02T07:23:22.000Z" itemprop="datePublished">2019-08-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/08/02/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/">在Phalcon中为View添加缓存</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>我们可以为<code>Phalcon</code>的<code>View</code>添加事件监听，<code>View</code>一共有5个事件：</p>
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Triggered</th>
+<th>Can stop operation ?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>beforeRender</td>
+<td>Triggered before starting the render process</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>beforeRenderView</td>
+<td>Triggered before rendering an existing view</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>afterRenderView</td>
+<td>Triggered after rendering an existing view</td>
+<td>No</td>
+</tr>
+<tr>
+<td>afterRender</td>
+<td>Triggered after completing the render process</td>
+<td>No</td>
+</tr>
+<tr>
+<td>notFoundView</td>
+<td>Triggered when a view was not found</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<p>在<code>di</code>注入是<code>view</code>时添加事件：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;?php
+
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Mvc\View;
+
+$di-&gt;set(
+    &#39;view&#39;,
+    function () &#123;
+        &#x2F;&#x2F; Create an events manager
+        $eventsManager &#x3D; new EventsManager();
+
+        &#x2F;&#x2F; Attach a listener for type &#39;view&#39;
+        $eventsManager-&gt;attach(
+            &#39;view&#39;,
+            function (Event $event, $view) &#123;
+                echo $event-&gt;getType(), &#39; - &#39;, $view-&gt;getActiveRenderPath(), PHP_EOL;
+            &#125;
+        );
+
+        $view &#x3D; new View();
+
+        $view-&gt;setViewsDir(&#39;..&#x2F;app&#x2F;views&#x2F;&#39;);
+
+        &#x2F;&#x2F; Bind the eventsManager to the view component
+        $view-&gt;setEventsManager($eventsManager);
+
+        return $view;
+    &#125;,
+    true
+);</code></pre>
+
+<p>上面是监听了View的所有事件,如果要监听某个具体的,如监听<code>beforeRender</code>：</p>
+<pre class="line-numbers language-none"><code class="language-none">$eventsManager-&gt;attach(&#39;view:beforeRender&#39;, function()&#123;
+
+&#125;)</code></pre>
+
+<p>现在，就可以利用<code>afterRender</code>事件来缓存页面，提升性能。</p>
+<p>首先，需要向<code>di</code>注入一个<code>viewCache</code>服务：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;?php
+
+use Phalcon\Cache\Frontend\Output as OutputFrontend;
+use Phalcon\Cache\Backend\Memcache as MemcacheBackend;
+
+&#x2F;&#x2F; Set the views cache service
+$di-&gt;set(
+    &#39;viewCache&#39;,
+    function () &#123;
+        &#x2F;&#x2F; Cache data for one day by default
+        $frontCache &#x3D; new OutputFrontend(
+            [
+                &#39;lifetime&#39; &#x3D;&gt; 86400,
+            ]
+        );
+
+        &#x2F;&#x2F; Memcached connection settings
+        $cache &#x3D; new MemcacheBackend(
+            $frontCache,
+            [
+                &#39;host&#39; &#x3D;&gt; &#39;localhost&#39;,
+                &#39;port&#39; &#x3D;&gt; &#39;11211&#39;,
+            ]
+        );
+
+        return $cache;
+    &#125;
+);</code></pre>
+
+<p>这里的<code>cache</code>也可以换成<code>Redis</code>等你在使用的。<code>lifetime</code>为默认缓存时间，当调用该服务时，可以另外给出<code>lifetime</code>的值。键为<code>key</code>。<code>Phalcon</code>会默认使用<code>MD5</code>加密当前的<code>Controller/view</code>。</p>
+<p>定义<code>afterRender</code>事件触发时要做的事情:</p>
+<pre class="line-numbers language-none"><code class="language-none">class ViewPlugin extends \Phalcon\Mvc\User\Plugin &#123;
+
+    public function afterRender(\Phalcon\Events\Event $event, $view)&#123;
+        $request    &#x3D; \Phalcon\Di::getDefault()-&gt;get(&#39;request&#39;);
+        $key        &#x3D; md5($request-&gt;getURI());
+        if (!$view-&gt;getCache()-&gt;exists($key)) &#123;
+            $view-&gt;getCache()-&gt;save($key, $view-&gt;getContent(), DEFAULT_VIEW_EXPIRE_TIME);
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>这样当访问一个新页面后就会缓存下来。接下来就是第二步，再次访问该页面时，直接向浏览器输出缓存内容，可以定义在父类里：</p>
+<pre class="line-numbers language-none"><code class="language-none">$this-&gt;view_cache_key &#x3D; md5($this-&gt;request-&gt;getURI());
+if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
+    echo $this-&gt;view-&gt;getCache()-&gt;get($this-&gt;view_cache_key);
+    exit;
+&#125;</code></pre>
+
+<p>这就是利用<code>View</code>的事件缓存页面，当然也可以用于其他场景，如生成静态<code>HTML</code>页面</p>
+<p>参考文档:</p>
+<p><a target="_blank" rel="noopener" href="https://docs.phalconphp.com/3.4/en/views">Phalcon view</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2019/08/02/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/" data-id="cl7mv5ox5000km4d382xk5ihm" data-title="在Phalcon中为View添加缓存" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-如何阻止表单自动填充" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2019/06/04/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" class="article-date">
@@ -116,7 +281,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2019/06/04/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" data-id="cl7muzrlt000rfcd3gahjahj0" data-title="如何阻止表单自动填充?" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2019/06/04/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" data-id="cl7mv5oxb000tm4d3bi5g1myk" data-title="如何阻止表单自动填充?" class="article-share-link">分享</a>
       
       
       
@@ -191,7 +356,7 @@ var fn &#x3D; lib.functionName;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" data-id="cl7muzrlu000tfcd312bb9071" data-title="小程序的模板使用介绍" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" data-id="cl7mv5oxc000vm4d3c5z9hkx1" data-title="小程序的模板使用介绍" class="article-share-link">分享</a>
       
       
       
@@ -238,7 +403,7 @@ var fn &#x3D; lib.functionName;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" data-id="cl7muzrlq000mfcd30z2c62p0" data-title="如何在ios的微信webview里强制刷新" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" data-id="cl7mv5ox8000nm4d3cmzdhc7s" data-title="如何在ios的微信webview里强制刷新" class="article-share-link">分享</a>
       
       
       
@@ -293,7 +458,7 @@ var fn &#x3D; lib.functionName;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2017/05/13/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6/" data-id="cl7muzrle0009fcd3db4cci1w" data-title="MySQL导出数据到文件" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2017/05/13/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6/" data-id="cl7mv5owv0009m4d3cp3dac7u" data-title="MySQL导出数据到文件" class="article-share-link">分享</a>
       
       
       
@@ -350,7 +515,7 @@ var fn &#x3D; lib.functionName;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/" data-id="cl7muzrlb0006fcd3154hab8t" data-title="MySQL如何支持emoji表情" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/" data-id="cl7mv5owu0006m4d354msaxjj" data-title="MySQL如何支持emoji表情" class="article-share-link">分享</a>
       
       
       
@@ -554,7 +719,7 @@ document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;,
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-id="cl7muzrlm000ifcd3hwwsco03" data-title="使用Canvas压缩图片" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-id="cl7mv5ox3000im4d3gx592wvb" data-title="使用Canvas压缩图片" class="article-share-link">分享</a>
       
       
       
@@ -608,7 +773,7 @@ document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;,
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" data-id="cl7muzrls000qfcd3adywazz4" data-title="如何防止频繁调用Javascript一段代码？" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" data-id="cl7mv5oxa000rm4d3a75a5u36" data-title="如何防止频繁调用Javascript一段代码？" class="article-share-link">分享</a>
       
       
       
@@ -656,7 +821,7 @@ document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;,
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" data-id="cl7muzrlg000cfcd3f8wy0o7p" data-title="Uncaught RangeError:Maximum call stack size exceeded" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" data-id="cl7mv5ox0000em4d3czuvbm64" data-title="Uncaught RangeError:Maximum call stack size exceeded" class="article-share-link">分享</a>
       
       
       
@@ -800,67 +965,10 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/05/10/Web%E7%89%882048%E5%AE%9E%E7%8E%B0/" data-id="cl7muzrll000gfcd3858e27wb" data-title="Web版2048实现" class="article-share-link">分享</a>
+      <a data-url="http://zubin999.github.io/2016/05/10/Web%E7%89%882048%E5%AE%9E%E7%8E%B0/" data-id="cl7mv5ox2000gm4d38sh334s3" data-title="Web版2048实现" class="article-share-link">分享</a>
       
       
       
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Volt-directory-can-t-be-written" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2016/03/29/Volt-directory-can-t-be-written/" class="article-date">
-  <time class="dt-published" datetime="2016-03-29T14:14:45.000Z" itemprop="datePublished">2016-03-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2016/03/29/Volt-directory-can-t-be-written/">Volt directory can&#39;t be written</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>上周开始在新公司工作，公司使用的是Phalcon框架。以前只是听说过这个名字….(此处省略1万字).<br>当我在使用git克隆项目代码到本地时，访问项目出现了此错误：</p>
-<pre class="line-numbers language-none"><code class="language-none">Volt directory can&#39;t be written</code></pre>
-
-<p>看到不能被写入，首先想到的是文件权限问题，但是，我是在windows下，哪里来的权限问题？！那是什么问题呢？Volt是Phalcon框架的模板引擎，会将<code>views</code>下的文件重新编译后放在<code>cache</code>目录下。再一看项目第一级文件结构，没有<code>cache</code>文件，会不会是放在<code>app</code>或其他目录下呢？还是来看配置文件吧。</p>
-<p>在<code>app/config/config.php</code>文件里找到了<code>cache</code>的位置：</p>
-<pre class="line-numbers language-php" data-language="php"><code class="language-php">&#39;application&#39; &#x3D;&gt; array(
-        &#39;controllersDir&#39; &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;controllers&#x2F;&#39;,
-        &#39;modelsDir&#39;      &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;models&#x2F;&#39;,
-        &#39;migrationsDir&#39;  &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;migrations&#x2F;&#39;,
-        &#39;viewsDir&#39;       &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;views&#x2F;&#39;,
-        &#39;pluginsDir&#39;     &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;plugins&#x2F;&#39;,
-        &#39;libraryDir&#39;     &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;library&#x2F;&#39;,
-        &#39;cacheDir&#39;       &#x3D;&gt; APP_PATH . &#39;&#x2F;app&#x2F;cache&#x2F;&#39;,
-        &#39;baseUri&#39;        &#x3D;&gt; &#39;&#x2F;&#39;,
-    )</code></pre>
-
-<p>所以，在<code>app</code>下建立一个<code>cache</code>文件夹，再次在浏览器刷新，项目可以正常访问了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2016/03/29/Volt-directory-can-t-be-written/" data-id="cl7muzrlj000efcd358w252si" data-title="Volt directory can&#39;t be written" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li></ul>
-
     </footer>
   </div>
   
@@ -906,7 +1014,7 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
     </div>
   </div>
 
@@ -917,6 +1025,10 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/08/02/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/">在Phalcon中为View添加缓存</a>
+          </li>
         
           <li>
             <a href="/2019/06/04/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/">如何阻止表单自动填充?</a>
@@ -932,10 +1044,6 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
         
           <li>
             <a href="/2017/05/13/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6/">MySQL导出数据到文件</a>
-          </li>
-        
-          <li>
-            <a href="/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/">MySQL如何支持emoji表情</a>
           </li>
         
       </ul>

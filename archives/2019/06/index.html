@@ -4,19 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>JavaScript数组转字符串另类方法 | 李祖彬的博客</title>
+  <title>归档: 2019/6 | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="通常，当我们想将一个数组，如*[‘hello’,’world’]*转换为字符串的话，会使用join方法将其连接为一个字符串。前两天在看书的时候，学到了新的方法,虽然不是什么高级技巧，但是，也在此记录一下，说明自己以前没有去思考过。  方法一,使用toString方法：   var a &#x3D; [&#39;hello&#39;,&#39;world&#39;]; console.log(a.toString()); &#x2F;&#x2F;hello,w">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript数组转字符串另类方法">
-<meta property="og:url" content="http://zubin999.github.io/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/index.html">
+  <meta name="description" content="记录一些工作中的问题以及解决办法">
+<meta property="og:type" content="website">
+<meta property="og:title" content="李祖彬的博客">
+<meta property="og:url" content="http://zubin999.github.io/archives/2019/06/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="通常，当我们想将一个数组，如*[‘hello’,’world’]*转换为字符串的话，会使用join方法将其连接为一个字符串。前两天在看书的时候，学到了新的方法,虽然不是什么高级技巧，但是，也在此记录一下，说明自己以前没有去思考过。  方法一,使用toString方法：   var a &#x3D; [&#39;hello&#39;,&#39;world&#39;]; console.log(a.toString()); &#x2F;&#x2F;hello,w">
+<meta property="og:description" content="记录一些工作中的问题以及解决办法">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2015-12-07T14:19:17.000Z">
-<meta property="article:modified_time" content="2022-09-04T02:56:15.782Z">
 <meta property="article:author" content="李祖彬">
-<meta property="article:tag" content="JavaScript,数组,字符串">
+<meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="李祖彬的博客" type="application/atom+xml">
@@ -74,81 +72,39 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-JavaScript数组转字符串另类方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/" class="article-date">
-  <time class="dt-published" datetime="2015-12-07T14:19:17.000Z" itemprop="datePublished">2015-12-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        <section id="main">
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      JavaScript数组转字符串另类方法
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2019/06/04/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" class="archive-article-date">
+  <time class="dt-published" datetime="2019-06-04T07:57:02.000Z" itemprop="datePublished">6月 4</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/06/04/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/">如何阻止表单自动填充?</a>
     </h1>
   
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>通常，当我们想将一个数组，如*[‘hello’,’world’]*转换为字符串的话，会使用join方法将其连接为一个字符串。前两天在看书的时候，学到了新的方法,虽然不是什么高级技巧，但是，也在此记录一下，说明自己以前没有去思考过。</p>
-<ul>
-<li>方法一,使用toString方法：</li>
-</ul>
-<pre lang="javascript">
-var a = ['hello','world'];
-console.log(a.toString()); //hello,word
-</pre>
-
-<ul>
-<li>方法二,使用强制类型转换：</li>
-</ul>
-<pre lang='javascript'>
-var a = ['hello','world'];
-console.log(String(a));
-</pre>
-
-<p>但是，需要注意的是，这里的两个方法只能以逗号将其连接，如果要以其他的方式，还是需要使用join方法。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zubin999.github.io/2015/12/07/JavaScript%E6%95%B0%E7%BB%84%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%A6%E7%B1%BB%E6%96%B9%E6%B3%95/" data-id="cl7muzrla0005fcd37fw1dhs3" data-title="JavaScript数组转字符串另类方法" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2016/03/21/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          Phpstorm代码提示phalcon设置
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2015/08/02/ES6%E4%B9%8BObject-is/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">ES6之Object.is</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
 
 
 </section>

@@ -4,17 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>归档: 2015/5 | 李祖彬的博客</title>
+  <title>leetcode:add-two-numbers | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录一些工作中的问题以及解决办法">
-<meta property="og:type" content="website">
-<meta property="og:title" content="李祖彬的博客">
-<meta property="og:url" content="http://zubin999.github.io/archives/2015/05/index.html">
+  <meta name="description" content="问题   Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode:add-two-numbers">
+<meta property="og:url" content="http://zubin999.github.io/2021/10/01/leetcode-add-two-numbers/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="记录一些工作中的问题以及解决办法">
+<meta property="og:description" content="问题   Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-01T04:29:09.000Z">
+<meta property="article:modified_time" content="2022-09-04T06:25:10.995Z">
 <meta property="article:author" content="李祖彬">
-<meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
+<meta property="article:tag" content="leetcode,php,add two numbers">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="李祖彬的博客" type="application/atom+xml">
@@ -72,39 +74,155 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/05/10/%E5%A6%82%E4%BD%95%E7%BB%99JavaScript%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E6%B7%BB%E5%8A%A0%E9%BB%98%E8%AE%A4%E5%80%BC/" class="archive-article-date">
-  <time class="dt-published" datetime="2015-05-10T00:10:48.000Z" itemprop="datePublished">5月 10</time>
+        <section id="main"><article id="post-leetcode-add-two-numbers" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/10/01/leetcode-add-two-numbers/" class="article-date">
+  <time class="dt-published" datetime="2021-10-01T04:29:09.000Z" itemprop="datePublished">2021-10-01</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/05/10/%E5%A6%82%E4%BD%95%E7%BB%99JavaScript%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E6%B7%BB%E5%8A%A0%E9%BB%98%E8%AE%A4%E5%80%BC/">如何给JavaScript中函数的参数添加默认值</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      leetcode:add-two-numbers
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+<p>You can return the answer in any order.</p>
+</blockquote>
+<ul>
+<li>leetcode类别</li>
+</ul>
+<p>中等</p>
+<ul>
+<li>代码</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;**
+ * Definition for a singly-linked list.
+ * class ListNode &#123;
+ *     public $val &#x3D; 0;
+ *     public $next &#x3D; null;
+ *     function __construct($val &#x3D; 0, $next &#x3D; null) &#123;
+ *         $this-&gt;val &#x3D; $val;
+ *         $this-&gt;next &#x3D; $next;
+ *     &#125;
+ * &#125;
+ *&#x2F;
+class Solution &#123;
+
+    &#x2F;**
+     * @param ListNode $l1
+     * @param ListNode $l2
+     * @return ListNode
+     *&#x2F;
+    function addTwoNumbers($l1, $l2) &#123;
+        return $this-&gt;reverseList($this-&gt;getNode($l1, $l2));
+    &#125;
+
+    function reverseList($list) &#123;
+        $prev &#x3D; null;
+        while($list !&#x3D;&#x3D; null) &#123;
+            $node &#x3D; new ListNode($list-&gt;val, null);
+            $node-&gt;next &#x3D; $prev;
+
+            $prev &#x3D; $node;
+            $list &#x3D; $list-&gt;next;
+        &#125;
+
+        return $node;
+    &#125;
+
+    function getNode($l1, $l2) &#123;
+        $prev &#x3D; null;
+        $plus &#x3D; 0;
+        
+        while(true) &#123;
+            if ($l1 &#x3D;&#x3D;&#x3D; null &amp;&amp; $l2 &#x3D;&#x3D;&#x3D; null &amp;&amp; !$plus) &#123;
+                break;
+            &#125;
+
+            $val &#x3D; 0;
+            if ($l1 !&#x3D;&#x3D; null) &#123;
+                $val +&#x3D; $l1-&gt;val;
+            &#125;
+
+            if ($l2 !&#x3D;&#x3D; null) &#123;
+                $val +&#x3D; $l2-&gt;val;
+            &#125;
+
+            $val +&#x3D; $plus;
+
+            $plus &#x3D; 0;
+            if ($val &gt; 9) &#123;
+                $val &#x3D; $val % 10;
+                $plus &#x3D; 1;
+            &#125;
+            
+            $node &#x3D; new ListNode($val, null);
+            $node-&gt;next &#x3D; $prev;
+
+            $prev &#x3D; $node;
+            
+            if ($l1 !&#x3D;&#x3D; null) &#123;
+                $l1 &#x3D; $l1-&gt;next;
+            &#125;
+
+            if ($l2 !&#x3D;&#x3D; null) &#123;
+                $l2 &#x3D; $l2-&gt;next;
+            &#125;
+        &#125;
+
+        return $node;
+    &#125;
+&#125;</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zubin999.github.io/2021/10/01/leetcode-add-two-numbers/" data-id="cl7myd5zt000vj8d32pni19tz" data-title="leetcode:add-two-numbers" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php-add-two-numbers/" rel="tag">leetcode,php,add two numbers</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/10/09/leetcode-longest-substring-without-repeating-characters/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          leetcode: longest substring without repeating characters
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/10/01/leetcode-two-sum/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">leetcode:two-sum</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

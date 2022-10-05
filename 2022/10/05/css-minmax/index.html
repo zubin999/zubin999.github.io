@@ -13,17 +13,17 @@
 <meta property="og:site_name" content="李祖彬的博客">
 <meta property="og:description" content="认识minmax  看看MDN上对minmax的定义:  The minmax() CSS function defines a size range greater than or equal to min and less than or equal to max. It is used with CSS Grids  可以得出3点:  minmax是CSS中的一个函数 定义了一个范围:大于">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://www.lizubin.com/0.png">
-<meta property="og:image" content="http://www.lizubin.com/1.png">
-<meta property="og:image" content="http://www.lizubin.com/2.png">
-<meta property="og:image" content="http://www.lizubin.com/3.png">
-<meta property="og:image" content="http://lizubin.com/2022/10/05/4.png">
+<meta property="og:image" content="http://lizubin.com/2022/10/05/css-minmax/0.png">
+<meta property="og:image" content="http://lizubin.com/2022/10/05/css-minmax/1.png">
+<meta property="og:image" content="http://lizubin.com/2022/10/05/css-minmax/2.png">
+<meta property="og:image" content="http://lizubin.com/2022/10/05/css-minmax/3.png">
+<meta property="og:image" content="http://lizubin.com/2022/10/05/css-minmax/4.png">
 <meta property="article:published_time" content="2022-10-05T05:46:30.000Z">
-<meta property="article:modified_time" content="2022-10-05T22:55:34.600Z">
+<meta property="article:modified_time" content="2022-10-05T22:58:15.454Z">
 <meta property="article:author" content="李祖彬">
 <meta property="article:tag" content="CSS,minmax">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://www.lizubin.com/0.png">
+<meta name="twitter:image" content="http://lizubin.com/2022/10/05/css-minmax/0.png">
   
     <link rel="alternate" href="/atom.xml" title="李祖彬的博客" type="application/atom+xml">
   
@@ -142,16 +142,16 @@
 &lt;&#x2F;div&gt;</code></pre>
 
 <p>在页面中可以看到:</p>
-<p><img src="/0.png"></p>
+<p><img src="//lizubin.com/2022/10/05/css-minmax/0.png"></p>
 <p>此时,第1列的宽度为500px,缩小页面宽度,第2,3列的宽度在变化,第1列的宽度没有改变.当第2,3列的宽度不能再小后,第1列的宽度开始变小,直到小到200px后,不再改变.</p>
-<p><img src="/1.png"><br><img src="/2.png"></p>
+<p><img src="//lizubin.com/2022/10/05/css-minmax/1.png"><br><img src="//lizubin.com/2022/10/05/css-minmax/2.png"></p>
 <p>那么,上面定义得出的第1,2点都得到了证明.第3点,试下对box里面的div的高度使用<code>minmax</code>函数,看是否生效.</p>
 <pre class="line-numbers language-css" data-language="css"><code class="language-css">.box div &#123;
     height: minmax(78px, 120px);
     background-color: #c2c;
 &#125;</code></pre>
 
-<p><img src="/3.png"></p>
+<p><img src="//lizubin.com/2022/10/05/css-minmax/3.png"></p>
 <p>不论页面高度怎么变化,每个<code>div</code>的高度都没有改变.说明<code>minmax</code>确实不能在其他地方使用.</p>
 <ul>
 <li>注意</li>
@@ -159,7 +159,7 @@
 <ol>
 <li><code>minmax(min, max)</code>的最小值(第一个参数)不能大于最大值(第二个参数).如: 将上面的改为: <code>minmax(300px, 200px)</code>,那么<code>200px</code>无效,只有300px有效,第1列固定为300px.</li>
 </ol>
-<p><img src="//lizubin.com/2022/10/05/4.png"></p>
+<p><img src="//lizubin.com/2022/10/05/css-minmax/4.png"></p>
 <ol start="2">
 <li><code>minmax</code>的最小值不能设置为<code>1fr</code>,最大值可以.</li>
 </ol>
@@ -167,7 +167,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2022/10/05/css-minmax/" data-id="cl8w8aeps0010m4d302sj2ikf" data-title="CSS minmax()" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/10/05/css-minmax/" data-id="cl8w8duby0010ggd3ekvv0k0t" data-title="CSS minmax()" class="article-share-link">分享</a>
       
       
       

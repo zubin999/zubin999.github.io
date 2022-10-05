@@ -24,11 +24,11 @@
   
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="../../../../css/style.css">
 
   
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+<link rel="stylesheet" href="../../../../fancybox/jquery.fancybox.min.css">
 
   
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -41,11 +41,11 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">李祖彬的博客</a>
+        <a href="index.html" id="logo">李祖彬的博客</a>
       </h1>
       
         <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">lizubin.com</a>
+          <a href="index.html" id="subtitle">lizubin.com</a>
         </h2>
       
     </div>
@@ -53,7 +53,7 @@
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
         
-          <a class="main-nav-link" href="/">Home</a>
+          <a class="main-nav-link" href="index.html">Home</a>
         
           <a class="main-nav-link" href="/archives">Archives</a>
         
@@ -76,7 +76,7 @@
   
     <article id="post-css-minmax" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/10/05/css-minmax/" class="article-date">
+    <a href="2022/10/05/css-minmax/" class="article-date">
   <time class="dt-published" datetime="2022-10-05T05:46:30.000Z" itemprop="datePublished">2022-10-05</time>
 </a>
     
@@ -88,7 +88,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/10/05/css-minmax/">CSS minmax()</a>
+      <a class="p-name article-title" href="2022/10/05/css-minmax/">CSS minmax()</a>
     </h1>
   
 
@@ -136,16 +136,16 @@
 &lt;&#x2F;div&gt;</code></pre>
 
 <p>在页面中可以看到:</p>
-<p><img src="//lizubin.com/2022/10/05/css-minmax/0.png"></p>
+<p><img src="/2022/10/05/css-minmax/0.png"></p>
 <p>此时,第1列的宽度为500px,缩小页面宽度,第2,3列的宽度在变化,第1列的宽度没有改变.当第2,3列的宽度不能再小后,第1列的宽度开始变小,直到小到200px后,不再改变.</p>
-<p><img src="//lizubin.com/2022/10/05/css-minmax/1.png"><br><img src="//lizubin.com/2022/10/05/css-minmax/2.png"></p>
+<p><img src="/2022/10/05/css-minmax/1.png"><br><img src="/2022/10/05/css-minmax/2.png"></p>
 <p>那么,上面定义得出的第1,2点都得到了证明.第3点,试下对box里面的div的高度使用<code>minmax</code>函数,看是否生效.</p>
 <pre class="line-numbers language-css" data-language="css"><code class="language-css">.box div &#123;
     height: minmax(78px, 120px);
     background-color: #c2c;
 &#125;</code></pre>
 
-<p><img src="//lizubin.com/2022/10/05/css-minmax/3.png"></p>
+<p><img src="/2022/10/05/css-minmax/3.png"></p>
 <p>不论页面高度怎么变化,每个<code>div</code>的高度都没有改变.说明<code>minmax</code>确实不能在其他地方使用.</p>
 <ul>
 <li>注意</li>
@@ -153,19 +153,19 @@
 <ol>
 <li><code>minmax(min, max)</code>的最小值(第一个参数)不能大于最大值(第二个参数).如: 将上面的改为: <code>minmax(300px, 200px)</code>,那么<code>200px</code>无效,只有300px有效,第1列固定为300px.</li>
 </ol>
-<p><img src="//lizubin.com/2022/10/05/css-minmax/4.png"></p>
-<ol start="2">
+<p><img src="/2022/10/05/css-minmax/4.png"></p>
+<ol>
 <li><code>minmax</code>的最小值不能设置为<code>1fr</code>,最大值可以.</li>
 </ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2022/10/05/css-minmax/" data-id="cl8w8hisv000zacd3gqu700l3" data-title="CSS minmax()" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/10/05/css-minmax/" data-id="cl8w8pcts0010isd31wjl515g" data-title="CSS minmax()" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS-minmax/" rel="tag">CSS,minmax</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/CSS-minmax/" rel="tag">CSS,minmax</a></li></ul>
 
     </footer>
   </div>
@@ -177,7 +177,7 @@
   
     <article id="post-几个网站让你从命令行知道自己的公网IP" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/10/05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/" class="article-date">
+    <a href="2022/10/05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/" class="article-date">
   <time class="dt-published" datetime="2022-10-05T01:42:12.000Z" itemprop="datePublished">2022-10-05</time>
 </a>
     
@@ -189,7 +189,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/10/05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/">几个网站让你从命令行知道自己的公网IP</a>
+      <a class="p-name article-title" href="2022/10/05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/">几个网站让你从命令行知道自己的公网IP</a>
     </h1>
   
 
@@ -215,11 +215,11 @@ curl wtfismyip.com&#x2F;json</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2022/10/05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/" data-id="cl8w8hitu0025acd345e5htmm" data-title="几个网站让你从命令行知道自己的公网IP" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/10/05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/" data-id="cl8w8pcuf0025isd3e78scaph" data-title="几个网站让你从命令行知道自己的公网IP" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" rel="tag">命令,IP,公网</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" rel="tag">命令,IP,公网</a></li></ul>
 
     </footer>
   </div>
@@ -231,7 +231,7 @@ curl wtfismyip.com&#x2F;json</code></pre>
   
     <article id="post-SimpleAjaxUploader上传后赋值失败问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/" class="article-date">
+    <a href="2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/" class="article-date">
   <time class="dt-published" datetime="2022-05-16T13:51:55.000Z" itemprop="datePublished">2022-05-16</time>
 </a>
     
@@ -243,7 +243,7 @@ curl wtfismyip.com&#x2F;json</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/">SimpleAjaxUploader上传后赋值失败问题</a>
+      <a class="p-name article-title" href="2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/">SimpleAjaxUploader上传后赋值失败问题</a>
     </h1>
   
 
@@ -308,7 +308,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/" data-id="cl8w8hisp000kacd3emjn6zl5" data-title="SimpleAjaxUploader上传后赋值失败问题" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/" data-id="cl8w8pcth000lisd32p0baizd" data-title="SimpleAjaxUploader上传后赋值失败问题" class="article-share-link">分享</a>
       
       
       
@@ -322,7 +322,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
   
     <article id="post-leetcode-Valid-Parentheses" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/04/11/leetcode-Valid-Parentheses/" class="article-date">
+    <a href="2022/04/11/leetcode-Valid-Parentheses/" class="article-date">
   <time class="dt-published" datetime="2022-04-11T13:34:38.000Z" itemprop="datePublished">2022-04-11</time>
 </a>
     
@@ -334,7 +334,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/04/11/leetcode-Valid-Parentheses/">leetcode:Valid Parentheses</a>
+      <a class="p-name article-title" href="2022/04/11/leetcode-Valid-Parentheses/">leetcode:Valid Parentheses</a>
     </h1>
   
 
@@ -451,7 +451,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2022/04/11/leetcode-Valid-Parentheses/" data-id="cl8w8hith001lacd31ojc10ma" data-title="leetcode:Valid Parentheses" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/04/11/leetcode-Valid-Parentheses/" data-id="cl8w8pcu8001nisd391vlaa71" data-title="leetcode:Valid Parentheses" class="article-share-link">分享</a>
       
       
       
@@ -465,7 +465,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
   
     <article id="post-直播问题记录" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" class="article-date">
+    <a href="2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" class="article-date">
   <time class="dt-published" datetime="2022-03-31T08:13:56.000Z" itemprop="datePublished">2022-03-31</time>
 </a>
     
@@ -477,7 +477,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">直播问题记录</a>
+      <a class="p-name article-title" href="2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">直播问题记录</a>
     </h1>
   
 
@@ -582,7 +582,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" data-id="cl8w8hiu4002macd3gd2feqjq" data-title="直播问题记录" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" data-id="cl8w8pcup002nisd34dsr38lz" data-title="直播问题记录" class="article-share-link">分享</a>
       
       
       
@@ -596,7 +596,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
   
     <article id="post-leetcode-4Sum" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/03/29/leetcode-4Sum/" class="article-date">
+    <a href="2022/03/29/leetcode-4Sum/" class="article-date">
   <time class="dt-published" datetime="2022-03-29T13:36:20.000Z" itemprop="datePublished">2022-03-29</time>
 </a>
     
@@ -608,7 +608,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/03/29/leetcode-4Sum/">leetcode:4Sum</a>
+      <a class="p-name article-title" href="2022/03/29/leetcode-4Sum/">leetcode:4Sum</a>
     </h1>
   
 
@@ -692,11 +692,11 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2022/03/29/leetcode-4Sum/" data-id="cl8w8hit10013acd360g11noz" data-title="leetcode:4Sum" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/03/29/leetcode-4Sum/" data-id="cl8w8pctu0013isd3cq785nuq" data-title="leetcode:4Sum" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php-4sum/" rel="tag">leetcode,php,4sum</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/leetcode-php-4sum/" rel="tag">leetcode,php,4sum</a></li></ul>
 
     </footer>
   </div>
@@ -708,7 +708,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
   
     <article id="post-leetcode-Letter-Combinations-of-a-Phone-Number" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/03/16/leetcode-Letter-Combinations-of-a-Phone-Number/" class="article-date">
+    <a href="2022/03/16/leetcode-Letter-Combinations-of-a-Phone-Number/" class="article-date">
   <time class="dt-published" datetime="2022-03-16T11:38:02.000Z" itemprop="datePublished">2022-03-16</time>
 </a>
     
@@ -720,7 +720,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/03/16/leetcode-Letter-Combinations-of-a-Phone-Number/">leetcode:Letter Combinations of a Phone Number</a>
+      <a class="p-name article-title" href="2022/03/16/leetcode-Letter-Combinations-of-a-Phone-Number/">leetcode:Letter Combinations of a Phone Number</a>
     </h1>
   
 
@@ -797,11 +797,11 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2022/03/16/leetcode-Letter-Combinations-of-a-Phone-Number/" data-id="cl8w8hit40018acd30ry438jt" data-title="leetcode:Letter Combinations of a Phone Number" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/03/16/leetcode-Letter-Combinations-of-a-Phone-Number/" data-id="cl8w8pcty0019isd3cks20nwx" data-title="leetcode:Letter Combinations of a Phone Number" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/leetcode-php/" rel="tag">leetcode,php</a></li></ul>
 
     </footer>
   </div>
@@ -813,7 +813,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
   
     <article id="post-leetcode-Container-With-Most-Water" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/03/09/leetcode-Container-With-Most-Water/" class="article-date">
+    <a href="2022/03/09/leetcode-Container-With-Most-Water/" class="article-date">
   <time class="dt-published" datetime="2022-03-08T16:20:56.000Z" itemprop="datePublished">2022-03-09</time>
 </a>
     
@@ -825,7 +825,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/03/09/leetcode-Container-With-Most-Water/">leetcode:Container With Most Water</a>
+      <a class="p-name article-title" href="2022/03/09/leetcode-Container-With-Most-Water/">leetcode:Container With Most Water</a>
     </h1>
   
 
@@ -896,11 +896,11 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2022/03/09/leetcode-Container-With-Most-Water/" data-id="cl8w8hit20014acd361dg9igj" data-title="leetcode:Container With Most Water" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/03/09/leetcode-Container-With-Most-Water/" data-id="cl8w8pctv0016isd39k4jh6cv" data-title="leetcode:Container With Most Water" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/leetcode-php/" rel="tag">leetcode,php</a></li></ul>
 
     </footer>
   </div>
@@ -912,7 +912,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
   
     <article id="post-a标签跨域下载资源" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/02/25/a%E6%A0%87%E7%AD%BE%E8%B7%A8%E5%9F%9F%E4%B8%8B%E8%BD%BD%E8%B5%84%E6%BA%90/" class="article-date">
+    <a href="2022/02/25/a%E6%A0%87%E7%AD%BE%E8%B7%A8%E5%9F%9F%E4%B8%8B%E8%BD%BD%E8%B5%84%E6%BA%90/" class="article-date">
   <time class="dt-published" datetime="2022-02-25T12:27:50.000Z" itemprop="datePublished">2022-02-25</time>
 </a>
     
@@ -924,7 +924,7 @@ $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/02/25/a%E6%A0%87%E7%AD%BE%E8%B7%A8%E5%9F%9F%E4%B8%8B%E8%BD%BD%E8%B5%84%E6%BA%90/">a标签跨域下载资源</a>
+      <a class="p-name article-title" href="2022/02/25/a%E6%A0%87%E7%AD%BE%E8%B7%A8%E5%9F%9F%E4%B8%8B%E8%BD%BD%E8%B5%84%E6%BA%90/">a标签跨域下载资源</a>
     </h1>
   
 
@@ -965,7 +965,7 @@ x.send();</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2022/02/25/a%E6%A0%87%E7%AD%BE%E8%B7%A8%E5%9F%9F%E4%B8%8B%E8%BD%BD%E8%B5%84%E6%BA%90/" data-id="cl8w8hisv000xacd3545g9din" data-title="a标签跨域下载资源" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/02/25/a%E6%A0%87%E7%AD%BE%E8%B7%A8%E5%9F%9F%E4%B8%8B%E8%BD%BD%E8%B5%84%E6%BA%90/" data-id="cl8w8pctp000yisd36ih583f5" data-title="a标签跨域下载资源" class="article-share-link">分享</a>
       
       
       
@@ -979,7 +979,7 @@ x.send();</code></pre>
   
     <article id="post-Uncaught-TypeError-window-opener-is-null" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/01/12/Uncaught-TypeError-window-opener-is-null/" class="article-date">
+    <a href="2022/01/12/Uncaught-TypeError-window-opener-is-null/" class="article-date">
   <time class="dt-published" datetime="2022-01-12T08:33:18.000Z" itemprop="datePublished">2022-01-12</time>
 </a>
     
@@ -991,7 +991,7 @@ x.send();</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/01/12/Uncaught-TypeError-window-opener-is-null/">Uncaught TypeError: window.opener is null</a>
+      <a class="p-name article-title" href="2022/01/12/Uncaught-TypeError-window-opener-is-null/">Uncaught TypeError: window.opener is null</a>
     </h1>
   
 
@@ -1024,11 +1024,11 @@ x.send();</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2022/01/12/Uncaught-TypeError-window-opener-is-null/" data-id="cl8w8hisr000qacd31d6oa7xb" data-title="Uncaught TypeError: window.opener is null" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/01/12/Uncaught-TypeError-window-opener-is-null/" data-id="cl8w8pctk000qisd33xhqcujj" data-title="Uncaught TypeError: window.opener is null" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript-window-opener/" rel="tag">javascript,window.opener</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/javascript-window-opener/" rel="tag">javascript,window.opener</a></li></ul>
 
     </footer>
   </div>
@@ -1042,7 +1042,7 @@ x.send();</code></pre>
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="page/2/">2</a><a class="page-number" href="page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="page/6/">6</a><a class="extend next" rel="next" href="page/2/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -1056,7 +1056,7 @@ x.send();</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS-minmax/" rel="tag">CSS,minmax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasitcsearch-memory/" rel="tag">elasitcsearch,memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-window-opener/" rel="tag">javascript,window.opener</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-4sum/" rel="tag">leetcode,php,4sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-ZigZag/" rel="tag">leetcode,php,ZigZag</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-add-two-numbers/" rel="tag">leetcode,php,add two numbers</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-paligdrome/" rel="tag">leetcode,php,paligdrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-reverse/" rel="tag">leetcode,php,reverse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-tow-sum/" rel="tag">leetcode,php,tow sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">logstash,elasitcsearch,mysql,数据同步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" rel="tag">php,zephir,扩展</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" rel="tag">vagrant,磁盘空间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" rel="tag">命令,IP,公网</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/CSS-minmax/" rel="tag">CSS,minmax</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/elasitcsearch-memory/" rel="tag">elasitcsearch,memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/javascript-window-opener/" rel="tag">javascript,window.opener</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/leetcode-php/" rel="tag">leetcode,php</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/leetcode-php-4sum/" rel="tag">leetcode,php,4sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/leetcode-php-ZigZag/" rel="tag">leetcode,php,ZigZag</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/leetcode-php-add-two-numbers/" rel="tag">leetcode,php,add two numbers</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/leetcode-php-paligdrome/" rel="tag">leetcode,php,paligdrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/leetcode-php-reverse/" rel="tag">leetcode,php,reverse</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/leetcode-php-tow-sum/" rel="tag">leetcode,php,tow sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">logstash,elasitcsearch,mysql,数据同步</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/php-zephir-%E6%89%A9%E5%B1%95/" rel="tag">php,zephir,扩展</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" rel="tag">vagrant,磁盘空间</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" rel="tag">命令,IP,公网</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
     </div>
   </div>
 
@@ -1066,7 +1066,7 @@ x.send();</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="/tags/CSS-minmax/" style="font-size: 10px;">CSS,minmax</a> <a href="/tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="/tags/elasitcsearch-memory/" style="font-size: 10px;">elasitcsearch,memory</a> <a href="/tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="/tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="/tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="/tags/javascript-window-opener/" style="font-size: 10px;">javascript,window.opener</a> <a href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="/tags/leetcode-php/" style="font-size: 20px;">leetcode,php</a> <a href="/tags/leetcode-php-4sum/" style="font-size: 10px;">leetcode,php,4sum</a> <a href="/tags/leetcode-php-ZigZag/" style="font-size: 10px;">leetcode,php,ZigZag</a> <a href="/tags/leetcode-php-add-two-numbers/" style="font-size: 10px;">leetcode,php,add two numbers</a> <a href="/tags/leetcode-php-paligdrome/" style="font-size: 10px;">leetcode,php,paligdrome</a> <a href="/tags/leetcode-php-reverse/" style="font-size: 10px;">leetcode,php,reverse</a> <a href="/tags/leetcode-php-tow-sum/" style="font-size: 10px;">leetcode,php,tow sum</a> <a href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">logstash,elasitcsearch,mysql,数据同步</a> <a href="/tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="/tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="/tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">php,curl,并行请求</a> <a href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" style="font-size: 10px;">php,zephir,扩展</a> <a href="/tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="/tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">vagrant,磁盘空间</a> <a href="/tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" style="font-size: 10px;">命令,IP,公网</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
+      <a href="tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="tags/CSS-minmax/" style="font-size: 10px;">CSS,minmax</a> <a href="tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="tags/ajax/" style="font-size: 10px;">ajax</a> <a href="tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="tags/elasitcsearch-memory/" style="font-size: 10px;">elasitcsearch,memory</a> <a href="tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="tags/javascript-window-opener/" style="font-size: 10px;">javascript,window.opener</a> <a href="tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="tags/leetcode-php/" style="font-size: 20px;">leetcode,php</a> <a href="tags/leetcode-php-4sum/" style="font-size: 10px;">leetcode,php,4sum</a> <a href="tags/leetcode-php-ZigZag/" style="font-size: 10px;">leetcode,php,ZigZag</a> <a href="tags/leetcode-php-add-two-numbers/" style="font-size: 10px;">leetcode,php,add two numbers</a> <a href="tags/leetcode-php-paligdrome/" style="font-size: 10px;">leetcode,php,paligdrome</a> <a href="tags/leetcode-php-reverse/" style="font-size: 10px;">leetcode,php,reverse</a> <a href="tags/leetcode-php-tow-sum/" style="font-size: 10px;">leetcode,php,tow sum</a> <a href="tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">logstash,elasitcsearch,mysql,数据同步</a> <a href="tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">php,curl,并行请求</a> <a href="tags/php-zephir-%E6%89%A9%E5%B1%95/" style="font-size: 10px;">php,zephir,扩展</a> <a href="tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">vagrant,磁盘空间</a> <a href="tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" style="font-size: 10px;">命令,IP,公网</a> <a href="tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
     </div>
   </div>
 
@@ -1075,7 +1075,7 @@ x.send();</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2015/05/">五月 2015</a></li></ul>
     </div>
   </div>
 
@@ -1088,23 +1088,23 @@ x.send();</code></pre>
       <ul>
         
           <li>
-            <a href="/2022/10/05/css-minmax/">CSS minmax()</a>
+            <a href="2022/10/05/css-minmax/">CSS minmax()</a>
           </li>
         
           <li>
-            <a href="/2022/10/05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/">几个网站让你从命令行知道自己的公网IP</a>
+            <a href="2022/10/05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/">几个网站让你从命令行知道自己的公网IP</a>
           </li>
         
           <li>
-            <a href="/2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/">SimpleAjaxUploader上传后赋值失败问题</a>
+            <a href="2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/">SimpleAjaxUploader上传后赋值失败问题</a>
           </li>
         
           <li>
-            <a href="/2022/04/11/leetcode-Valid-Parentheses/">leetcode:Valid Parentheses</a>
+            <a href="2022/04/11/leetcode-Valid-Parentheses/">leetcode:Valid Parentheses</a>
           </li>
         
           <li>
-            <a href="/2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">直播问题记录</a>
+            <a href="2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">直播问题记录</a>
           </li>
         
       </ul>
@@ -1130,7 +1130,7 @@ x.send();</code></pre>
     </div>
     <nav id="mobile-nav">
   
-    <a href="/" class="mobile-nav-link">Home</a>
+    <a href="index.html" class="mobile-nav-link">Home</a>
   
     <a href="/archives" class="mobile-nav-link">Archives</a>
   
@@ -1138,17 +1138,17 @@ x.send();</code></pre>
     
 
 
-<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="../../../../js/jquery-3.4.1.min.js"></script>
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<script src="../../../../fancybox/jquery.fancybox.min.js"></script>
 
 
 
 
-<script src="/js/script.js"></script>
+<script src="../../../../js/script.js"></script>
 
 
 

@@ -14,7 +14,7 @@
 <meta property="og:description" content="记录一些工作中的问题以及解决办法">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="李祖彬">
-<meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js">
+<meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js,前端">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../atom.xml" title="李祖彬的博客" type="application/atom+xml">
@@ -74,6 +74,130 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-如何使用ajax实现上传文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="../../2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2015-06-24T00:49:20.000Z" itemprop="datePublished">2015-06-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="../../2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/">如何使用ajax实现异步上传文件(译文)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>原文: <a target="_blank" rel="noopener" href="http://www.sitepoint.com/html5-ajax-file-upload/">http://www.sitepoint.com/html5-ajax-file-upload/</a></p>
+</blockquote>
+<blockquote>
+<p>在之前我的文章里，我们讨论了怎么使用<code>HTML5的拖拽功能</code>和使用<code>HTML5和Javascript操作文件</code>。现在我们有一些文件将要上传到服务器。这个进程将在后台异步进行，因此用户可以在页面上做其他的事情。</p>
+</blockquote>
+<h4 id="The-HTML"><a href="#The-HTML" class="headerlink" title="The HTML"></a>The HTML</h4><p>再次检查HTML表单：</p>
+<pre class="line-numbers language-html5" data-language="html5"><code class="language-html5">&lt;form id&#x3D;&quot;upload&quot; action&#x3D;&quot;upload.php&quot; method&#x3D;&quot;POST&quot; enctype&#x3D;&quot;multipart&#x2F;form-data&quot;&gt;
+&lt;fieldset&gt;
+&lt;legend&gt;HTML File Upload&lt;&#x2F;legend&gt;
+&lt;input type&#x3D;&quot;hidden&quot; id&#x3D;&quot;MAX_FILE_SIZE&quot; name&#x3D;&quot;MAX_FILE_SIZE&quot; value&#x3D;&quot;300000&quot; &#x2F;&gt;
+&lt;div&gt;
+    &lt;label for&#x3D;&quot;fileselect&quot;&gt;Files to upload:&lt;&#x2F;label&gt;
+    &lt;input type&#x3D;&quot;file&quot; id&#x3D;&quot;fileselect&quot; name&#x3D;&quot;fileselect[]&quot; multiple&#x3D;&quot;multiple&quot; &#x2F;&gt;
+    &lt;div id&#x3D;&quot;filedrag&quot;&gt;or drop files here&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;div id&#x3D;&quot;submitbutton&quot;&gt;
+    &lt;button type&#x3D;&quot;submit&quot;&gt;Upload Files&lt;&#x2F;button&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;fieldset&gt;
+&lt;&#x2F;form&gt;</code></pre>
+
+<p>我们将把文件上传至<code>upload.php</code>的<code>PHP文件</code>，这个页面将在用户点击上传文件后，处理<code>AJAX</code>上传请求和表单<code>POST</code>提交。<br><code>Javascript</code>能够保证仅上传小于<code>300,000B</code>的<code>jpg图片</code>。</p>
+<h4 id="The-Javascript"><a href="#The-Javascript" class="headerlink" title="The Javascript"></a>The Javascript</h4><p>首先，我们从新的一行创建一个函数<code>FileSelectHandler</code>，用于有文件被选择或者放入时调用。要遍历文件我们调用另一个函数<code>UploadFile</code>。</p>
+<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#x2F;&#x2F; file selection
+function FileSelectHandler(e) &#123;
+
+    &#x2F;&#x2F; cancel event and hover styling
+    FileDragHover(e);
+
+    &#x2F;&#x2F; fetch FileList object
+    var files &#x3D; e.target.files || e.dataTransfer.files;
+
+    &#x2F;&#x2F; process all File objects
+    for (var i &#x3D; 0, f; f &#x3D; files[i]; i++) &#123;
+        ParseFile(f);
+        UploadFile(f);
+    &#125;
+
+&#125;</code></pre>
+
+<p>文件上传需要<code>XMLHttpRequest2</code>对象,这个对象在<code>FireFox</code>和<code>chrome</code>中支持(译者注：这篇文章发表于2012年,当前各个浏览器的支持请看<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">这里</a>)。在我们调起<code>Ajax</code>之前，我们要确定<code>upload</code>方法存在并且有一个小于<code>MAX_FILE_SIZE</code>值的<code>JPG图片</code>。</p>
+<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#x2F;&#x2F; upload JPEG files
+function UploadFile(file) &#123;
+
+    var xhr &#x3D; new XMLHttpRequest();
+    if (xhr.upload &amp;&amp; file.type &#x3D;&#x3D; &quot;image&#x2F;jpeg&quot; &amp;&amp; file.size &lt;&#x3D; $id(&quot;MAX_FILE_SIZE&quot;).value) &#123;
+        &#x2F;&#x2F; start upload
+        xhr.open(&quot;POST&quot;, $id(&quot;upload&quot;).action, true);
+        xhr.setRequestHeader(&quot;X_FILENAME&quot;, file.name);
+        xhr.send(file);
+
+    &#125;
+
+&#125;</code></pre>
+
+<h4 id="The-PHP"><a href="#The-PHP" class="headerlink" title="The PHP"></a>The PHP</h4><pre class="line-numbers language-php" data-language="php"><code class="language-php">&lt;?php
+$fn &#x3D; (isset($_SERVER[&#39;HTTP_X_FILENAME&#39;]) ? $_SERVER[&#39;HTTP_X_FILENAME&#39;] : false);
+if ($fn) &#123;
+
+    &#x2F;&#x2F; AJAX call
+    file_put_contents(
+        &#39;uploads&#x2F;&#39; . $fn,
+        file_get_contents(&#39;php:&#x2F;&#x2F;input&#39;)
+    );
+    echo &quot;$fn uploaded&quot;;
+    exit();
+    
+&#125;else &#123;
+
+    &#x2F;&#x2F; form submit
+    $files &#x3D; $_FILES[&#39;fileselect&#39;];
+
+    foreach ($files[&#39;error&#39;] as $id &#x3D;&gt; $err) &#123;
+        if ($err &#x3D;&#x3D; UPLOAD_ERR_OK) &#123;
+            $fn &#x3D; $files[&#39;name&#39;][$id];
+            move_uploaded_file(
+                $files[&#39;tmp_name&#39;][$id],
+                &#39;uploads&#x2F;&#39; . $fn
+            );
+            echo &quot;&lt;p&gt;File $fn uploaded.&lt;&#x2F;p&gt;&quot;;
+        &#125;
+    &#125;
+
+&#125;</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.lizubin.com/2015/06/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ajax%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" data-id="cl8w7wkz2002974d3gdyu4iea" data-title="如何使用ajax实现异步上传文件(译文)" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-如何给JavaScript中函数的参数添加默认值" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="../../2015/05/10/%E5%A6%82%E4%BD%95%E7%BB%99JavaScript%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E6%B7%BB%E5%8A%A0%E9%BB%98%E8%AE%A4%E5%80%BC/" class="article-date">
@@ -122,7 +246,7 @@ sum(1,0);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2015/05/10/%E5%A6%82%E4%BD%95%E7%BB%99JavaScript%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E6%B7%BB%E5%8A%A0%E9%BB%98%E8%AE%A4%E5%80%BC/" data-id="cl8v04dla002bxod323s158qa" data-title="如何给JavaScript中函数的参数添加默认值" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2015/05/10/%E5%A6%82%E4%BD%95%E7%BB%99JavaScript%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E6%B7%BB%E5%8A%A0%E9%BB%98%E8%AE%A4%E5%80%BC/" data-id="cl8w7wkz5002d74d38afmbo5p" data-title="如何给JavaScript中函数的参数添加默认值" class="article-share-link">分享</a>
       
       
       
@@ -154,7 +278,7 @@ sum(1,0);</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/elasitcsearch-memory/" rel="tag">elasitcsearch,memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/javascript-window-opener/" rel="tag">javascript,window.opener</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php/" rel="tag">leetcode,php</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-4sum/" rel="tag">leetcode,php,4sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-ZigZag/" rel="tag">leetcode,php,ZigZag</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-add-two-numbers/" rel="tag">leetcode,php,add two numbers</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-paligdrome/" rel="tag">leetcode,php,paligdrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-reverse/" rel="tag">leetcode,php,reverse</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-tow-sum/" rel="tag">leetcode,php,tow sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">logstash,elasitcsearch,mysql,数据同步</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/php-zephir-%E6%89%A9%E5%B1%95/" rel="tag">php,zephir,扩展</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" rel="tag">vagrant,磁盘空间</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" rel="tag">命令,IP,公网</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/CSS-minmax/" rel="tag">CSS,minmax</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/elasitcsearch-memory/" rel="tag">elasitcsearch,memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/javascript-window-opener/" rel="tag">javascript,window.opener</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php/" rel="tag">leetcode,php</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-4sum/" rel="tag">leetcode,php,4sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-ZigZag/" rel="tag">leetcode,php,ZigZag</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-add-two-numbers/" rel="tag">leetcode,php,add two numbers</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-paligdrome/" rel="tag">leetcode,php,paligdrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-reverse/" rel="tag">leetcode,php,reverse</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/leetcode-php-tow-sum/" rel="tag">leetcode,php,tow sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">logstash,elasitcsearch,mysql,数据同步</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/php-zephir-%E6%89%A9%E5%B1%95/" rel="tag">php,zephir,扩展</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" rel="tag">vagrant,磁盘空间</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" rel="tag">命令,IP,公网</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
     </div>
   </div>
 
@@ -164,7 +288,7 @@ sum(1,0);</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="../../tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="../../tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="../../tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="../../tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="../../tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="../../tags/ajax/" style="font-size: 10px;">ajax</a> <a href="../../tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="../../tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="../../tags/elasitcsearch-memory/" style="font-size: 10px;">elasitcsearch,memory</a> <a href="../../tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="../../tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="../../tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="../../tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="../../tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="../../tags/javascript-window-opener/" style="font-size: 10px;">javascript,window.opener</a> <a href="../../tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="../../tags/leetcode-php/" style="font-size: 20px;">leetcode,php</a> <a href="../../tags/leetcode-php-4sum/" style="font-size: 10px;">leetcode,php,4sum</a> <a href="../../tags/leetcode-php-ZigZag/" style="font-size: 10px;">leetcode,php,ZigZag</a> <a href="../../tags/leetcode-php-add-two-numbers/" style="font-size: 10px;">leetcode,php,add two numbers</a> <a href="../../tags/leetcode-php-paligdrome/" style="font-size: 10px;">leetcode,php,paligdrome</a> <a href="../../tags/leetcode-php-reverse/" style="font-size: 10px;">leetcode,php,reverse</a> <a href="../../tags/leetcode-php-tow-sum/" style="font-size: 10px;">leetcode,php,tow sum</a> <a href="../../tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">logstash,elasitcsearch,mysql,数据同步</a> <a href="../../tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="../../tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="../../tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="../../tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="../../tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="../../tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">php,curl,并行请求</a> <a href="../../tags/php-zephir-%E6%89%A9%E5%B1%95/" style="font-size: 10px;">php,zephir,扩展</a> <a href="../../tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="../../tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="../../tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">vagrant,磁盘空间</a> <a href="../../tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" style="font-size: 10px;">命令,IP,公网</a> <a href="../../tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="../../tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="../../tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
+      <a href="../../tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="../../tags/CSS-minmax/" style="font-size: 10px;">CSS,minmax</a> <a href="../../tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="../../tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="../../tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="../../tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="../../tags/ajax/" style="font-size: 10px;">ajax</a> <a href="../../tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="../../tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="../../tags/elasitcsearch-memory/" style="font-size: 10px;">elasitcsearch,memory</a> <a href="../../tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="../../tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="../../tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="../../tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="../../tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="../../tags/javascript-window-opener/" style="font-size: 10px;">javascript,window.opener</a> <a href="../../tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="../../tags/leetcode-php/" style="font-size: 20px;">leetcode,php</a> <a href="../../tags/leetcode-php-4sum/" style="font-size: 10px;">leetcode,php,4sum</a> <a href="../../tags/leetcode-php-ZigZag/" style="font-size: 10px;">leetcode,php,ZigZag</a> <a href="../../tags/leetcode-php-add-two-numbers/" style="font-size: 10px;">leetcode,php,add two numbers</a> <a href="../../tags/leetcode-php-paligdrome/" style="font-size: 10px;">leetcode,php,paligdrome</a> <a href="../../tags/leetcode-php-reverse/" style="font-size: 10px;">leetcode,php,reverse</a> <a href="../../tags/leetcode-php-tow-sum/" style="font-size: 10px;">leetcode,php,tow sum</a> <a href="../../tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">logstash,elasitcsearch,mysql,数据同步</a> <a href="../../tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="../../tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="../../tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="../../tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="../../tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="../../tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">php,curl,并行请求</a> <a href="../../tags/php-zephir-%E6%89%A9%E5%B1%95/" style="font-size: 10px;">php,zephir,扩展</a> <a href="../../tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="../../tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="../../tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">vagrant,磁盘空间</a> <a href="../../tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" style="font-size: 10px;">命令,IP,公网</a> <a href="../../tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="../../tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="../../tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
     </div>
   </div>
 
@@ -186,6 +310,10 @@ sum(1,0);</code></pre>
       <ul>
         
           <li>
+            <a href="../../2022/10/05/css-minmax/">CSS minmax()</a>
+          </li>
+        
+          <li>
             <a href="../../2022/10/05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/">几个网站让你从命令行知道自己的公网IP</a>
           </li>
         
@@ -199,10 +327,6 @@ sum(1,0);</code></pre>
         
           <li>
             <a href="../../2022/03/31/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">直播问题记录</a>
-          </li>
-        
-          <li>
-            <a href="../../2022/03/29/leetcode-4Sum/">leetcode:4Sum</a>
           </li>
         
       </ul>

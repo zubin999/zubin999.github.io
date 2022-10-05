@@ -20,4 +20,4 @@ curl wtfismyip.com/json
 
 ### 结果
 
-![](./2.png)
+![](//lizubin.com/2022/10/05/几个网站让你从命令行知道自己的公网IP/2.png)

@@ -127,4 +127,4 @@ tags: css,居中
 
 以上任意一种,都可以看到下面居中效果:
 
-![](/2022/10/11/5-ways-to-center-a-div-in-css/1.png)
+![](/2022/10/11/5-ways-to-center-a-div-in-css/2.png)

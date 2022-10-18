@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>leetcode: Palindrome Number | 李祖彬的博客</title>
+  <title>elasticsearch同时搜索多个字段 | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="class Solution &amp;#123;      &#x2F;**      * @param Integer $x      * @return Boolean      *&#x2F;     function isPalindrome($x) &amp;#123;         if($x &gt;&#x3D; 0 &amp;&amp; $x &lt; 10)&amp;#123;">
+  <meta name="description" content="在使用es做全文检索时,可以使用match来查询某个字段,如要查询标题中含有elasticsearch相关的内容: $client-&gt;search(     [         &#39;index&#39; &#x3D;&gt; &#39;test&#39;,         &#39;body&#39; &#x3D;&gt; [             &#39;query&#39; &amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode: Palindrome Number">
-<meta property="og:url" content="http://www.lizubin.com/2021/10/28/leetcode-Palindrome-Number/index.html">
+<meta property="og:title" content="elasticsearch同时搜索多个字段">
+<meta property="og:url" content="http://www.lizubin.com/2022/10/18/elasticsearch-multi-match/index.html">
 <meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="class Solution &amp;#123;      &#x2F;**      * @param Integer $x      * @return Boolean      *&#x2F;     function isPalindrome($x) &amp;#123;         if($x &gt;&#x3D; 0 &amp;&amp; $x &lt; 10)&amp;#123;">
+<meta property="og:description" content="在使用es做全文检索时,可以使用match来查询某个字段,如要查询标题中含有elasticsearch相关的内容: $client-&gt;search(     [         &#39;index&#39; &#x3D;&gt; &#39;test&#39;,         &#39;body&#39; &#x3D;&gt; [             &#39;query&#39; &amp;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-10-28T01:00:17.000Z">
-<meta property="article:modified_time" content="2022-09-04T06:33:17.572Z">
+<meta property="article:published_time" content="2022-10-18T08:26:32.000Z">
+<meta property="article:modified_time" content="2022-10-18T09:13:24.641Z">
 <meta property="article:author" content="李祖彬">
-<meta property="article:tag" content="leetcode,php,paligdrome">
+<meta property="article:tag" content="elasticsearch,multi_match">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../../../atom.xml" title="李祖彬的博客" type="application/atom+xml">
@@ -74,10 +74,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-leetcode-Palindrome-Number" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-elasticsearch-multi-match" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="" class="article-date">
-  <time class="dt-published" datetime="2021-10-28T01:00:17.000Z" itemprop="datePublished">2021-10-28</time>
+  <time class="dt-published" datetime="2022-10-18T08:26:32.000Z" itemprop="datePublished">2022-10-18</time>
 </a>
     
   </div>
@@ -88,7 +88,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      leetcode: Palindrome Number
+      elasticsearch同时搜索多个字段
     </h1>
   
 
@@ -96,45 +96,60 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+        <p>在使用es做全文检索时,可以使用<code>match</code>来查询某个字段,如要查询标题中含有<code>elasticsearch</code>相关的内容:</p>
+<pre class="line-numbers language-none"><code class="language-none">$client-&gt;search(
+    [
+        &#39;index&#39; &#x3D;&gt; &#39;test&#39;,
+        &#39;body&#39; &#x3D;&gt; [
+            &#39;query&#39; &#x3D;&gt; [
+                &#39;bool&#39; &#x3D;&gt; [
+                    &#39;must&#39; &#x3D;&gt; [
+                        [
+                            &#39;match&#39; &#x3D;&gt; [
+                                &#39;title&#39; &#x3D;&gt; [
+                                    &#39;query&#39; &#x3D;&gt; &#39;elasticsearch&#39;
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    ]
+);</code></pre>
 
-    &#x2F;**
-     * @param Integer $x
-     * @return Boolean
-     *&#x2F;
-    function isPalindrome($x) &#123;
-        if($x &gt;&#x3D; 0 &amp;&amp; $x &lt; 10)&#123;
-            return true;
-        &#125;
-
-        if ($x &lt; 0 || $x % 10 &#x3D;&#x3D;&#x3D; 0) &#123;
-            return false;
-        &#125;
-
-
-        return $this-&gt;reverse($x) &#x3D;&#x3D;&#x3D; $x;
-    &#125;
-
-    function reverse($x)&#123;
-        $sum &#x3D; 0;
-        while($x &gt;&#x3D; 10)&#123;
-            $last &#x3D; $x % 10;
-            $x &#x3D; intval($x &#x2F; 10);
-            $sum &#x3D; $sum * 10 + $last;
-        &#125;
-
-        return $sum * 10 + $x;
-    &#125;
-&#125;</code></pre>
-
+<p>现在需要检索标题、副标题、内容都含有<code>elasticsearch</code>相关的内容就可以使用<code>multi_match</code>:</p>
+<pre class="line-numbers language-none"><code class="language-none">$client-&gt;search(
+    [
+        &#39;index&#39; &#x3D;&gt; &#39;test&#39;,
+        &#39;body&#39; &#x3D;&gt; [
+            &#39;query&#39; &#x3D;&gt; [
+                &#39;bool&#39; &#x3D;&gt; [
+                    &#39;must&#39; &#x3D;&gt; [
+                        [
+                            &#39;multi_match&#39; &#x3D;&gt; [
+                                &#39;query&#39; &#x3D;&gt; &#39;elasticsearch&#39;,
+                                &#39;fields&#39; &#x3D;&gt; [
+                                    &#39;title&#39;,
+                                    &#39;subtitle&#39;,
+                                    &#39;content&#39;
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    ]
+);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.lizubin.com/2021/10/28/leetcode-Palindrome-Number/" data-id="cl9dk9rcr001jxkd349hbaqkf" data-title="leetcode: Palindrome Number" class="article-share-link">分享</a>
+      <a data-url="http://www.lizubin.com/2022/10/18/elasticsearch-multi-match/" data-id="cl9dzqhkg00002gd389jxhe9d" data-title="elasticsearch同时搜索多个字段" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/leetcode-php-paligdrome/" rel="tag">leetcode,php,paligdrome</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/elasticsearch-multi-match/" rel="tag">elasticsearch,multi_match</a></li></ul>
 
     </footer>
   </div>
@@ -142,19 +157,10 @@
     
 <nav id="article-nav">
   
-    <a href="../leetcode-String-to-Integer-atoi/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          leetcode: String to Integer (atoi)
-        
-      </div>
-    </a>
   
-  
-    <a href="../../20/leetcode-Reverse-Integer/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../11/5-ways-to-center-a-div-in-css/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">leetcode: Reverse Integer</div>
+      <div class="article-nav-title">css中5种居中方式</div>
     </a>
   
 </nav>
@@ -206,23 +212,23 @@
       <ul>
         
           <li>
-            <a href="../../../../2022/10/18/elasticsearch-multi-match/">elasticsearch同时搜索多个字段</a>
+            <a href="">elasticsearch同时搜索多个字段</a>
           </li>
         
           <li>
-            <a href="../../../../2022/10/11/5-ways-to-center-a-div-in-css/">css中5种居中方式</a>
+            <a href="../../11/5-ways-to-center-a-div-in-css/">css中5种居中方式</a>
           </li>
         
           <li>
-            <a href="../../../../2022/10/05/css-minmax/">CSS minmax()</a>
+            <a href="../../05/css-minmax/">CSS minmax()</a>
           </li>
         
           <li>
-            <a href="../../../../2022/10/05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/">几个网站让你从命令行知道自己的公网IP</a>
+            <a href="../../05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/">几个网站让你从命令行知道自己的公网IP</a>
           </li>
         
           <li>
-            <a href="../../../../2022/05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/">SimpleAjaxUploader上传后赋值失败问题</a>
+            <a href="../../../05/16/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/">SimpleAjaxUploader上传后赋值失败问题</a>
           </li>
         
       </ul>

@@ -1,1 +1,2 @@
 https://www.lizubin.com/frontend/window-opener-is-null.html
+https://www.lizubin.com/frontend/javascript-innertext-vs-textcontent.html

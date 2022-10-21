@@ -1,2 +1,6 @@
 https://www.lizubin.com/frontend/window-opener-is-null.html
 https://www.lizubin.com/frontend/javascript-innertext-vs-textcontent.html
+https://www.lizubin.com/frontend/window-opener-is-null.html
+https://www.lizubin.com/elasticsearch/logstash-mysql-elasticsearch.html
+https://www.lizubin.com/elasticsearch/elasticsearch-install.html
+https://www.lizubin.com/frontend/disable-browser-pull-to-refresh.html

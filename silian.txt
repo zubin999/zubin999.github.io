@@ -6,3 +6,4 @@ https://www.lizubin.com/elasticsearch/elasticsearch-install.html
 https://www.lizubin.com/frontend/disable-browser-pull-to-refresh.html
 https://www.lizubin.com/frontend/scroll-loading-next-page.html
 https://www.lizubin.com/frontend/force-to-refresh-on-ios.html
+https://www.lizubin.com/tips/git-add-multiple-location.html

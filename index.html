@@ -102,14 +102,19 @@
         || $_SERVER[&#39;SERVER_PORT&#39;] &#x3D;&#x3D; 443;
 &#125;</code></pre>
 
-<p>前面工作中遇到微信分享失败(没有缩略图的样式)，检查原因是签名失败。通过日志发现签名计算的<code>url</code>地址是<code>http</code>开头的，并非<code>https</code>,但项目全部都是使用的<code>https</code>。将<code>$_SERVER</code>加入日志中查看，</p>
+<p>前面工作中遇到微信分享失败(没有缩略图的样式)，检查原因是签名失败。通过日志发现签名计算的<code>url</code>地址是<code>http</code>开头的，并非<code>https</code>,但我访问的地址是<code>https</code>。将<code>$_SERVER</code>加入日志中查看，</p>
 <p><img src="/2022/11/07/php-check-if-request-is-https/0.png"></p>
-<p>发现<code>$_SERVER</code>中没有<code>HTTPS</code>变量，<code>SERVER_PORT</code>也是<code>80</code>端口，但看到了另外两个值为<code>https</code>的变量：<code>HTTP_X_FORWARDED_PROTO</code>和<code>HTTP_X_CLIENT_PROTO</code>。在wikipedia中看到<code>HTTP_X_FORWARDED_PROTO</code>的解释：</p>
+<p>发现<code>$_SERVER</code>中没有<code>HTTPS</code>变量，<code>SERVER_PORT</code>也是<code>80</code>端口，但看到了另外两个值为<code>https</code>的变量：<code>HTTP_X_FORWARDED_PROTO</code>和<code>HTTP_X_CLIENT_PROTO</code>。在搜索引擎中检索<code>HTTP_X_FORWARDED_PROTO</code>, 可以在MDN中看到<code>X_FORWARDED_PROTO</code>的解释：</p>
 <blockquote>
-<p>A de facto standard for identifying the originating protocol of an HTTP request, since a reverse proxy (or a load balancer) may communicate with a web server using HTTP even if the request to the reverse proxy is HTTPS. An alternative form of the header (X-ProxyUser-Ip) is used by Google clients talking to Google servers. Superseded by Forwarded header.</p>
+<p>The X-Forwarded-Proto (XFP) header is a de-facto standard header for identifying the protocol (HTTP or HTTPS) that a client used to connect to your proxy or load balancer. Your server access logs contain the protocol used between the server and the load balancer, but not the protocol used between the client and the load balancer. To determine the protocol used between the client and the load balancer, the X-Forwarded-Proto request header can be used.</p>
 </blockquote>
-<p>就是说当网站有使用代理或者负载均衡时，这时服务器判断是否是<code>https</code>，需要通过<code>HTTP_X_FORWARDED_PROTO</code>判断，因为代理或者负载均衡和服务器之间可能通过<code>http</code>通信的。</p>
-
+<p>就是说当网站有使用代理或者负载均衡时，这时服务器判断是否是<code>https</code>，需要通过<code>HTTP_X_FORWARDED_PROTO</code>判断，因为代理或者负载均衡和服务器之间可能通过<code>http</code>通信的。所以上面的方法应<br>改为:</p>
+<pre class="line-numbers language-none"><code class="language-none">function is_ssl()&#123;
+    return isset($_SERVER[&#39;HTTPS&#39;]) &amp;&amp; ($_SERVER[&#39;HTTPS&#39;] &#x3D;&#x3D; 1 || strtolower($_SERVER[&#39;HTTPS&#39;]) &#x3D;&#x3D;&#x3D; &#39;on&#39;) 
+        || isset($_SERVER[&#39;SERVER_PORT&#39;]) &amp;&amp; $_SERVER[&#39;SERVER_PORT&#39;] &#x3D;&#x3D; 443
+        || isset($_SERVER[&#39;HTTP_X_FORWARDED_PROTO&#39;]) &amp;&amp; $_SERVER[&#39;HTTP_X_FORWARDED_PROTO&#39;] &#x3D;&#x3D;&#x3D; &#39;https&#39;
+        || isset($_SERVER[&#39;HTTP_X_CLIENT_PROTO&#39;]) &amp;&amp; $_SERVER[&#39;HTTP_X_CLIENT_PROTO&#39;] &#x3D;&#x3D;&#x3D; &#39;https&#39;;
+&#125;</code></pre>
       
     </div>
     <footer class="article-footer">

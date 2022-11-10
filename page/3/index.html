@@ -74,6 +74,162 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-leetcode-String-to-Integer-atoi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/10/28/leetcode-String-to-Integer-atoi/" class="article-date">
+  <time class="dt-published" datetime="2021-10-28T01:02:42.000Z" itemprop="datePublished">2021-10-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/10/28/leetcode-String-to-Integer-atoi/">leetcode: String to Integer (atoi)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <pre class="line-numbers language-none"><code class="language-none">class Solution
+&#123;
+
+    &#x2F;**
+     * @param String $s
+     * @return Integer
+     *&#x2F;
+    public function myAtoi($s)
+    &#123;
+        $s &#x3D; ltrim($s);
+        if (empty($s)) &#123;
+            return 0;
+        &#125;
+
+        $ascii &#x3D; ord($s[0]);
+        $sign  &#x3D; $ascii &#x3D;&#x3D;&#x3D; 45;
+        if ($ascii &#x3D;&#x3D;&#x3D; 45 || $ascii &#x3D;&#x3D;&#x3D; 43) &#123;
+            $sum &#x3D; 0;
+        &#125; elseif ($ascii &gt;&#x3D; 48 &amp;&amp; $ascii &lt;&#x3D; 57) &#123;
+            $sum &#x3D; intval($s[0]);
+        &#125; else &#123;
+            return 0;
+        &#125;
+
+        for ($i &#x3D; 1, $len &#x3D; strlen($s); $i &lt; $len; ++$i) &#123;
+            $ascii &#x3D; ord($s[$i]);
+            if ($ascii &lt; 48 || $ascii &gt; 57) &#123;
+                break;
+            &#125;
+
+            $sum &#x3D; $sum * 10 + intval($s[$i]);
+        &#125;
+
+        if ($sign) &#123;
+            $sum *&#x3D; -1;
+        &#125;
+
+        $boundry &#x3D; pow(2, 31);
+        if ($sum &lt;&#x3D; -$boundry) &#123;
+            return -$boundry;
+        &#125; elseif ($sum &gt;&#x3D; --$boundry) &#123;
+            return $boundry;
+        &#125;
+
+        return $sum;
+    &#125;
+&#125;</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.lizubin.com/2021/10/28/leetcode-String-to-Integer-atoi/" data-id="cl9dk9rcu001nxkd35ajc0iy2" data-title="leetcode: String to Integer (atoi)" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-Palindrome-Number" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/10/28/leetcode-Palindrome-Number/" class="article-date">
+  <time class="dt-published" datetime="2021-10-28T01:00:17.000Z" itemprop="datePublished">2021-10-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/10/28/leetcode-Palindrome-Number/">leetcode: Palindrome Number</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+
+    &#x2F;**
+     * @param Integer $x
+     * @return Boolean
+     *&#x2F;
+    function isPalindrome($x) &#123;
+        if($x &gt;&#x3D; 0 &amp;&amp; $x &lt; 10)&#123;
+            return true;
+        &#125;
+
+        if ($x &lt; 0 || $x % 10 &#x3D;&#x3D;&#x3D; 0) &#123;
+            return false;
+        &#125;
+
+
+        return $this-&gt;reverse($x) &#x3D;&#x3D;&#x3D; $x;
+    &#125;
+
+    function reverse($x)&#123;
+        $sum &#x3D; 0;
+        while($x &gt;&#x3D; 10)&#123;
+            $last &#x3D; $x % 10;
+            $x &#x3D; intval($x &#x2F; 10);
+            $sum &#x3D; $sum * 10 + $last;
+        &#125;
+
+        return $sum * 10 + $x;
+    &#125;
+&#125;</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.lizubin.com/2021/10/28/leetcode-Palindrome-Number/" data-id="cl9dk9rcr001jxkd349hbaqkf" data-title="leetcode: Palindrome Number" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-php-paligdrome/" rel="tag">leetcode,php,paligdrome</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-leetcode-Reverse-Integer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/10/20/leetcode-Reverse-Integer/" class="article-date">
@@ -809,375 +965,6 @@ class Solution &#123;
 
 
   
-    <article id="post-使用Zephir写PHP扩展" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/07/31/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95/" class="article-date">
-  <time class="dt-published" datetime="2020-07-31T08:45:40.000Z" itemprop="datePublished">2020-07-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/07/31/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95/">使用Zephir写PHP扩展</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><code>PHP</code>由<code>c语言</code>写的，如果要编写<code>PHP扩展</code>，我们需要理解<code>PHP源码</code>，需要使用<code>c语言</code>来编写扩展程序，这样步骤繁琐，入门门槛高。有了<code>Zephir</code>之后，编写<code>PHP扩展</code>，就和编写<code>PHP代码</code>一样简单。</p>
-<h1 id="安装Zephir"><a href="#安装Zephir" class="headerlink" title="安装Zephir"></a>安装Zephir</h1><ul>
-<li>安装Zephir parser</li>
-</ul>
-<p>准备需要用到的东西：</p>
-<pre class="line-numbers language-none"><code class="language-none">sudo yum install php-devel gcc make re2c autoconf automake</code></pre>
-
-<p>得到下面的结果：</p>
-<blockquote>
-<p>[root@centos8 zeno]# sudo yum install php-devel gcc make re2c autoconf automake<br>Last metadata expiration check: 1:03:17 ago on Fri 31 Jul 2020 04:20:32 PM CST.<br>Package gcc-8.3.1-5.el8.0.2.x86_64 is already installed.<br>Package make-1:4.2.1-10.el8.x86_64 is already installed.<br>No match for argument: re2c<br>Package autoconf-2.69-27.el8.noarch is already installed.<br>Package automake-1.16.1-6.el8.noarch is already installed.<br>Error: Unable to find a match: re2c</p>
-</blockquote>
-<p>re2c没有找到，那自己下载安装：</p>
-<pre class="line-numbers language-none"><code class="language-none">wget https:&#x2F;&#x2F;github.com&#x2F;skvadrik&#x2F;re2c&#x2F;archive&#x2F;2.0.1.tar.gz</code></pre>
-
-<p>本地有一个<code>2.0.1.tar.gz</code>的文件，解压re2c并进入目录：</p>
-<pre class="line-numbers language-none"><code class="language-none">tar xzf 2.0.1.tar.gz
-cd re2c-2.0.1&#x2F;</code></pre>
-
-<p>得到文件：</p>
-<blockquote>
-<p>[zeno@centos8 re2c-2.0.1]$ ls<br>add-release.txt  benchmarks  build      cmake     configure.ac  examples  include  libre2c_old<br>Makefile.am      NO_WARRANTY  release.sh       sf-cheatsheet  test<br>autogen.sh       bootstrap   CHANGELOG  CMakeLists.txt  doc           fuzz      lib      LICENSE      &gt;Makefile.lib.am  README.md    run_tests.sh.in  src</p>
-</blockquote>
-<p>使用autoreconf命令：</p>
-<pre class="line-numbers language-none"><code class="language-none">autoreconf -i -W all</code></pre>
-
-<p>再次查看目录文件:</p>
-<blockquote>
-<p>[zeno@centos8 re2c-2.0.1]$ ls<br>aclocal.m4       autogen.sh      benchmarks  build      CHANGELOG  CMakeLists.txt  configure     doc       &gt;fuzz     lib          LICENSE  Makefile.am  Makefile.lib.am  README.md   run_tests.sh.in  src<br>add-release.txt autom4te.cache bootstrap   build-aux  cmake   config.h.in  configure.ac  examples<br>include  libre2c_old  m4       Makefile.in  NO_WARRANTY      release.sh  sf-cheatsheet    test</p>
-</blockquote>
-<p>可以看到有个<code>configuer</code>文件。安装：</p>
-<pre class="line-numbers language-none"><code class="language-none">.&#x2F;configure &amp;&amp; sudo make &amp;&amp; sudo make install</code></pre>
-
-<p>现在需要的东西都已准备好了。安装Zephir-parser：</p>
-<pre class="line-numbers language-none"><code class="language-none">git clone git:&#x2F;&#x2F;github.com&#x2F;phalcon&#x2F;php-zephir-parser.git
-cd php-zephir-parser
-phpize
-.&#x2F;configure --with-php-config&#x3D;&#x2F;usr&#x2F;local&#x2F;php&#x2F;bin&#x2F;php-config
-make
-sudo make install</code></pre>
-
-<p>在<code>php.ini</code>中开启扩展：</p>
-<pre class="line-numbers language-none"><code class="language-none">extension&#x3D;zephir_parser.so</code></pre>
-
-<p>接下来就是安装zephir了。这一步十分简单，只需从<code>https://github.com/phalcon/zephir/releases/latest</code>下载<code>zephir.phar</code>文件，然后将其移入&#x2F;usr&#x2F;bin&#x2F;或者&#x2F;usr&#x2F;local&#x2F;bin目录下，再加上可执行权限：</p>
-<pre class="line-numbers language-none"><code class="language-none">mv zephir.phar &#x2F;usr&#x2F;bin&#x2F;zephir
-chmod +x &#x2F;usr&#x2F;bin&#x2F;zephir</code></pre>
-
-<p>zephir便已经安装上了。测试一下，可以在输入命令<code>zephir</code>或<code>zephir help</code>，如果出现zephir的使用介绍便证明安装成功了。</p>
-<h1 id="扩展需求及初始化"><a href="#扩展需求及初始化" class="headerlink" title="扩展需求及初始化"></a>扩展需求及初始化</h1><p>在开发api的过程中，经常我们会遇到需要显示<code>xx秒前</code>、<code>xx天前</code>这样的格式，现在就写一个扩展，将传入进来的时间戳转换为对应的格式后返回。</p>
-<p>首先，初始化项目：</p>
-<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 这里zephir会自动将大写转为小写，所以直接用小写
-zephir init timehelper
-cd timehelper&#x2F;timehelper</code></pre>
-
-<p>在这个目录下建一个文件：<code>helper.zep</code>，先写一个测试方法输出<code>hello world</code>：</p>
-<pre class="line-numbers language-none"><code class="language-none">namespace TimeHelper;
-
-class Helper &#123;
-
-    public static function say()&#123;
-        echo &quot;hello world!&quot;;
-    &#125;
-&#125;
-</code></pre>
-
-<p>然后使用<code>zephir build</code>来编译安装扩展程序，如果编译安装成功会得到提示：</p>
-<pre class="line-numbers language-none"><code class="language-none">Preparing for PHP compilation...
-Preparing configuration file...
-Compiling...
-Installing...
-
-Extension installed.
-Add &quot;extension&#x3D;timehelper.so&quot; to your php.ini
-
-! [NOTE] Don&#39;t forget to restart your web server</code></pre>
-
-<p>现在，只需在<code>php.ini</code>文件里加上<code>extension=timehelper.so</code>就能使用扩展了。</p>
-<h1 id="测试扩展程序"><a href="#测试扩展程序" class="headerlink" title="测试扩展程序"></a>测试扩展程序</h1><p>刚刚安装了<code>timehelper</code>这个扩展程序，要怎么使用呢？新建一个PHP文件，加入下面一行代码：</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;?php
-TimeHelper\Helper::say();</code></pre>
-
-<p>保存为<code>test.php</code>后使用PHP执行：<code>php test.php</code>，如果输出了<code>hello world</code>，那就成功了。</p>
-<h1 id="编写扩展"><a href="#编写扩展" class="headerlink" title="编写扩展"></a>编写扩展</h1><pre class="line-numbers language-none"><code class="language-none">
-namespace TimeHelper;
-
-class Helper &#123;
-
-    public static function say()&#123;
-        echo &quot;hello world!&quot;;
-    &#125;
-    
-    public function before(int! sec)-&gt; string|bool &#123;
-        if sec &gt; time() || sec &lt; 0 &#123;
-            return false;
-        &#125;
-        
-        int diff;
-        let diff &#x3D; time() - sec;
-        if diff &lt;&#x3D; 60 &#123;
-            return diff . &quot;秒前&quot;;
-        &#125;
-
-        if diff &gt; 60 &amp;&amp; diff &lt; 3600 &#123;
-            return this-&gt;getMin(diff);
-        &#125;
-
-        if diff &gt;&#x3D; 3600 &amp;&amp; diff &lt; 86400 &#123;
-            return this-&gt;getHour(diff);
-        &#125;
-
-        if diff &gt;&#x3D; 86400 &amp;&amp; diff &lt; 2592000 &#123;
-            return this-&gt;getDay(diff);
-        &#125;
-
-        if diff &gt;&#x3D; 2592000 &amp;&amp; diff &lt; 2592000 * 12 &#123;
-            return this-&gt;getMonth(diff);
-        &#125;
-        
-        return this-&gt;getYear(diff);
-    &#125;
-
-    private function getMin(int! sec)-&gt; string&#123;
-            if sec &#x3D;&#x3D;&#x3D; 0 &#123;
-                return &quot;&quot;;
-            &#125;
-
-            int min &#x3D; intval(sec &#x2F; 60);
-            let sec &#x3D; sec % 60;
-            if sec &gt; 0 &#123;
-                return min . &quot;分&quot; . sec . &quot;秒前&quot;;
-            &#125;
-
-            return min . &quot;分前&quot;;
-    &#125;
-
-    private function getHour(int! sec)-&gt; string &#123;
-            int hour &#x3D; intval(sec &#x2F; 3600);
-            int diff &#x3D; sec % 3600;
-            var min &#x3D; this-&gt;getMin(diff);
-
-            if strlen(min) &#123;
-                return hour . &quot;小时&quot; . min;
-            &#125;
-
-            return hour . &quot;小时前&quot;;
-    &#125;
-
-    private function getDay(int! sec)-&gt;string &#123;
-            int day &#x3D; intval(sec &#x2F; 86400);
-
-            return day . &quot;天前&quot;;
-    &#125;
-
-    private function getMonth(int! sec)-&gt; string &#123;
-            int month &#x3D; intval(sec &#x2F; 2592000);
-
-            return month . &quot;月前&quot;;
-    &#125;
-
-    private function getYear(int! sec) -&gt; string &#123;
-            int year &#x3D; intval(sec &#x2F; 2592000 &#x2F; 365);
-
-            return year . &quot;年前&quot;;
-    &#125;
-&#125;
-</code></pre>
-
-<ul>
-<li>PHP测试程序</li>
-</ul>
-<p>修改刚刚的<code>test.php</code>为下：</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;?php
-$helper &#x3D; new TimeHelper\Helper();
-
-&#x2F;&#x2F; xx秒前
-$sec &#x3D; time() - 50 ;
-echo $helper-&gt;before($sec), &quot;\n&quot;;
-
-&#x2F;&#x2F; xx分xx秒前
-$sec &#x3D; time() - 73;
-echo $helper-&gt;before($sec), &quot;\n&quot;;
-
-&#x2F;&#x2F; xx小时前
-$sec &#x3D; time() - 3950;
-echo $helper-&gt;before($sec), &quot;\n&quot;;
-
-&#x2F;&#x2F; xx天前
-$sec &#x3D; time() - 86600;
-echo $helper-&gt;before($sec), &quot;\n&quot;;
-
-&#x2F;&#x2F; xx月前
-$sec &#x3D; time() - 2597000;
-echo $helper-&gt;before($sec), &quot;\n&quot;;
-
-&#x2F;&#x2F; xx年前
-$sec &#x3D; time() - 948672000;
-echo $helper-&gt;before($sec), &quot;\n&quot;;</code></pre>
-
-<p>在使用PHP执行该文件后可以看到输出：</p>
-<pre class="line-numbers language-none"><code class="language-none">50秒前
-1分13秒前
-1小时5分50秒前
-1天前
-1月前
-1年前</code></pre>
-
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ul>
-<li>在zephir的代码里，可以直接使用PHP的内置函数，如上面用到<code>time</code>,<code>intval</code></li>
-<li>zephir里返回值可以多个，用<code>|</code>分隔</li>
-<li>zephir里参数可以不指定类型：</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">public function say(str)&#123;&#125;</code></pre>
-
-<p>也可以指定(直接写类型，不加感叹号)：</p>
-<pre class="line-numbers language-none"><code class="language-none">public function say(string str)&#123;&#125;</code></pre>
-
-<p>还可以强制指定类型(加感叹号在类型后面)：</p>
-<pre class="line-numbers language-none"><code class="language-none">public function say(string! str)&#123;&#125;</code></pre>
-
-<p>后面两种差别是前者传入类型不一致会作类型转换，转换不成功会报错，后者不会作类型转换，类型必须一致。</p>
-<ul>
-<li>之前我是在Windows的虚拟机里使用，代码写在Linux和Windows的共享目录里，在Linux终端运行<code>zephir build</code>编译失败，因为底层gcc编译会当做跨平台编译，需要传入–host参数，但是zephir命令还不支持传参给gcc，所有把代码移出共享目录，放Linux下任意目录编译成功。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2020/07/31/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95/" data-id="cl9dk9rd20024xkd33a9a68k5" data-title="使用Zephir写PHP扩展" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" rel="tag">php,zephir,扩展</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-PHP多个CURL请求异步执行" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/02/28/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/" class="article-date">
-  <time class="dt-published" datetime="2020-02-28T02:38:26.000Z" itemprop="datePublished">2020-02-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/02/28/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/">PHP多个CURL请求异步执行</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>先看PHP简单的curl请求:</p>
-<pre class="line-numbers language-none"><code class="language-none">$ch &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example.com&#39;);
-curl_setopt($ch, CURLOPT_HEADER, 0);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_exec($ch);
-curl_close($ch);</code></pre>
-
-<p>如果有多个请求,那么需要多次重复上面的操作:</p>
-<pre class="line-numbers language-none"><code class="language-none">$ch &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example1.com&#39;);
-curl_setopt($ch, CURLOPT_HEADER, 0);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_exec($ch);
-curl_close($ch);
-
-$ch &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example2.com&#39;);
-curl_setopt($ch, CURLOPT_HEADER, 0);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_exec($ch);
-curl_close($ch);
-
-&#x2F;&#x2F; 更多的请求...</code></pre>
-
-<p>这样,所需时间是每个请求消耗的时间之和.如果有5个请求,每个请求耗时1秒,那么需要5秒的时间.换作异步执行,所需耗时是最长时间的那个请求的时间,那么久只需要1秒钟完成5个请求.</p>
-<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 同样先初始化curl
-$ch1 &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example1.com&#39;);
-curl_setopt($ch1, CURLOPT_HEADER, 0);
-curl_setopt($ch1, CURLOPT_RETURNTRANSFER, 1);
-&#x2F;&#x2F; 这里不再使用curl_exec
-$ch2 &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example2.com&#39;);
-curl_setopt($ch2, CURLOPT_HEADER, 0);
-curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
-&#x2F;&#x2F; 初始化异步多请求
-$mh &#x3D; curl_multi_init();
-&#x2F;&#x2F; 添加前面的每个handle
-curl_multi_add_handle($mh, $ch1);
-curl_multi_add_handle($mh, $ch2);
-
-&#x2F;&#x2F; 执行请求
-$active &#x3D; null;
-do &#123;
-    $status &#x3D; curl_multi_exec($mh, $active);
-&#125;while($status &#x3D;&#x3D;&#x3D; CURLM_CALL_MULTI_PERFORM);
-while ($active &amp;&amp; $status &#x3D;&#x3D; CURLM_OK)&#123;
-    &#x2F;&#x2F; 即使未还有未执行完的请求这里也可能是-1
-    &#x2F;&#x2F; 参考: https:&#x2F;&#x2F;www.php.net&#x2F;manual&#x2F;en&#x2F;function.curl-multi-select.php#115381
-    if(curl_multi_select($mh) &#x3D;&#x3D;&#x3D; -1)&#123;
-        usleep(100);
-    &#125;
-        
-    do &#123;
-        $status &#x3D; curl_multi_exec($mh, $active);
-    &#125;while ($status &#x3D;&#x3D;&#x3D; CURLM_CALL_MULTI_PERFORM);
-&#125;
-
-&#x2F;&#x2F; 如果需要返回结果
-$res[] &#x3D; curl_multi_getcontent($ch1);
-$res[] &#x3D; curl_multi_getcontent($ch2);
-
-&#x2F;&#x2F; 移除handle
-curl_multi_remove_handle($ch1);
-curl_multi_remove_handle($ch2);
-
-&#x2F;&#x2F; 关闭
-curl_multi_close($mh);</code></pre>
-
-<p>在具体业务中,可能就是以数组的形式传入所需请求的URL,参数等.我们可以使用循环来操作.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2020/02/28/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C/" data-id="cl9dk9rbx000jxkd3e5k05b2m" data-title="PHP多个CURL请求异步执行" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1196,7 +983,7 @@ curl_multi_close($mh);</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS-minmax/" rel="tag">CSS,minmax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css-%E5%B1%85%E4%B8%AD/" rel="tag">css,居中</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasitcsearch-memory/" rel="tag">elasitcsearch,memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-multi-match/" rel="tag">elasticsearch,multi_match</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-window-opener/" rel="tag">javascript,window.opener</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-4sum/" rel="tag">leetcode,php,4sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-ZigZag/" rel="tag">leetcode,php,ZigZag</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-add-two-numbers/" rel="tag">leetcode,php,add two numbers</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-paligdrome/" rel="tag">leetcode,php,paligdrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-reverse/" rel="tag">leetcode,php,reverse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-tow-sum/" rel="tag">leetcode,php,tow sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">logstash,elasitcsearch,mysql,数据同步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-https/" rel="tag">php,https</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" rel="tag">php,zephir,扩展</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" rel="tag">vagrant,磁盘空间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" rel="tag">命令,IP,公网</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2048-javascript/" rel="tag">2048,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS-minmax/" rel="tag">CSS,minmax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-innerText-textContent/" rel="tag">JavaScript,innerText,textContent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,es6,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" rel="tag">JavaScript,js,函数,默认值</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">JavaScript,数组,字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax/" rel="tag">ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag">ajax,上传文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">canvas,压缩图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css-%E5%B1%85%E4%B8%AD/" rel="tag">css,居中</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasitcsearch-memory/" rel="tag">elasitcsearch,memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-multi-match/" rel="tag">elasticsearch,multi_match</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-nested/" rel="tag">elasticsearch,nested</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-nproc/" rel="tag">elasticsearch,nproc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" rel="tag">elasticsearch,安装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6-javascript/" rel="tag">es6,javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang-rpc/" rel="tag">golang,rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">ios,webview,强制刷新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-window-opener/" rel="tag">javascript,window.opener</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">javascript,频繁调用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php/" rel="tag">leetcode,php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-4sum/" rel="tag">leetcode,php,4sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-ZigZag/" rel="tag">leetcode,php,ZigZag</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-add-two-numbers/" rel="tag">leetcode,php,add two numbers</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-paligdrome/" rel="tag">leetcode,php,paligdrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-reverse/" rel="tag">leetcode,php,reverse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-php-tow-sum/" rel="tag">leetcode,php,tow sum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">logstash,elasitcsearch,mysql,数据同步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-emoji/" rel="tag">mysql,emoji</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" rel="tag">mysql,数据,文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nfs-ipv6/" rel="tag">nfs,ipv6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-Volt/" rel="tag">phalcon,Volt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" rel="tag">phalcon,view,缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" rel="tag">php,curl,并行请求</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-https/" rel="tag">php,https</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" rel="tag">php,zephir,扩展</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phpstorm-phalcon/" rel="tag">phpstorm,phalcon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sersync-rsync-auth/" rel="tag">sersync,rsync,auth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" rel="tag">vagrant,磁盘空间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows-11-ubuntu-wsl/" rel="tag">windows 11,ubuntu,wsl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" rel="tag">命令,IP,公网</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" rel="tag">小程序,header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" rel="tag">小程序,模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">表单,自动填充</a></li></ul>
     </div>
   </div>
 
@@ -1206,7 +993,7 @@ curl_multi_close($mh);</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="/tags/CSS-minmax/" style="font-size: 10px;">CSS,minmax</a> <a href="/tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="/tags/css-%E5%B1%85%E4%B8%AD/" style="font-size: 10px;">css,居中</a> <a href="/tags/elasitcsearch-memory/" style="font-size: 10px;">elasitcsearch,memory</a> <a href="/tags/elasticsearch-multi-match/" style="font-size: 10px;">elasticsearch,multi_match</a> <a href="/tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="/tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="/tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="/tags/javascript-window-opener/" style="font-size: 10px;">javascript,window.opener</a> <a href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="/tags/leetcode-php/" style="font-size: 20px;">leetcode,php</a> <a href="/tags/leetcode-php-4sum/" style="font-size: 10px;">leetcode,php,4sum</a> <a href="/tags/leetcode-php-ZigZag/" style="font-size: 10px;">leetcode,php,ZigZag</a> <a href="/tags/leetcode-php-add-two-numbers/" style="font-size: 10px;">leetcode,php,add two numbers</a> <a href="/tags/leetcode-php-paligdrome/" style="font-size: 10px;">leetcode,php,paligdrome</a> <a href="/tags/leetcode-php-reverse/" style="font-size: 10px;">leetcode,php,reverse</a> <a href="/tags/leetcode-php-tow-sum/" style="font-size: 10px;">leetcode,php,tow sum</a> <a href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">logstash,elasitcsearch,mysql,数据同步</a> <a href="/tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="/tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="/tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">php,curl,并行请求</a> <a href="/tags/php-https/" style="font-size: 10px;">php,https</a> <a href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" style="font-size: 10px;">php,zephir,扩展</a> <a href="/tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="/tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">vagrant,磁盘空间</a> <a href="/tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" style="font-size: 10px;">命令,IP,公网</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
+      <a href="/tags/2048-javascript/" style="font-size: 10px;">2048,javascript</a> <a href="/tags/CSS-minmax/" style="font-size: 10px;">CSS,minmax</a> <a href="/tags/JavaScript-innerText-textContent/" style="font-size: 10px;">JavaScript,innerText,textContent</a> <a href="/tags/JavaScript-js-es6-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,es6,默认值</a> <a href="/tags/JavaScript-js-%E5%87%BD%E6%95%B0-%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 10px;">JavaScript,js,函数,默认值</a> <a href="/tags/JavaScript-%E6%95%B0%E7%BB%84-%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">JavaScript,数组,字符串</a> <a href="/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/tags/ajax-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">ajax,上传文件</a> <a href="/tags/canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">canvas,压缩图片</a> <a href="/tags/css-%E5%B1%85%E4%B8%AD/" style="font-size: 10px;">css,居中</a> <a href="/tags/elasitcsearch-memory/" style="font-size: 10px;">elasitcsearch,memory</a> <a href="/tags/elasticsearch-multi-match/" style="font-size: 10px;">elasticsearch,multi_match</a> <a href="/tags/elasticsearch-nested/" style="font-size: 10px;">elasticsearch,nested</a> <a href="/tags/elasticsearch-nproc/" style="font-size: 10px;">elasticsearch,nproc</a> <a href="/tags/elasticsearch-%E5%AE%89%E8%A3%85/" style="font-size: 10px;">elasticsearch,安装</a> <a href="/tags/es6-javascript/" style="font-size: 10px;">es6,javascript</a> <a href="/tags/golang-rpc/" style="font-size: 10px;">golang,rpc</a> <a href="/tags/ios-webview-%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">ios,webview,强制刷新</a> <a href="/tags/javascript-window-opener/" style="font-size: 10px;">javascript,window.opener</a> <a href="/tags/javascript-%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">javascript,频繁调用</a> <a href="/tags/leetcode-php/" style="font-size: 20px;">leetcode,php</a> <a href="/tags/leetcode-php-4sum/" style="font-size: 10px;">leetcode,php,4sum</a> <a href="/tags/leetcode-php-ZigZag/" style="font-size: 10px;">leetcode,php,ZigZag</a> <a href="/tags/leetcode-php-add-two-numbers/" style="font-size: 10px;">leetcode,php,add two numbers</a> <a href="/tags/leetcode-php-paligdrome/" style="font-size: 10px;">leetcode,php,paligdrome</a> <a href="/tags/leetcode-php-reverse/" style="font-size: 10px;">leetcode,php,reverse</a> <a href="/tags/leetcode-php-tow-sum/" style="font-size: 10px;">leetcode,php,tow sum</a> <a href="/tags/logstash-elasitcsearch-mysql-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">logstash,elasitcsearch,mysql,数据同步</a> <a href="/tags/mysql-emoji/" style="font-size: 10px;">mysql,emoji</a> <a href="/tags/mysql-%E6%95%B0%E6%8D%AE-%E6%96%87%E4%BB%B6/" style="font-size: 10px;">mysql,数据,文件</a> <a href="/tags/nfs-ipv6/" style="font-size: 10px;">nfs,ipv6</a> <a href="/tags/phalcon-Volt/" style="font-size: 10px;">phalcon,Volt</a> <a href="/tags/phalcon-view-%E7%BC%93%E5%AD%98/" style="font-size: 10px;">phalcon,view,缓存</a> <a href="/tags/php-curl-%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">php,curl,并行请求</a> <a href="/tags/php-https/" style="font-size: 10px;">php,https</a> <a href="/tags/php-zephir-%E6%89%A9%E5%B1%95/" style="font-size: 10px;">php,zephir,扩展</a> <a href="/tags/phpstorm-phalcon/" style="font-size: 10px;">phpstorm,phalcon</a> <a href="/tags/sersync-rsync-auth/" style="font-size: 10px;">sersync,rsync,auth</a> <a href="/tags/vagrant-%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">vagrant,磁盘空间</a> <a href="/tags/windows-11-ubuntu-wsl/" style="font-size: 10px;">windows 11,ubuntu,wsl</a> <a href="/tags/%E5%91%BD%E4%BB%A4-IP-%E5%85%AC%E7%BD%91/" style="font-size: 10px;">命令,IP,公网</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/" style="font-size: 10px;">小程序,header</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">小程序,模板</a> <a href="/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">表单,自动填充</a>
     </div>
   </div>
 
@@ -1228,6 +1015,14 @@ curl_multi_close($mh);</code></pre>
       <ul>
         
           <li>
+            <a href="/2022/11/09/System-has-not-been-booted-with-systemd-as-init-system/">System has not been booted with systemd as init system</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/09/elasticsearch-nested-search/">elasticsearch nested搜索</a>
+          </li>
+        
+          <li>
             <a href="/2022/11/07/php-check-if-request-is-https/">php检查请求是否为https</a>
           </li>
         
@@ -1237,14 +1032,6 @@ curl_multi_close($mh);</code></pre>
         
           <li>
             <a href="/2022/10/11/5-ways-to-center-a-div-in-css/">css中5种居中方式</a>
-          </li>
-        
-          <li>
-            <a href="/2022/10/05/css-minmax/">CSS minmax()</a>
-          </li>
-        
-          <li>
-            <a href="/2022/10/05/%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99%E8%AE%A9%E4%BD%A0%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E7%BD%91IP/">几个网站让你从命令行知道自己的公网IP</a>
           </li>
         
       </ul>

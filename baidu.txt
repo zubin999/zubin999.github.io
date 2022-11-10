@@ -1,3 +1,5 @@
+https://www.lizubin.com/2022/11/09/elasticsearch-nested-search/
+https://www.lizubin.com/2022/11/09/System-has-not-been-booted-with-systemd-as-init-system/
 https://www.lizubin.com/2022/11/07/php-check-if-request-is-https/
 https://www.lizubin.com/2022/10/18/elasticsearch-multi-match/
 https://www.lizubin.com/2022/10/11/5-ways-to-center-a-div-in-css/
@@ -96,3 +98,5 @@ https://www.lizubin.com/tags/%E8%A1%A8%E5%8D%95-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%8
 https://www.lizubin.com/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F-header/
 https://www.lizubin.com/tags/elasticsearch-multi-match/
 https://www.lizubin.com/tags/php-https/
+https://www.lizubin.com/tags/windows-11-ubuntu-wsl/
+https://www.lizubin.com/tags/elasticsearch-nested/

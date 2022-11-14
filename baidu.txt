@@ -1,3 +1,4 @@
+https://www.lizubin.com/2022/11/14/SQLSTATE-HY000-1045-Access-denied/
 https://www.lizubin.com/2022/11/09/elasticsearch-nested-search/
 https://www.lizubin.com/2022/11/09/System-has-not-been-booted-with-systemd-as-init-system/
 https://www.lizubin.com/2022/11/07/php-check-if-request-is-https/
@@ -100,3 +101,6 @@ https://www.lizubin.com/tags/elasticsearch-multi-match/
 https://www.lizubin.com/tags/php-https/
 https://www.lizubin.com/tags/windows-11-ubuntu-wsl/
 https://www.lizubin.com/tags/elasticsearch-nested/
+https://www.lizubin.com/tags/mysql/
+https://www.lizubin.com/tags/phalcon/
+https://www.lizubin.com/tags/transaction/

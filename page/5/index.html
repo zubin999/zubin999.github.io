@@ -6,16 +6,12 @@
   
   <title>李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录一些工作中的问题以及解决办法">
-<meta property="og:type" content="website">
-<meta property="og:title" content="李祖彬的博客">
-<meta property="og:url" content="https://www.lizubin.com/page/5/index.html">
-<meta property="og:site_name" content="李祖彬的博客">
-<meta property="og:description" content="记录一些工作中的问题以及解决办法">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="李祖彬">
-<meta property="article:tag" content="李祖彬,李祖彬的博客,工作,PHP,JavaScript,js,前端">
-<meta name="twitter:card" content="summary">
+  
+  <meta name="google-site-verification" content="cnfvbLxGQVUqJA07xjs400UpudKGP4An6xmyJDBiDlM" />
+  <meta name="description" content="各种常见的，非常见的PHP，JavaScript，HTML，MySQL，phalcon等问题以及解决办法">
+  
+  
+  <meta name="author" content="李祖彬">
   
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -61,7 +57,7 @@
         <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.lizubin.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lizubin.com"></form>
       </div>
     </div>
   </div>
@@ -70,9 +66,179 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user.html" class="article-date">
+  <time class="dt-published" datetime="2019-09-10T09:33:28.000Z" itemprop="datePublished">2019-09-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user.html">auth failed from unknown (xx.xx.xx.xx) unauthorised user</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在部署<code>sersync + rsync</code>时，一直不成功，从日志中看到：</p>
+<pre class="line-numbers language-none"><code class="language-none">auth failed from unknown (xx.xx.xx.xx) unauthorised user</code></pre>
+
+<p>从报错中可以看出可能是两个原因：</p>
+<ol>
+<li>unknown (xx.xx.xx.xx)</li>
+<li>unauthorised user</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user.html" data-id="cl9dk9rc5000wxkd3gpzlawlf" data-title="auth failed from unknown (xx.xx.xx.xx) unauthorised user" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/auth/" rel="tag">auth</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rsync/" rel="tag">rsync</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sersync/" rel="tag">sersync</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6.html" class="article-date">
+  <time class="dt-published" datetime="2019-09-10T04:55:18.000Z" itemprop="datePublished">2019-09-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6.html">Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在安装好nfs后，重启服务：</p>
+<pre class="line-numbers language-none"><code class="language-none">service nfs restart1</code></pre>
+
+<p>得到下面报错：</p>
+<pre class="line-numbers language-none"><code class="language-none">Starting kernel based NFS server: idmapd mountdrpc.mountd: svc_tli_create:
+could not open connection for udp6
+rpc.mountd: svc_tli_create: could not open connection for tcp6
+rpc.mountd: svc_tli_create: could not open connection for udp6
+rpc.mountd: svc_tli_create: could not open connection for tcp6
+rpc.mountd: svc_tli_create: could not open connection for udp6
+rpc.mountd: svc_tli_create: could not open connection for tcp6
+statd nfsdrpc.nfsd: address family inet6 not supported by protocol TCP
+sm-notify
+done</code></pre>
+
+
+<p>udp6是用于IPV6的，所以这里可以在<code>/etc/netconfig</code>中IPV6的注释掉：</p>
+<pre class="line-numbers language-none"><code class="language-none">udp        tpi_clts      v     inet     udp     -       -
+tcp        tpi_cots_ord  v     inet     tcp     -       -
+#udp6       tpi_clts      v     inet6    udp     -       -
+#tcp6       tpi_cots_ord  v     inet6    tcp     -       -
+rawip      tpi_raw       -     inet      -      -       -
+local      tpi_cots_ord  -     loopback  -      -       -
+unix       tpi_cots_ord  -     loopback  -      -       -</code></pre>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6.html" data-id="cl9dk9rc1000pxkd32nvsbyot" data-title="Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ipv6/" rel="tag">ipv6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nfs/" rel="tag">nfs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-小程序网络请求header头设置Content-Type" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type.html" class="article-date">
+  <time class="dt-published" datetime="2019-08-15T22:46:04.000Z" itemprop="datePublished">2019-08-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type.html">小程序网络请求header头设置Content-Type</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>小程序发起<code>http</code>网络请求，通过<code>wx.request</code>函数的调用。该函数接收一个对象，可以在对象里配置包括<code>地址</code>、<code>header</code>、<code>method</code>等。<code>method</code>默认为<code>post</code>请求。但是，我们在服务器端使用<code>$_POST</code>或框架如Phalcon里的<code>$this-&gt;request-&gt;getPost()</code>等获取参数时，取得结果为空。但是通过流获取:</p>
+<pre class="line-numbers language-none"><code class="language-none">$params &#x3D; file_get_contents(&#39;php:&#x2F;&#x2F;input&#39;)</code></pre>
+
+
+
+<p><code>Phalcon</code>里通过：</p>
+<pre class="line-numbers language-none"><code class="language-none">$params &#x3D; $this-&gt;request-&gt;getJsonRawBody();</code></pre>
+
+<p>这样是能够得到参数的。为什么<code>POST</code>请求，却不能在<code>POST</code>里得到呢？我们注意看文档，会发现此时的<code>header</code>里<code>content-type</code>为<code>application/json</code>(默认方式)，再查看PHP的<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/reserved.variables.post.php">文档</a>，可以看到：</p>
+<blockquote>
+<p>当 HTTP POST 请求的 Content-Type 是 application&#x2F;x-www-form-urlencoded 或 multipart&#x2F;form-data 时，会将变量以关联数组形式传入当前脚本。</p>
+</blockquote>
+<p>也就是说，我们需要重新设置小程序的<code>header</code>头里的<code>content-type</code>为<code>application/x-www-form-urlencoded</code>，就可以获取<code>POST</code>里的参数了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type.html" data-id="cl9dk9rdc002mxkd35d2p1cjt" data-title="小程序网络请求header头设置Content-Type" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/header/" rel="tag">header</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-在Phalcon中为View添加缓存" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2019/08/02/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/" class="article-date">
+    <a href="/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98.html" class="article-date">
   <time class="dt-published" datetime="2019-08-02T07:23:22.000Z" itemprop="datePublished">2019-08-02</time>
 </a>
     
@@ -84,7 +250,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/08/02/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/">在Phalcon中为View添加缓存</a>
+      <a class="p-name article-title" href="/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98.html">在Phalcon中为View添加缓存</a>
     </h1>
   
 
@@ -223,7 +389,7 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2019/08/02/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/" data-id="cl9dk9rd50029xkd3c478bv35" data-title="在Phalcon中为View添加缓存" class="article-share-link">分享</a>
+      <a data-url="https://lizubin.com/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98.html" data-id="cl9dk9rd50029xkd3c478bv35" data-title="在Phalcon中为View添加缓存" class="article-share-link">分享</a>
       
       
       
@@ -239,7 +405,7 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
   
     <article id="post-如何阻止表单自动填充" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2019/06/04/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" class="article-date">
+    <a href="/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85.html" class="article-date">
   <time class="dt-published" datetime="2019-06-04T07:57:02.000Z" itemprop="datePublished">2019-06-04</time>
 </a>
     
@@ -251,7 +417,7 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/06/04/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/">如何阻止表单自动填充?</a>
+      <a class="p-name article-title" href="/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85.html">如何阻止表单自动填充?</a>
     </h1>
   
 
@@ -279,7 +445,7 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2019/06/04/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" data-id="cl9dk9rdb002lxkd3ckbmaovb" data-title="如何阻止表单自动填充?" class="article-share-link">分享</a>
+      <a data-url="https://lizubin.com/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85.html" data-id="cl9dk9rdb002lxkd3ckbmaovb" data-title="如何阻止表单自动填充?" class="article-share-link">分享</a>
       
       
       
@@ -295,7 +461,7 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
   
     <article id="post-小程序的模板使用介绍" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" class="article-date">
+    <a href="/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.html" class="article-date">
   <time class="dt-published" datetime="2017-08-07T14:10:01.000Z" itemprop="datePublished">2017-08-07</time>
 </a>
     
@@ -307,7 +473,7 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/">小程序的模板使用介绍</a>
+      <a class="p-name article-title" href="/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.html">小程序的模板使用介绍</a>
     </h1>
   
 
@@ -356,7 +522,7 @@ var fn &#x3D; lib.functionName;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2017/08/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" data-id="cl9dk9rda002jxkd38qkp0o1w" data-title="小程序的模板使用介绍" class="article-share-link">分享</a>
+      <a data-url="https://lizubin.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.html" data-id="cl9dk9rda002jxkd38qkp0o1w" data-title="小程序的模板使用介绍" class="article-share-link">分享</a>
       
       
       
@@ -372,7 +538,7 @@ var fn &#x3D; lib.functionName;</code></pre>
   
     <article id="post-如何在ios的微信webview里强制刷新" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" class="article-date">
+    <a href="/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0.html" class="article-date">
   <time class="dt-published" datetime="2017-07-19T07:13:28.000Z" itemprop="datePublished">2017-07-19</time>
 </a>
     
@@ -384,7 +550,7 @@ var fn &#x3D; lib.functionName;</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/">如何在ios的微信webview里强制刷新</a>
+      <a class="p-name article-title" href="/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0.html">如何在ios的微信webview里强制刷新</a>
     </h1>
   
 
@@ -405,7 +571,7 @@ var fn &#x3D; lib.functionName;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2017/07/19/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" data-id="cl9dk9rd6002dxkd36kanhi2r" data-title="如何在ios的微信webview里强制刷新" class="article-share-link">分享</a>
+      <a data-url="https://lizubin.com/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0.html" data-id="cl9dk9rd6002dxkd36kanhi2r" data-title="如何在ios的微信webview里强制刷新" class="article-share-link">分享</a>
       
       
       
@@ -421,7 +587,7 @@ var fn &#x3D; lib.functionName;</code></pre>
   
     <article id="post-MySQL导出数据到文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2017/05/13/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6/" class="article-date">
+    <a href="/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6.html" class="article-date">
   <time class="dt-published" datetime="2017-05-13T02:41:18.000Z" itemprop="datePublished">2017-05-13</time>
 </a>
     
@@ -433,7 +599,7 @@ var fn &#x3D; lib.functionName;</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/05/13/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6/">MySQL导出数据到文件</a>
+      <a class="p-name article-title" href="/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6.html">MySQL导出数据到文件</a>
     </h1>
   
 
@@ -462,7 +628,7 @@ var fn &#x3D; lib.functionName;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2017/05/13/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6/" data-id="cl9dk9rbs000dxkd38lck4qkd" data-title="MySQL导出数据到文件" class="article-share-link">分享</a>
+      <a data-url="https://lizubin.com/MySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0%E6%96%87%E4%BB%B6.html" data-id="cl9dk9rbs000dxkd38lck4qkd" data-title="MySQL导出数据到文件" class="article-share-link">分享</a>
       
       
       
@@ -478,7 +644,7 @@ var fn &#x3D; lib.functionName;</code></pre>
   
     <article id="post-MySQL如何支持emoji表情" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/" class="article-date">
+    <a href="/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85.html" class="article-date">
   <time class="dt-published" datetime="2016-08-28T15:54:41.000Z" itemprop="datePublished">2016-08-28</time>
 </a>
     
@@ -490,7 +656,7 @@ var fn &#x3D; lib.functionName;</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/">MySQL如何支持emoji表情</a>
+      <a class="p-name article-title" href="/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85.html">MySQL如何支持emoji表情</a>
     </h1>
   
 
@@ -521,7 +687,7 @@ var fn &#x3D; lib.functionName;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2016/08/28/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85/" data-id="cl9dk9rbr000bxkd30ii6545k" data-title="MySQL如何支持emoji表情" class="article-share-link">分享</a>
+      <a data-url="https://lizubin.com/MySQL%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81emoji%E8%A1%A8%E6%83%85.html" data-id="cl9dk9rbr000bxkd30ii6545k" data-title="MySQL如何支持emoji表情" class="article-share-link">分享</a>
       
       
       
@@ -537,7 +703,7 @@ var fn &#x3D; lib.functionName;</code></pre>
   
     <article id="post-使用Canvas压缩图片" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" class="article-date">
+    <a href="/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87.html" class="article-date">
   <time class="dt-published" datetime="2016-08-11T15:25:40.000Z" itemprop="datePublished">2016-08-11</time>
 </a>
     
@@ -549,7 +715,7 @@ var fn &#x3D; lib.functionName;</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/">使用Canvas压缩图片</a>
+      <a class="p-name article-title" href="/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87.html">使用Canvas压缩图片</a>
     </h1>
   
 
@@ -725,7 +891,7 @@ document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;,
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2016/08/11/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-id="cl9dk9rd10021xkd39opwdlr6" data-title="使用Canvas压缩图片" class="article-share-link">分享</a>
+      <a data-url="https://lizubin.com/%E4%BD%BF%E7%94%A8Canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87.html" data-id="cl9dk9rd10021xkd39opwdlr6" data-title="使用Canvas压缩图片" class="article-share-link">分享</a>
       
       
       
@@ -739,263 +905,11 @@ document.getElementById(&#39;uploadfile&#39;).addEventListener(&#39;change&#39;,
 
 
   
-    <article id="post-如何防止频繁调用Javascript一段代码？" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" class="article-date">
-  <time class="dt-published" datetime="2016-08-08T15:07:14.000Z" itemprop="datePublished">2016-08-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/">如何防止频繁调用Javascript一段代码？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><strong>应用场景</strong><br>首先说下什么时候会用到，当我们给页面注册了<code>scroll</code>,<code>resize</code>等这类事件时，可能就需要用到了。为什么呢？比如，我们需要做一个页面滚动条滚动到底部时就自动加载下一页的功能，那么当滚动条滚动时就会频繁的触发<code>scroll</code>事件。为了减少js的执行，提升页面的性能，我们就需要滚动条在页面底部时才触发加载。</p>
-<p><strong>代码实现</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">function debounce(func, wait, immediate) &#123;
-        var timeout;
-        return function() &#123;
-            var context &#x3D; this, args &#x3D; arguments;
-            var later &#x3D; function() &#123;
-                timeout &#x3D; null;
-                if (!immediate) func.apply(context, args);
-            &#125;;
-            var callNow &#x3D; immediate &amp;&amp; !timeout;
-            clearTimeout(timeout);
-            timeout &#x3D; setTimeout(later, wait);
-            if (callNow) func.apply(context, args);
-        &#125;;
-    &#125;
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2016/08/08/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8Javascript%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%EF%BC%9F/" data-id="cl9dk9rd9002hxkd3eao0h0e4" data-title="如何防止频繁调用Javascript一段代码？" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" rel="tag">频繁调用</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Uncaught-RangeError-Maximum-call-stack-size-exceeded" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" class="article-date">
-  <time class="dt-published" datetime="2016-07-12T13:56:59.000Z" itemprop="datePublished">2016-07-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/">Uncaught RangeError:Maximum call stack size exceeded</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在做<code>ajax</code>交互时，出现了点击按钮毫无反应，初初以为是事件绑定问题，检查过代码过后确认应该是其他问题。后来<code>chrome</code>的<code>console</code>控制台提示：</p>
-<pre class="line-numbers language-none"><code class="language-none">Uncaught RangeError:Maximum call stack size exceeded</code></pre>
-
-<p>于是，使用firefox developer版调试，<code>console</code>控制台报错：</p>
-<pre class="line-numbers language-none"><code class="language-none">TypeError: &#39;stepUp&#39; called on an object that does not implement interface HTMLInputElement</code></pre>
-
-<p>终于找到了一个比较重要的错误提示，于是上Google搜索，在<code>stackoverflow</code>上找到问题，是因为<code>$.ajax</code>的<code>data</code>属性里加入了<code>html</code>元素，即：</p>
-<pre class="line-numbers language-none"><code class="language-none">data &#x3D; $(&#39;[name&#x3D;name]&#39;).val()</code></pre>
-
-<p>后面的<code>val()</code>没有写导致的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2016/07/12/Uncaught-RangeError-Maximum-call-stack-size-exceeded/" data-id="cl9dk9rc3000sxkd3efuqfif0" data-title="Uncaught RangeError:Maximum call stack size exceeded" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ajax/" rel="tag">ajax</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web版2048实现" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2016/05/10/Web%E7%89%882048%E5%AE%9E%E7%8E%B0/" class="article-date">
-  <time class="dt-published" datetime="2016-05-10T14:26:42.000Z" itemprop="datePublished">2016-05-10</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2016/05/10/Web%E7%89%882048%E5%AE%9E%E7%8E%B0/">Web版2048实现</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>2048是2014年出现的一款游戏，虽然距今已有两年时间，但是依然是让人爱的根本听不下来。我也玩过很长时间，如今网上也有各种版本（不同的语言实现）的2048。但是，我依然想自己实现一次。于是就有了今天的分享。源码地址<a target="_blank" rel="noopener" href="https://github.com/zubin999/2048">在这里</a></p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>2048这个游戏在开始时，界面会出现两个为2的方块，然后玩家可以向上下左右四个方向任意方向操作来移动方块,并向界面再新增一个为2的方块，含有相同数值的方块会合并为一个方块，该方块值为二者相加，由此不断直到方块填满界面且没有可合并方块时，游戏结束。</p>
-<p>纵观整个过程，涉及的操作有</p>
-<ol>
-<li>初始化</li>
-<li>移动方块</li>
-<li>合并方块</li>
-<li>插入方块</li>
-<li>游戏是否结束？ 未结束那么重复第2到第4步，否则结束游戏</li>
-</ol>
-<p>现在就按照上面5个步骤开始代码实现。</p>
-<h2 id="定义游戏类"><a href="#定义游戏类" class="headerlink" title="定义游戏类"></a>定义游戏类</h2><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function game()&#123;
-    &#x2F;&#x2F;为了不每次检查是否要合并方块都从DOM去取，所以给类定义一个map一一对应每个方格。
-    this.map &#x3D; [
-                [
-                    [],[],[],[]
-                ],
-                [
-                    [],[],[],[]
-                ],
-                [
-                    [],[],[],[]
-                ],
-                [
-                    [],[],[],[]
-                ]
-            ];
-    &#x2F;&#x2F;方块的颜色值，以标识不同的值
-    this.color &#x3D; [
-	 	&#39;#99CCCC&#39;,&#39;#FFCC99&#39;,&#39;#FFCCCC&#39;,
-	 	&#39;#FFFF99&#39;,&#39;#CCCCFF&#39;,&#39;#CC9966&#39;,
-	 	&#39;#666666&#39;,&#39;#CC9999&#39;,&#39;#993333&#39;,
-	 	&#39;#CCCC00&#39;,&#39;#663366&#39;,&#39;#CC0033&#39;,
-	 	&#39;#333333&#39;,&#39;#CCCC00&#39;,&#39;#FF0033&#39;,
-	 	&#39;#333399&#39;,&#39;#999933&#39;,&#39;#333300&#39;
-	 	];
-    &#x2F;&#x2F;玩家操作方向
-    this.direction &#x3D; &#123;
-	 	37: &#39;left&#39;,
-	 	38: &#39;up&#39;,
-	 	39: &#39;right&#39;,
-	 	40: &#39;down&#39;
-	 	&#125;;
-    &#x2F;&#x2F;获取所有行
-    this.tr &#x3D; (function()&#123;
-		    var tbody &#x3D; document.querySelector(&#39;tbody&#39;);
-		    return tbody.children;
-		&#125;());
-    &#x2F;&#x2F;分数
-    this.score &#x3D; 0;
-&#125;</code></pre>
-
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>初始化是向界面随意两个位置插入两个方块，位置怎么选是后面每一次操作都会遇到的问题，所以得先有一个方法来指定位置。</p>
-<h4 id="获取位置"><a href="#获取位置" class="headerlink" title="获取位置"></a>获取位置</h4><pre class="line-numbers language-none"><code class="language-none">game.prototype &#x3D; &#123;
-    selectPosition: function()&#123;
-        
-    &#125;
-&#125;</code></pre>
-
-<p>最开始我是随机选择一行i，然后判断这行是否有空余位置(即this.map[i]中是否存在空数组),但是这样会出现问题就是肯能随机10次得到的i都是满员了，所以改作一下这种方式(也不知道这样好不好),先遍历map找出至少还有一个还有位置的行，然后在这些行里随机出一行：</p>
-<pre class="line-numbers language-none"><code class="language-none">getLine: function()&#123;
-			 var line &#x3D; [];
-				for(var i&#x3D;0; i&lt;4; ++i)&#123;
-					for(var j&#x3D;0; j&lt;4; ++j)&#123;
-						if(!this.map[i][j].length)&#123;
-							line.push(i);
-							break;
-						&#125;
-					&#125;
-				&#125;
-
-				return line;
-		&#125;,</code></pre>
-
-<p>得到行之后再从得到当前行存在几个空位，从空位中找出一个位置返回。位置得到了，现在就是将方块显示在界面中，所以需要一个插入方块的方法。但是这个方块哪里来呢？所以还需要一个制造方块的工厂。</p>
-<h4 id="生产方块"><a href="#生产方块" class="headerlink" title="生产方块"></a>生产方块</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">game.prototype.create &#x3D; function()&#123;
-
-&#125;</code></pre>
-
-<h4 id="颜色选择"><a href="#颜色选择" class="headerlink" title="颜色选择"></a>颜色选择</h4><p>由于不同的值，方块颜色不同，怎么来确定选用哪个颜色呢？因为出现的值都是2的n次方,所以我打算由n来选择颜色，代码如下：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">game.prototype.color &#x3D; function(val)&#123;
-    return Math.log(val)&#x2F;Math.log(2);
-&#125;</code></pre>
-
-<h4 id="插入方块"><a href="#插入方块" class="headerlink" title="插入方块"></a>插入方块</h4><p>现在，插入方块所需的条件都已经具备了。so，去吧，皮卡丘！</p>
-<pre class="line-numbers language-none"><code class="language-none">game.prototype.insert &#x3D; function()&#123;
-    
-&#125;</code></pre>
-
-<p>在界面中新增方块过后，需要及时更新map。接下来就是玩家操作了,我们可以在document上注册键盘事件以判断玩家操作。</p>
-<pre class="line-numbers language-none"><code class="language-none">game.prototype.move &#x3D; function()&#123;
-    var direc &#x3D; this.direction;
-    document.addEventListener(&#39;keyup&#39;, function(e)&#123;
-        var keycode &#x3D; e.keyCode || e.which;
-        keycode in direc ? self[direc[keycode]]() : &#39;&#39;;
-    &#125;,false);
-&#125;</code></pre>
-
-<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>来到最后一步了，那就是上下左右的四个操作：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">game.prototype.up &#x3D; function()&#123;&#125;
-game.prototype.right &#x3D; function()&#123;&#125;
-game.prototype.down &#x3D; function()&#123;&#125;
-game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
-
-<p>在做完这里之后，我觉得这四个方法可以优化合并成一个，但是没有想到怎么处理。</p>
-<p>试玩地址：<a target="_blank" rel="noopener" href="https://zubin999.github.io/2048/">点击这里</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.lizubin.com/2016/05/10/Web%E7%89%882048%E5%AE%9E%E7%8E%B0/" data-id="cl9dk9rc5000yxkd34ztf3983" data-title="Web版2048实现" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/2048/" rel="tag">2048</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/4/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -1009,23 +923,23 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
       <ul>
         
           <li>
-            <a href="/2022/11/14/SQLSTATE-HY000-1045-Access-denied/">SQLSTATE[HY000] [1045] Access denied for user &#39;&#39;@&#39;localhost&#39; (using password: NO)</a>
+            <a href="/upload-large-video-by-chunk.html">超大视频文件分片上传</a>
           </li>
         
           <li>
-            <a href="/2022/11/09/System-has-not-been-booted-with-systemd-as-init-system/">System has not been booted with systemd as init system</a>
+            <a href="/elasticsearch-ERROR-1-bootstrap-checks-failed.html">elasticsearch ERROR: [1] bootstrap checks failed</a>
           </li>
         
           <li>
-            <a href="/2022/11/09/elasticsearch-nested-search/">elasticsearch nested搜索</a>
+            <a href="/windows-powershell-about-execution-policies.html">windows powershell about_execution_policies</a>
           </li>
         
           <li>
-            <a href="/2022/11/07/php-check-if-request-is-https/">php检查请求是否为https</a>
+            <a href="/SQLSTATE-HY000-1045-Access-denied.html">SQLSTATE[HY000] [1045] Access denied for user &#39;&#39;@&#39;localhost&#39; (using password: NO)</a>
           </li>
         
           <li>
-            <a href="/2022/10/18/elasticsearch-multi-match/">elasticsearch同时搜索多个字段</a>
+            <a href="/System-has-not-been-booted-with-systemd-as-init-system.html">System has not been booted with systemd as init system</a>
           </li>
         
       </ul>
@@ -1037,7 +951,7 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 10px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 11.67px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.67px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 16.67px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/es6/" style="font-size: 11.67px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 13.33px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 16.67px;">javascript</a> <a href="/tags/js/" style="font-size: 11.67px;">js</a> <a href="/tags/leetcode/" style="font-size: 18.33px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/phalcon/" style="font-size: 15px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 11.67px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.67px;">默认值</a>
+      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 10px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.86px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.43px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 17.14px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/es6/" style="font-size: 11.43px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.86px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 15.71px;">javascript</a> <a href="/tags/js/" style="font-size: 11.43px;">js</a> <a href="/tags/leetcode/" style="font-size: 18.57px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 14.29px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/phalcon/" style="font-size: 14.29px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 11.43px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.43px;">默认值</a>
     </div>
   </div>
 
@@ -1046,7 +960,7 @@ game.prototype.left &#x3D; function()&#123;&#125;</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
     </div>
   </div>
 

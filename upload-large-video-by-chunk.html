@@ -7,7 +7,7 @@
   <title>超大视频文件分片上传 | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
-  <meta name="description" content="在使用ajax文件上传,一般分几个步骤:
+  <meta name="description" content="普通上传在使用ajax文件上传,一般分3个步骤:
 
 HTML
 
@@ -15,7 +15,7 @@ HTML中有一个input用于选择文件:
 &lt;input type&#x3D;&quot;file&quot; id&#x3D;&quot;selectFile&quot; &#x2F;&gt;
 
 可以通过accept属性用于限制选择视频文件还是图片以及视频和图片具体是哪种类型.
-&lt;input type&#x3D;&quot;...">
+&lt;input type&#x3D;&q...">
   
   
   <meta name="keywords" content="ajax,分片上传">
@@ -95,7 +95,7 @@ HTML中有一个input用于选择文件:
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>在使用ajax文件上传,一般分几个步骤:</p>
+        <h3 id="普通上传"><a href="#普通上传" class="headerlink" title="普通上传"></a>普通上传</h3><p>在使用ajax文件上传,一般分3个步骤:</p>
 <ol>
 <li>HTML</li>
 </ol>
@@ -111,8 +111,46 @@ HTML中有一个input用于选择文件:
 <li>js监听事件</li>
 </ol>
 <pre class="line-numbers language-none"><code class="language-none">$(&#39;#selectFile&#39;).on(&#39;change&#39;, function() &#123;
-    
+    let file &#x3D; this.files[0];
 &#125;);</code></pre>
+
+<ol start="3">
+<li>上传</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">const fd &#x3D; new FormData();
+fd.append(&#39;file&#39;, file);
+const xhr &#x3D; new XMLHttpRequest();
+
+xhr.open(&#39;POST&#39;, api);
+
+&#x2F;&#x2F; 上传进度
+xhr.upload.addEventListener(&#39;progress&#39;, function (ev) &#123;
+    var progress &#x3D; ((ev.loaded &#x2F; ev.total) * 100).toFixed(2) + &#39;%&#39;;
+    
+&#125;);
+
+&#x2F;&#x2F; 上传结果
+xhr.onreadystatechange &#x3D; () &#x3D;&gt; &#123;
+    if(xhr.readyState &#x3D;&#x3D;&#x3D; 4 &amp;&amp; xhr.status &#x3D;&#x3D;&#x3D; 200)&#123;
+        
+    &#125;
+&#125;
+
+xhr.send(fd);</code></pre>
+
+<p>但是对于视频,如一部电影,直接用上面的方式上传,有可能遇到的问题:</p>
+<ul>
+<li>超时</li>
+<li>超出大小限制</li>
+</ul>
+<p>这时候就需要分片上传文件.</p>
+<h3 id="分片上传"><a href="#分片上传" class="headerlink" title="分片上传"></a>分片上传</h3><p>分片上传是建立在普通上传基础之上的,原理是将大文件分成N份,不断上传每一份,上传完后后台将这些块合并成一个文件.<br>因为要重复上传每一份分片,先定义一个函数:</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function chunkUpload(video, loaded &#x3D; 0, chunkName &#x3D; &#39;&#39;, target &#x3D; &#39;&#39;) &#123;
+        
+&#125;</code></pre>
+
+<p>第一个参数<code>video</code>为需要上传的数据,第二个参数<code>loaded</code>表示已经上传了多少了,第3,4个参数用于安全校验.</p>
+
       
     </div>
     <footer class="article-footer">

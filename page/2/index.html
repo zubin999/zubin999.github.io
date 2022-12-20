@@ -66,6 +66,182 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-5-ways-to-center-a-div-in-css" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/5-ways-to-center-a-div-in-css.html" class="article-date">
+  <time class="dt-published" datetime="2022-10-11T01:33:13.000Z" itemprop="datePublished">2022-10-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/5-ways-to-center-a-div-in-css.html">css中5种居中方式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><img src="/5-ways-to-center-a-div-in-css/1.png"></p>
+<p>如上图,没有给任何位置设置.</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; css
+&lt;style&gt;
+    .big &#123;
+        width: 400px;
+        height: 300px;
+        background-color: #1edcff;
+    &#125;
+
+    .small &#123;
+        width: 70px;
+        height: 70px;
+        background-color: #3ca217;
+    &#125;
+&lt;&#x2F;style&gt;
+
+&#x2F;&#x2F; html
+&lt;div class&#x3D;&quot;big&quot;&gt;
+    &lt;div class&#x3D;&quot;small&quot;&gt;&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;</code></pre>
+<p>要是小的div在大div里居中,有5种方式.</p>
+<ol>
+<li>flex</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">.big &#123;
+    width: 400px;
+    height: 300px;
+    background-color: #1edcff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+&#125;</code></pre>
+
+<ol start="2">
+<li>grid</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">.big &#123;
+    width: 400px;
+    height: 300px;
+    background-color: #1edcff;
+
+    display: grid;
+    place-content: center;
+&#125;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/5-ways-to-center-a-div-in-css.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/5-ways-to-center-a-div-in-css.html" data-id="cl9dk9rb90000xkd32s3lgvby" data-title="css中5种居中方式" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/center/" rel="tag">center</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-css-minmax" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/css-minmax.html" class="article-date">
+  <time class="dt-published" datetime="2022-10-05T05:46:30.000Z" itemprop="datePublished">2022-10-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/css-minmax.html">CSS minmax()</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>认识minmax</li>
+</ul>
+<p>看看<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/minmax"><code>MDN</code></a>上对<code>minmax</code>的定义:</p>
+<blockquote>
+<p>The minmax() CSS function defines a size range greater than or equal to min and less than or equal to max. It is used with CSS Grids</p>
+</blockquote>
+<p>可以得出3点:</p>
+<ol>
+<li><code>minmax</code>是<code>CSS</code>中的一个函数</li>
+<li>定义了一个范围:大于等于最小值并且小于等于最大值</li>
+<li>在CSS的grid中使用</li>
+</ol>
+<p>现在来使用它:</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">&lt;style&gt;
+    .box &#123;
+        display: grid;
+        grid-template-columns: minmax(200px, 500px) 1fr 1fr;
+        grid-gap: 10px;
+    &#125;
+
+    .box div &#123;
+        height: 78px;
+        background-color: #c2c;
+    &#125;
+&lt;&#x2F;style&gt;</code></pre>
+
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;div class&#x3D;&quot;box&quot;&gt;
+    &lt;div&gt;A&lt;&#x2F;div&gt;
+    &lt;div&gt;B&lt;&#x2F;div&gt;
+    &lt;div&gt;C&lt;&#x2F;div&gt;
+    &lt;div&gt;D&lt;&#x2F;div&gt;
+    &lt;div&gt;E&lt;&#x2F;div&gt;
+    &lt;div&gt;F&lt;&#x2F;div&gt;
+    &lt;div&gt;G&lt;&#x2F;div&gt;
+    &lt;div&gt;H&lt;&#x2F;div&gt;
+    &lt;div&gt;I&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;</code></pre>
+
+<p>在页面中可以看到:</p>
+<p><img src="/css-minmax/0.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/css-minmax.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/css-minmax.html" data-id="cl9dk9rcc0012xkd35uztg23t" data-title="CSS minmax()" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/minmax/" rel="tag">minmax</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-several-command-to-know-your-public-ip" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/several-command-to-know-your-public-ip.html" class="article-date">
@@ -822,180 +998,6 @@ x.send();</code></pre>
 
 
   
-    <article id="post-Uncaught-TypeError-window-opener-is-null" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/Uncaught-TypeError-window-opener-is-null.html" class="article-date">
-  <time class="dt-published" datetime="2022-01-12T08:33:18.000Z" itemprop="datePublished">2022-01-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/Uncaught-TypeError-window-opener-is-null.html">Uncaught TypeError: window.opener is null</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>HTML中a标签可以设置target属性,其属性值包括:</p>
-<ul>
-<li>_self 默认值</li>
-<li>_blank</li>
-<li>_parent</li>
-<li>_top</li>
-</ul>
-<p>其中,_blank会打开一个新的页卡或窗口,A页面通过a标签打开了B页面:</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;a href&#x3D;&quot;http:&#x2F;&#x2F;example.com&quot; target&#x3D;&quot;_blank&quot;&gt;Go&lt;&#x2F;a&gt;</code></pre>
-
-<p>在B页面中想对A页面操作,那么可以使用window.opener.<br>可是,如果通过a标签_blank打开的窗口,默认会有一个rel属性并且值为noopener.这就造成B页面中出错:</p>
-<pre class="line-numbers language-none"><code class="language-none">Uncaught TypeError: window.opener is null</code></pre>
-
-<p>解决这个问题,我们只需在A页面的a标签上加上rel属性,并且值等于opener就解决了.</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;a href&#x3D;&quot;http:&#x2F;&#x2F;example.com&quot; target&#x3D;&quot;_blank&quot; rel&#x3D;&quot;opener&quot;&gt;Go&lt;&#x2F;a&gt;</code></pre>
-
-<p>对此在<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a">https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a</a>中有明确的详细的说明.</p>
-<p>如果在A页面中打开B页面是通过js来实现:</p>
-<pre class="line-numbers language-none"><code class="language-none">window.open(&quot;http:&#x2F;&#x2F;example.com&quot;, &#39;_blank&#39;);</code></pre>
-
-<p>这样,是不会存在a标签那样的问题</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lizubin.com/Uncaught-TypeError-window-opener-is-null.html" data-id="cl9dk9rc2000qxkd34gwxf4ov" data-title="Uncaught TypeError: window.opener is null" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/window-opener/" rel="tag">window.opener</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-leetcode-3Sum" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/leetcode-3Sum.html" class="article-date">
-  <time class="dt-published" datetime="2021-12-06T07:51:20.000Z" itemprop="datePublished">2021-12-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/leetcode-3Sum.html">leetcode:3Sum</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>问题</li>
-</ul>
-<p>Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i !&#x3D; j, i !&#x3D; k, and j !&#x3D; k, and nums[i] + nums[j] + nums[k] &#x3D;&#x3D; 0.</p>
-<p>Notice that the solution set must not contain duplicate triplets.</p>
-<ul>
-<li>代码</li>
-</ul>
-<p>根据<a target="_blank" rel="noopener" href="https://leetcode.com/problems/3sum/discuss/7380/Concise-O(N2)-Java-solution">投票最高</a>的得到:</p>
-<pre class="line-numbers language-none"><code class="language-none">class Solution
-&#123;
-
-    &#x2F;**
-     * @param Integer[] $nums
-     * @return Integer[][]
-     *&#x2F;
-    public function threeSum($nums)
-    &#123;
-        $len &#x3D; count($nums);
-        if ($len &lt; 3) &#123;
-            return [];
-        &#125;
-
-        sort($nums, SORT_ASC);
-        if ($nums[0] &gt; 0) &#123;
-            return [];
-        &#125;
-
-        $res &#x3D; [];
-        for ($i &#x3D; 0, $len1 &#x3D; $len - 2; $i &lt; $len1; $i++) &#123;
-            if ($i &#x3D;&#x3D;&#x3D; 0 || ($i &gt; 0 &amp;&amp; $nums[$i] !&#x3D;&#x3D; $nums[$i - 1])) &#123;
-                $lo  &#x3D; $i + 1;
-                $hi  &#x3D; $len - 1;
-                $sum &#x3D; 0 - $nums[$i];
-
-                while ($lo &lt; $hi) &#123;
-                    $third &#x3D; $nums[$lo] + $nums[$hi];
-                    if ($third &#x3D;&#x3D;&#x3D; $sum) &#123;
-                        $res[] &#x3D; [$nums[$i], $nums[$lo], $nums[$hi]];
-
-                        while ($lo &lt; $hi &amp;&amp; $nums[$lo] &#x3D;&#x3D;&#x3D; $nums[$lo + 1]) &#123;
-                            $lo++;
-                        &#125;
-
-                        while ($lo &lt; $hi &amp;&amp; $nums[$hi] &#x3D;&#x3D;&#x3D; $nums[$hi - 1]) &#123;
-                            $hi--;
-                        &#125;
-
-                        $lo++;
-                        $hi--;
-                        continue;
-                    &#125;
-
-                    if ($third &lt; $sum) &#123;
-                        $lo++;
-                        continue;
-                    &#125;
-
-                    $hi--;
-                &#125;
-            &#125;
-        &#125;
-
-        return $res;
-    &#125;
-&#125;</code></pre>
-
-<ul>
-<li>结果</li>
-</ul>
-<blockquote>
-<p>318&#x2F;318 cases passed (180 ms)<br>Your runtime beats 95.24 % of php submissions<br>Your memory usage beats 85.71 % of php submissions (24.9 MB)</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lizubin.com/leetcode-3Sum.html" data-id="cl9dk9rce0013xkd31sl6b9xa" data-title="leetcode:3Sum" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/3Sum/" rel="tag">3Sum</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1014,6 +1016,14 @@ x.send();</code></pre>
       <ul>
         
           <li>
+            <a href="/fix-simple-ajax-upload-js-has-a-conflict-with-the-button.html">解决SimpleAjaxUpload特殊样式中hover冲突造成按钮不显示问题</a>
+          </li>
+        
+          <li>
+            <a href="/how-to-search-correctly-in-elasticsearch.html">提升elasticsearch搜索准确率</a>
+          </li>
+        
+          <li>
             <a href="/upload-large-video-by-chunk.html">超大视频文件分片上传</a>
           </li>
         
@@ -1025,14 +1035,6 @@ x.send();</code></pre>
             <a href="/windows-powershell-about-execution-policies.html">windows powershell about_execution_policies</a>
           </li>
         
-          <li>
-            <a href="/SQLSTATE-HY000-1045-Access-denied.html">SQLSTATE[HY000] [1045] Access denied for user &#39;&#39;@&#39;localhost&#39; (using password: NO)</a>
-          </li>
-        
-          <li>
-            <a href="/System-has-not-been-booted-with-systemd-as-init-system.html">System has not been booted with systemd as init system</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1042,7 +1044,7 @@ x.send();</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 10px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.86px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.43px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 17.14px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/es6/" style="font-size: 11.43px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.86px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 15.71px;">javascript</a> <a href="/tags/js/" style="font-size: 11.43px;">js</a> <a href="/tags/leetcode/" style="font-size: 18.57px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 14.29px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/phalcon/" style="font-size: 14.29px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 11.43px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.43px;">默认值</a>
+      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.43px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.86px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.43px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 17.14px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/es6/" style="font-size: 11.43px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.86px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 15.71px;">javascript</a> <a href="/tags/js/" style="font-size: 11.43px;">js</a> <a href="/tags/leetcode/" style="font-size: 18.57px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 14.29px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/phalcon/" style="font-size: 14.29px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 11.43px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.43px;">默认值</a>
     </div>
   </div>
 

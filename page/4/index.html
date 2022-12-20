@@ -66,6 +66,226 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-leetcode-longest-substring-without-repeating-characters" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-longest-substring-without-repeating-characters.html" class="article-date">
+  <time class="dt-published" datetime="2021-10-09T09:29:18.000Z" itemprop="datePublished">2021-10-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-longest-substring-without-repeating-characters.html">leetcode: longest substring without repeating characters</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+<p>You can return the answer in any order.</p>
+</blockquote>
+<ul>
+<li>leetcode类别</li>
+</ul>
+<p>中等</p>
+<ul>
+<li>代码</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+
+    &#x2F;**
+     * @param String $s
+     * @return Integer
+     *&#x2F;
+    function lengthOfLongestSubstring($s) &#123;
+        $len1 &#x3D; strlen($s);
+        if (!$len1) &#123;
+            return $len1;
+        &#125;
+
+        $max &#x3D; 1;
+        $p &#x3D; [];
+        for($i &#x3D; 0, $j &#x3D; 0; $i &lt; $len1; $i++) &#123;
+            $code &#x3D; ord($s[$i]);
+            if (!array_key_exists($code, $p)) &#123;
+                $p[$code] &#x3D; $i;
+                continue;
+            &#125;
+            
+            $strlen &#x3D; $i - $j;
+            $max &#x3D; $strlen &gt; $max ? $strlen : $max;
+            $i &#x3D; $p[$code];
+            $j &#x3D; $i + 1;
+            $p &#x3D; [];
+        &#125;
+        
+        $cnt &#x3D; count($p);
+        $max &#x3D; $cnt &gt; $max ? $cnt : $max;
+        
+        return $max;
+    &#125;
+&#125;</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-longest-substring-without-repeating-characters.html" data-id="cl9dk9rcx001uxkd35h9k2k64" data-title="leetcode: longest substring without repeating characters" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-add-two-numbers" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-add-two-numbers.html" class="article-date">
+  <time class="dt-published" datetime="2021-10-01T04:29:09.000Z" itemprop="datePublished">2021-10-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-add-two-numbers.html">leetcode:add-two-numbers</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+<p>You can return the answer in any order.</p>
+</blockquote>
+<ul>
+<li>leetcode类别</li>
+</ul>
+<p>中等</p>
+<ul>
+<li>代码</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;**
+ * Definition for a singly-linked list.
+ * class ListNode &#123;
+ *     public $val &#x3D; 0;
+ *     public $next &#x3D; null;
+ *     function __construct($val &#x3D; 0, $next &#x3D; null) &#123;
+ *         $this-&gt;val &#x3D; $val;
+ *         $this-&gt;next &#x3D; $next;
+ *     &#125;
+ * &#125;
+ *&#x2F;
+class Solution &#123;
+
+    &#x2F;**
+     * @param ListNode $l1
+     * @param ListNode $l2
+     * @return ListNode
+     *&#x2F;
+    function addTwoNumbers($l1, $l2) &#123;
+        return $this-&gt;reverseList($this-&gt;getNode($l1, $l2));
+    &#125;
+
+    function reverseList($list) &#123;
+        $prev &#x3D; null;
+        while($list !&#x3D;&#x3D; null) &#123;
+            $node &#x3D; new ListNode($list-&gt;val, null);
+            $node-&gt;next &#x3D; $prev;
+
+            $prev &#x3D; $node;
+            $list &#x3D; $list-&gt;next;
+        &#125;
+
+        return $node;
+    &#125;
+
+    function getNode($l1, $l2) &#123;
+        $prev &#x3D; null;
+        $plus &#x3D; 0;
+        
+        while(true) &#123;
+            if ($l1 &#x3D;&#x3D;&#x3D; null &amp;&amp; $l2 &#x3D;&#x3D;&#x3D; null &amp;&amp; !$plus) &#123;
+                break;
+            &#125;
+
+            $val &#x3D; 0;
+            if ($l1 !&#x3D;&#x3D; null) &#123;
+                $val +&#x3D; $l1-&gt;val;
+            &#125;
+
+            if ($l2 !&#x3D;&#x3D; null) &#123;
+                $val +&#x3D; $l2-&gt;val;
+            &#125;
+
+            $val +&#x3D; $plus;
+
+            $plus &#x3D; 0;
+            if ($val &gt; 9) &#123;
+                $val &#x3D; $val % 10;
+                $plus &#x3D; 1;
+            &#125;
+            
+            $node &#x3D; new ListNode($val, null);
+            $node-&gt;next &#x3D; $prev;
+
+            $prev &#x3D; $node;
+            
+            if ($l1 !&#x3D;&#x3D; null) &#123;
+                $l1 &#x3D; $l1-&gt;next;
+            &#125;
+
+            if ($l2 !&#x3D;&#x3D; null) &#123;
+                $l2 &#x3D; $l2-&gt;next;
+            &#125;
+        &#125;
+
+        return $node;
+    &#125;
+&#125;</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-add-two-numbers.html" data-id="cl9dk9rcw001qxkd33hwye7cn" data-title="leetcode:add-two-numbers" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/add-two-numbers/" rel="tag">add two numbers</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-leetcode-two-sum" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/leetcode-two-sum.html" class="article-date">
@@ -870,175 +1090,6 @@ ERROR: [1] bootstrap checks failed
 
 
   
-    <article id="post-Elasticsearch安装" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/Elasticsearch%E5%AE%89%E8%A3%85.html" class="article-date">
-  <time class="dt-published" datetime="2019-11-14T03:07:20.000Z" itemprop="datePublished">2019-11-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/Elasticsearch%E5%AE%89%E8%A3%85.html">Elasticsearch安装</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>官文地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-install.html">在这里</a></p>
-<ol>
-<li>下载</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">vagrant@machine2:~$ curl -L -O https:&#x2F;&#x2F;artifacts.elastic.co&#x2F;downloads&#x2F;elasticsearch&#x2F;elasticsearch-7.4.2-linux-x86_64.tar.gz</code></pre>
-
-<ol start="2">
-<li>解压</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">vagrant@machine2:~$ tar xzf elasticsearch-7.4.2-linux-x86_64.tar.gz</code></pre>
-
-<ol start="3">
-<li>启动</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">vagrant@machine2:~$ cd elasticsearch-7.4.2&#x2F;bin&#x2F;
-vagrant@machine2:~&#x2F;elasticsearch-7.4.2&#x2F;bin$ .&#x2F;elasticsearch</code></pre>
-
-<p>出现问题：</p>
-<pre class="line-numbers language-none"><code class="language-none">could not find java in JAVA_HOME or bundled at &#x2F;usr&#x2F;lib&#x2F;jmv&#x2F;java-8-openjdk-amd64&#x2F;bin&#x2F;java</code></pre>
-
-<p>查看环境变量：</p>
-<pre class="line-numbers language-none"><code class="language-none">echo $JAVA_HOME
-&#x2F;&#x2F; 得到：
-&#x2F;usr&#x2F;lib&#x2F;jmv&#x2F;java-8-openjdk-amd64</code></pre>
-
-<p>需要注意文档这段话：</p>
-<blockquote>
-<p>Elasticsearch includes a bundled version of OpenJDK from the JDK maintainers (GPLv2+CE). To use your own version of Java, see the JVM version requirements</p>
-</blockquote>
-<p>也就是说自带了jdk，而我自己之前有安装jdk，需要另外配置。通过链接查看<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/setup.html#jvm-version">额外配置文档</a>。</p>
-<blockquote>
-<p>Elasticsearch is built using Java, and includes a bundled version of OpenJDK from the JDK maintainers (GPLv2+CE) within each distribution. The bundled JVM is the recommended JVM and is located within the jdk directory of the Elasticsearch home directory.</p>
-<p>To use your own version of Java, set the JAVA_HOME environment variable. If you must use a version of Java that is different from the bundled JVM, we recommend using a supported LTS version of Java. Elasticsearch will refuse to start if a known-bad version of Java is used. The bundled JVM directory may be removed when using your own JVM.</p>
-</blockquote>
-<p>还是推荐使用自带的<code>jdk</code>，没有细说。也在目录下面看到了<code>jdk</code>目录，那重新设置<code>$JAVA_HOME</code>环境变量到<code>Elasticsearch</code>里面的<code>jdk</code>目录:</p>
-<pre class="line-numbers language-none"><code class="language-none">export JAVA_HOME&#x3D;&#x2F;home&#x2F;vagrant&#x2F;elasticsearch-7.4.2&#x2F;jdk</code></pre>
-
-<p>再次启动，显示了一大堆启动的东西，已经成功了，下面来验证是否启动：</p>
-<pre class="line-numbers language-none"><code class="language-none">curl 127.0.0.1:9200
-
-&#x2F;&#x2F; 会得到:
-&#123;
-  &quot;name&quot; : &quot;iZ23pskgys8Z&quot;,
-  &quot;cluster_name&quot; : &quot;elasticsearch&quot;,
-  &quot;cluster_uuid&quot; : &quot;J2SyY5cZRayLwC1lsPaoGA&quot;,
-  &quot;version&quot; : &#123;
-    &quot;number&quot; : &quot;7.4.2&quot;,
-    &quot;build_flavor&quot; : &quot;default&quot;,
-    &quot;build_type&quot; : &quot;tar&quot;,
-    &quot;build_hash&quot; : &quot;2f90bbf7b93631e52bafb59b3b049cb44ec25e96&quot;,
-    &quot;build_date&quot; : &quot;2019-10-28T20:40:44.881551Z&quot;,
-    &quot;build_snapshot&quot; : false,
-    &quot;lucene_version&quot; : &quot;8.2.0&quot;,
-    &quot;minimum_wire_compatibility_version&quot; : &quot;6.8.0&quot;,
-    &quot;minimum_index_compatibility_version&quot; : &quot;6.0.0-beta1&quot;
-  &#125;,
-  &quot;tagline&quot; : &quot;You Know, for Search&quot;
-&#125;</code></pre>
-
-<p>得到上面的回应，就说明安装成功了。</p>
-<ul>
-<li><code>vagrant</code> 环境下安装</li>
-</ul>
-<p>我本地是<code>vagrant</code>+<code>virtualbox</code>搭建的环境。在安装成功后，修改<code>elasticsearch.yml</code>的<code>network</code>将<code>IP</code>绑定在<code>vagrant</code>的<code>IP</code>上，如我的是<code>192.168.56.102</code>，修改55行：</p>
-<pre class="line-numbers language-none"><code class="language-none">network.host: 192.168.56.102</code></pre>
-
-<p>修改68行：</p>
-<pre class="line-numbers language-none"><code class="language-none">discovery.seed_hosts:[]</code></pre>
-
-<p>这样，我在<code>windows</code>的浏览器里访问<code>http://192.168.56.102:9200</code>同样成功了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lizubin.com/Elasticsearch%E5%AE%89%E8%A3%85.html" data-id="cl9dk9rbk0003xkd391btbfpc" data-title="Elasticsearch安装" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted.html" class="article-date">
-  <time class="dt-published" datetime="2019-09-28T07:20:12.000Z" itemprop="datePublished">2019-09-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted.html">Only one usage of each socket address (protocol/network address/port) is normally permitted.</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>golang开启一个服务：</p>
-<pre class="line-numbers language-none"><code class="language-none">func main() &#123;
-       
-        rpc.Register(new(service name))
-        listener, err :&#x3D; net.Listen(&quot;tcp&quot;, &quot;:1215&quot;)
-        if err !&#x3D; nil &#123;
-                log.Fatal(&quot;listen error:&quot;, err)
-        &#125;
-        for &#123;
-                conn, err :&#x3D; listener.Accept()
-                if err !&#x3D; nil &#123;
-                        continue
-                &#125;
-                
-                go jsonrpc.ServeConn(conn)
-        &#125;
-&#125;</code></pre>
-
-<p>遇到上面报错，将<code>listen</code>的地址写全即可</p>
-<pre class="line-numbers language-none"><code class="language-none">listener, err :&#x3D; net.Listen(&quot;tcp&quot;, &quot;127.0.0.1:1215&quot;)</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lizubin.com/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted.html" data-id="cl9dk9rbw000hxkd32mt248kg" data-title="Only one usage of each socket address (protocol/network address/port) is normally permitted." class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/" rel="tag">golang</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rpc/" rel="tag">rpc</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1057,6 +1108,14 @@ vagrant@machine2:~&#x2F;elasticsearch-7.4.2&#x2F;bin$ .&#x2F;elasticsearch</code
       <ul>
         
           <li>
+            <a href="/fix-simple-ajax-upload-js-has-a-conflict-with-the-button.html">解决SimpleAjaxUpload特殊样式中hover冲突造成按钮不显示问题</a>
+          </li>
+        
+          <li>
+            <a href="/how-to-search-correctly-in-elasticsearch.html">提升elasticsearch搜索准确率</a>
+          </li>
+        
+          <li>
             <a href="/upload-large-video-by-chunk.html">超大视频文件分片上传</a>
           </li>
         
@@ -1068,14 +1127,6 @@ vagrant@machine2:~&#x2F;elasticsearch-7.4.2&#x2F;bin$ .&#x2F;elasticsearch</code
             <a href="/windows-powershell-about-execution-policies.html">windows powershell about_execution_policies</a>
           </li>
         
-          <li>
-            <a href="/SQLSTATE-HY000-1045-Access-denied.html">SQLSTATE[HY000] [1045] Access denied for user &#39;&#39;@&#39;localhost&#39; (using password: NO)</a>
-          </li>
-        
-          <li>
-            <a href="/System-has-not-been-booted-with-systemd-as-init-system.html">System has not been booted with systemd as init system</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1085,7 +1136,7 @@ vagrant@machine2:~&#x2F;elasticsearch-7.4.2&#x2F;bin$ .&#x2F;elasticsearch</code
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 10px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.86px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.43px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 17.14px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/es6/" style="font-size: 11.43px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.86px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 15.71px;">javascript</a> <a href="/tags/js/" style="font-size: 11.43px;">js</a> <a href="/tags/leetcode/" style="font-size: 18.57px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 14.29px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/phalcon/" style="font-size: 14.29px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 11.43px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.43px;">默认值</a>
+      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.43px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.86px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.43px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 17.14px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/es6/" style="font-size: 11.43px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.86px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 15.71px;">javascript</a> <a href="/tags/js/" style="font-size: 11.43px;">js</a> <a href="/tags/leetcode/" style="font-size: 18.57px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 14.29px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/phalcon/" style="font-size: 14.29px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 11.43px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.43px;">默认值</a>
     </div>
   </div>
 

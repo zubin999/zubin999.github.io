@@ -66,6 +66,180 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Uncaught-TypeError-window-opener-is-null" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Uncaught-TypeError-window-opener-is-null.html" class="article-date">
+  <time class="dt-published" datetime="2022-01-12T08:33:18.000Z" itemprop="datePublished">2022-01-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Uncaught-TypeError-window-opener-is-null.html">Uncaught TypeError: window.opener is null</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>HTML中a标签可以设置target属性,其属性值包括:</p>
+<ul>
+<li>_self 默认值</li>
+<li>_blank</li>
+<li>_parent</li>
+<li>_top</li>
+</ul>
+<p>其中,_blank会打开一个新的页卡或窗口,A页面通过a标签打开了B页面:</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;a href&#x3D;&quot;http:&#x2F;&#x2F;example.com&quot; target&#x3D;&quot;_blank&quot;&gt;Go&lt;&#x2F;a&gt;</code></pre>
+
+<p>在B页面中想对A页面操作,那么可以使用window.opener.<br>可是,如果通过a标签_blank打开的窗口,默认会有一个rel属性并且值为noopener.这就造成B页面中出错:</p>
+<pre class="line-numbers language-none"><code class="language-none">Uncaught TypeError: window.opener is null</code></pre>
+
+<p>解决这个问题,我们只需在A页面的a标签上加上rel属性,并且值等于opener就解决了.</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;a href&#x3D;&quot;http:&#x2F;&#x2F;example.com&quot; target&#x3D;&quot;_blank&quot; rel&#x3D;&quot;opener&quot;&gt;Go&lt;&#x2F;a&gt;</code></pre>
+
+<p>对此在<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a">https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a</a>中有明确的详细的说明.</p>
+<p>如果在A页面中打开B页面是通过js来实现:</p>
+<pre class="line-numbers language-none"><code class="language-none">window.open(&quot;http:&#x2F;&#x2F;example.com&quot;, &#39;_blank&#39;);</code></pre>
+
+<p>这样,是不会存在a标签那样的问题</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/Uncaught-TypeError-window-opener-is-null.html" data-id="cl9dk9rc2000qxkd34gwxf4ov" data-title="Uncaught TypeError: window.opener is null" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/window-opener/" rel="tag">window.opener</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-3Sum" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-3Sum.html" class="article-date">
+  <time class="dt-published" datetime="2021-12-06T07:51:20.000Z" itemprop="datePublished">2021-12-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-3Sum.html">leetcode:3Sum</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<p>Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i !&#x3D; j, i !&#x3D; k, and j !&#x3D; k, and nums[i] + nums[j] + nums[k] &#x3D;&#x3D; 0.</p>
+<p>Notice that the solution set must not contain duplicate triplets.</p>
+<ul>
+<li>代码</li>
+</ul>
+<p>根据<a target="_blank" rel="noopener" href="https://leetcode.com/problems/3sum/discuss/7380/Concise-O(N2)-Java-solution">投票最高</a>的得到:</p>
+<pre class="line-numbers language-none"><code class="language-none">class Solution
+&#123;
+
+    &#x2F;**
+     * @param Integer[] $nums
+     * @return Integer[][]
+     *&#x2F;
+    public function threeSum($nums)
+    &#123;
+        $len &#x3D; count($nums);
+        if ($len &lt; 3) &#123;
+            return [];
+        &#125;
+
+        sort($nums, SORT_ASC);
+        if ($nums[0] &gt; 0) &#123;
+            return [];
+        &#125;
+
+        $res &#x3D; [];
+        for ($i &#x3D; 0, $len1 &#x3D; $len - 2; $i &lt; $len1; $i++) &#123;
+            if ($i &#x3D;&#x3D;&#x3D; 0 || ($i &gt; 0 &amp;&amp; $nums[$i] !&#x3D;&#x3D; $nums[$i - 1])) &#123;
+                $lo  &#x3D; $i + 1;
+                $hi  &#x3D; $len - 1;
+                $sum &#x3D; 0 - $nums[$i];
+
+                while ($lo &lt; $hi) &#123;
+                    $third &#x3D; $nums[$lo] + $nums[$hi];
+                    if ($third &#x3D;&#x3D;&#x3D; $sum) &#123;
+                        $res[] &#x3D; [$nums[$i], $nums[$lo], $nums[$hi]];
+
+                        while ($lo &lt; $hi &amp;&amp; $nums[$lo] &#x3D;&#x3D;&#x3D; $nums[$lo + 1]) &#123;
+                            $lo++;
+                        &#125;
+
+                        while ($lo &lt; $hi &amp;&amp; $nums[$hi] &#x3D;&#x3D;&#x3D; $nums[$hi - 1]) &#123;
+                            $hi--;
+                        &#125;
+
+                        $lo++;
+                        $hi--;
+                        continue;
+                    &#125;
+
+                    if ($third &lt; $sum) &#123;
+                        $lo++;
+                        continue;
+                    &#125;
+
+                    $hi--;
+                &#125;
+            &#125;
+        &#125;
+
+        return $res;
+    &#125;
+&#125;</code></pre>
+
+<ul>
+<li>结果</li>
+</ul>
+<blockquote>
+<p>318&#x2F;318 cases passed (180 ms)<br>Your runtime beats 95.24 % of php submissions<br>Your memory usage beats 85.71 % of php submissions (24.9 MB)</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-3Sum.html" data-id="cl9dk9rce0013xkd31sl6b9xa" data-title="leetcode:3Sum" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/3Sum/" rel="tag">3Sum</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-leetcode-Longest-Common-Prefix" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/leetcode-Longest-Common-Prefix.html" class="article-date">
@@ -843,226 +1017,6 @@ class Solution &#123;
 
 
   
-    <article id="post-leetcode-longest-substring-without-repeating-characters" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/leetcode-longest-substring-without-repeating-characters.html" class="article-date">
-  <time class="dt-published" datetime="2021-10-09T09:29:18.000Z" itemprop="datePublished">2021-10-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/leetcode-longest-substring-without-repeating-characters.html">leetcode: longest substring without repeating characters</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>问题</li>
-</ul>
-<blockquote>
-<p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
-<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
-<p>You can return the answer in any order.</p>
-</blockquote>
-<ul>
-<li>leetcode类别</li>
-</ul>
-<p>中等</p>
-<ul>
-<li>代码</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
-
-    &#x2F;**
-     * @param String $s
-     * @return Integer
-     *&#x2F;
-    function lengthOfLongestSubstring($s) &#123;
-        $len1 &#x3D; strlen($s);
-        if (!$len1) &#123;
-            return $len1;
-        &#125;
-
-        $max &#x3D; 1;
-        $p &#x3D; [];
-        for($i &#x3D; 0, $j &#x3D; 0; $i &lt; $len1; $i++) &#123;
-            $code &#x3D; ord($s[$i]);
-            if (!array_key_exists($code, $p)) &#123;
-                $p[$code] &#x3D; $i;
-                continue;
-            &#125;
-            
-            $strlen &#x3D; $i - $j;
-            $max &#x3D; $strlen &gt; $max ? $strlen : $max;
-            $i &#x3D; $p[$code];
-            $j &#x3D; $i + 1;
-            $p &#x3D; [];
-        &#125;
-        
-        $cnt &#x3D; count($p);
-        $max &#x3D; $cnt &gt; $max ? $cnt : $max;
-        
-        return $max;
-    &#125;
-&#125;</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lizubin.com/leetcode-longest-substring-without-repeating-characters.html" data-id="cl9dk9rcx001uxkd35h9k2k64" data-title="leetcode: longest substring without repeating characters" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-leetcode-add-two-numbers" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/leetcode-add-two-numbers.html" class="article-date">
-  <time class="dt-published" datetime="2021-10-01T04:29:09.000Z" itemprop="datePublished">2021-10-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/leetcode-add-two-numbers.html">leetcode:add-two-numbers</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>问题</li>
-</ul>
-<blockquote>
-<p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
-<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
-<p>You can return the answer in any order.</p>
-</blockquote>
-<ul>
-<li>leetcode类别</li>
-</ul>
-<p>中等</p>
-<ul>
-<li>代码</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">&#x2F;**
- * Definition for a singly-linked list.
- * class ListNode &#123;
- *     public $val &#x3D; 0;
- *     public $next &#x3D; null;
- *     function __construct($val &#x3D; 0, $next &#x3D; null) &#123;
- *         $this-&gt;val &#x3D; $val;
- *         $this-&gt;next &#x3D; $next;
- *     &#125;
- * &#125;
- *&#x2F;
-class Solution &#123;
-
-    &#x2F;**
-     * @param ListNode $l1
-     * @param ListNode $l2
-     * @return ListNode
-     *&#x2F;
-    function addTwoNumbers($l1, $l2) &#123;
-        return $this-&gt;reverseList($this-&gt;getNode($l1, $l2));
-    &#125;
-
-    function reverseList($list) &#123;
-        $prev &#x3D; null;
-        while($list !&#x3D;&#x3D; null) &#123;
-            $node &#x3D; new ListNode($list-&gt;val, null);
-            $node-&gt;next &#x3D; $prev;
-
-            $prev &#x3D; $node;
-            $list &#x3D; $list-&gt;next;
-        &#125;
-
-        return $node;
-    &#125;
-
-    function getNode($l1, $l2) &#123;
-        $prev &#x3D; null;
-        $plus &#x3D; 0;
-        
-        while(true) &#123;
-            if ($l1 &#x3D;&#x3D;&#x3D; null &amp;&amp; $l2 &#x3D;&#x3D;&#x3D; null &amp;&amp; !$plus) &#123;
-                break;
-            &#125;
-
-            $val &#x3D; 0;
-            if ($l1 !&#x3D;&#x3D; null) &#123;
-                $val +&#x3D; $l1-&gt;val;
-            &#125;
-
-            if ($l2 !&#x3D;&#x3D; null) &#123;
-                $val +&#x3D; $l2-&gt;val;
-            &#125;
-
-            $val +&#x3D; $plus;
-
-            $plus &#x3D; 0;
-            if ($val &gt; 9) &#123;
-                $val &#x3D; $val % 10;
-                $plus &#x3D; 1;
-            &#125;
-            
-            $node &#x3D; new ListNode($val, null);
-            $node-&gt;next &#x3D; $prev;
-
-            $prev &#x3D; $node;
-            
-            if ($l1 !&#x3D;&#x3D; null) &#123;
-                $l1 &#x3D; $l1-&gt;next;
-            &#125;
-
-            if ($l2 !&#x3D;&#x3D; null) &#123;
-                $l2 &#x3D; $l2-&gt;next;
-            &#125;
-        &#125;
-
-        return $node;
-    &#125;
-&#125;</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lizubin.com/leetcode-add-two-numbers.html" data-id="cl9dk9rcw001qxkd33hwye7cn" data-title="leetcode:add-two-numbers" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/add-two-numbers/" rel="tag">add two numbers</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1081,6 +1035,14 @@ class Solution &#123;
       <ul>
         
           <li>
+            <a href="/fix-simple-ajax-upload-js-has-a-conflict-with-the-button.html">解决SimpleAjaxUpload特殊样式中hover冲突造成按钮不显示问题</a>
+          </li>
+        
+          <li>
+            <a href="/how-to-search-correctly-in-elasticsearch.html">提升elasticsearch搜索准确率</a>
+          </li>
+        
+          <li>
             <a href="/upload-large-video-by-chunk.html">超大视频文件分片上传</a>
           </li>
         
@@ -1092,14 +1054,6 @@ class Solution &#123;
             <a href="/windows-powershell-about-execution-policies.html">windows powershell about_execution_policies</a>
           </li>
         
-          <li>
-            <a href="/SQLSTATE-HY000-1045-Access-denied.html">SQLSTATE[HY000] [1045] Access denied for user &#39;&#39;@&#39;localhost&#39; (using password: NO)</a>
-          </li>
-        
-          <li>
-            <a href="/System-has-not-been-booted-with-systemd-as-init-system.html">System has not been booted with systemd as init system</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1109,7 +1063,7 @@ class Solution &#123;
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 10px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.86px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.43px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 17.14px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/es6/" style="font-size: 11.43px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.86px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 15.71px;">javascript</a> <a href="/tags/js/" style="font-size: 11.43px;">js</a> <a href="/tags/leetcode/" style="font-size: 18.57px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 14.29px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/phalcon/" style="font-size: 14.29px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 11.43px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.43px;">默认值</a>
+      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.43px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.86px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.43px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 17.14px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/es6/" style="font-size: 11.43px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.86px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 15.71px;">javascript</a> <a href="/tags/js/" style="font-size: 11.43px;">js</a> <a href="/tags/leetcode/" style="font-size: 18.57px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 14.29px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/phalcon/" style="font-size: 14.29px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 11.43px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.43px;">默认值</a>
     </div>
   </div>
 

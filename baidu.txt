@@ -1,5 +1,4 @@
 https://lizubin.com/upload-large-video-by-chunk.html
-https://lizubin.com/how-to-search-correctly-in-elasticsearch.html
 https://lizubin.com/fix-simple-ajax-upload-js-has-a-conflict-with-the-button.html
 https://lizubin.com/windows-powershell-about-execution-policies.html
 https://lizubin.com/several-command-to-know-your-public-ip.html

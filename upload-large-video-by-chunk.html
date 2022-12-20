@@ -159,7 +159,7 @@ fd.append(&#39;file&#39;, chunk);</code></pre>
 <h5 id="上传进度计算"><a href="#上传进度计算" class="headerlink" title="上传进度计算"></a>上传进度计算</h5><p>上传进度不同于普通上传,使用已上传的数据除以总大小数据就可以得到一个进度.分片上传的进度是每片的进度,可以有两种方式展示进度:</p>
 <p>(1). 当前已上传分片数&#x2F;总分片数,相对简单<br>(2). (当前已上传大小 + progress事件中返回的大小)&#x2F;文件总大小,进度计算稍微复杂一点</p>
 <p>完整代码如下:</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function chunkUpload(video, tr, loaded &#x3D; 0, chunkName &#x3D; &#39;&#39;, target &#x3D; &#39;&#39;) &#123;
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function chunkUpload(video, loaded &#x3D; 0, chunkName &#x3D; &#39;&#39;, target &#x3D; &#39;&#39;) &#123;
     const chunk &#x3D; size_limit;
 
     const fd &#x3D; new FormData();
@@ -168,7 +168,6 @@ fd.append(&#39;file&#39;, chunk);</code></pre>
     const uploadChunk &#x3D; loaded + currentChunk.size;
     const end &#x3D; uploadChunk &gt;&#x3D; video.size ? 1 : 0;
     fd.append(&#39;file&#39;, currentChunk)
-    fd.append(&#39;filename&#39;, video.name)
     fd.append(&#39;end&#39;, end)
     fd.append(&#39;chunk&#39;, chunk)
     fd.append(&#39;total&#39;, video.size)
@@ -195,7 +194,7 @@ fd.append(&#39;file&#39;, chunk);</code></pre>
             
                 if(resp.error_code &#x3D;&#x3D;&#x3D; 0 ) &#123;
                     if(nextChunk &lt; video.size) &#123;
-                        chunkUpload(video, tr, nextChunk, resp.data.code, resp.data.target);
+                        chunkUpload(video, nextChunk, resp.data.code, resp.data.target);
                     &#125;else &#123;
                         &#x2F;&#x2F; 上传完成后的逻辑处理
                     &#125;
@@ -210,6 +209,7 @@ fd.append(&#39;file&#39;, chunk);</code></pre>
     xhr.send(fd)
 &#125;</code></pre>
 
+<p>可以看到,和普通上传相比,我们多上传了3个参数,分别是<code>end</code>,<code>chunk</code>,<code>total</code>.<code>end</code>表示是否是最后一片,如果是最后一片了那么服务端应该在接收后将之前的所有分片都合并起来.<code>chunk</code>是每片的大小,<code>total</code>是文件总的大小.另外,为了防止出现意外,还在<code>header</code>头部,加入了3个参数:<code>file-index</code>,<code>chunk-name</code>,<code>chunk-token</code>.<code>file-index</code>是每片的序号,从1开始,以保证合成的文件是正确的.<code>chunk-name</code>和<code>chunk-token</code>是安全校验的.在第一个分片上传的时候,服务端随机生成一串字符串(<code>chunk-name</code>),再MD5加密作为文件名.注意,这里<code>chunk-name</code>是未<code>md5</code>前的字符串,假如直接使用文件名,那别人传入<code>../../xxx</code>这类值会访问到你的其他路径.而<code>chunk-token</code>是分片保存的完整路径加密后字符串.</p>
 
       
     </div>

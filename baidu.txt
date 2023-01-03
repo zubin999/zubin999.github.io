@@ -1,3 +1,4 @@
+https://lizubin.com/Uncaught-SyntaxError-Bad-control-character-in-string-literal-in-JSON-at-position.html
 https://lizubin.com/use-vue-with-phalcon-volt-syntax.html
 https://lizubin.com/upload-large-video-by-chunk.html
 https://lizubin.com/fix-simple-ajax-upload-js-has-a-conflict-with-the-button.html
@@ -147,3 +148,5 @@ https://lizubin.com/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/
 https://lizubin.com/tags/hover/
 https://lizubin.com/tags/volt/
 https://lizubin.com/tags/vue/
+https://lizubin.com/tags/json/
+https://lizubin.com/tags/parse/

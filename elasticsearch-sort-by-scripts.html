@@ -7,10 +7,10 @@
   <title>elasticsearch基于脚本的排序 | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
-  <meta name="description" content="elasticsearch排序一般是按照** 相关性分数(relevance score) **排序,或者mapping中其他字段.除此之外,elasticsearch还可以自己编写脚本来对结果排序.基本用法如下:
+  <meta name="description" content="elasticsearch排序一般是按照相关性分数(relevance score)排序,或者mapping中其他字段.除此之外,elasticsearch还可以自己编写脚本来对结果排序.基本用法如下:
 &#39;sort&#39; &#x3D;&gt; [
     &#39;_script&#39; &#x3D;&gt; [
-        &#39;script&#39; &...">
+        &#39;script&#39; &#x3D;&...">
   
   
   <meta name="keywords" content="elasticsearch">
@@ -90,7 +90,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p><code>elasticsearch</code>排序一般是按照** <code>相关性分数(relevance score)</code> **排序,或者<code>mapping</code>中其他字段.除此之外,<code>elasticsearch</code>还可以自己编写脚本来对结果排序.基本用法如下:</p>
+        <p><code>elasticsearch</code>排序一般是按照<code>相关性分数(relevance score)</code>排序,或者<code>mapping</code>中其他字段.除此之外,<code>elasticsearch</code>还可以自己编写脚本来对结果排序.基本用法如下:</p>
 <pre class="line-numbers language-none"><code class="language-none">&#39;sort&#39; &#x3D;&gt; [
     &#39;_script&#39; &#x3D;&gt; [
         &#39;script&#39; &#x3D;&gt; [

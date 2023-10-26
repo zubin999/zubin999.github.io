@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>李祖彬的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta name="google-site-verification" content="cnfvbLxGQVUqJA07xjs400UpudKGP4An6xmyJDBiDlM" />
+  <meta name="description" content="各种常见的，非常见的PHP，JavaScript，HTML，MySQL，phalcon等问题以及解决办法">
+  
+  
+  <meta name="author" content="李祖彬">
+  
+  
+    <link rel="shortcut icon" href="/css/images/favicon.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">李祖彬的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">lizubin.com</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lizubin.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-elasticsearch-multi-match" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/elasticsearch-multi-match.html" class="article-date">
+  <time class="dt-published" datetime="2022-10-18T08:26:32.000Z" itemprop="datePublished">2022-10-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/elasticsearch-multi-match.html">elasticsearch同时搜索多个字段</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在使用es做全文检索时,可以使用<code>match</code>来查询某个字段,如要查询标题中含有<code>elasticsearch</code>相关的内容:</p>
+<pre class="line-numbers language-none"><code class="language-none">$client-&gt;search(
+    [
+        &#39;index&#39; &#x3D;&gt; &#39;test&#39;,
+        &#39;body&#39; &#x3D;&gt; [
+            &#39;query&#39; &#x3D;&gt; [
+                &#39;bool&#39; &#x3D;&gt; [
+                    &#39;must&#39; &#x3D;&gt; [
+                        [
+                            &#39;match&#39; &#x3D;&gt; [
+                                &#39;title&#39; &#x3D;&gt; [
+                                    &#39;query&#39; &#x3D;&gt; &#39;elasticsearch&#39;
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    ]
+);</code></pre>
+
+<p>现在需要检索标题、副标题、内容都含有<code>elasticsearch</code>相关的内容就可以使用<code>multi_match</code>:</p>
+<pre class="line-numbers language-none"><code class="language-none">$client-&gt;search(
+    [
+        &#39;index&#39; &#x3D;&gt; &#39;test&#39;,
+        &#39;body&#39; &#x3D;&gt; [
+            &#39;query&#39; &#x3D;&gt; [
+                &#39;bool&#39; &#x3D;&gt; [
+                    &#39;must&#39; &#x3D;&gt; [
+                        [
+                            &#39;multi_match&#39; &#x3D;&gt; [
+                                &#39;query&#39; &#x3D;&gt; &#39;elasticsearch&#39;,
+                                &#39;fields&#39; &#x3D;&gt; [
+                                    &#39;title&#39;,
+                                    &#39;subtitle&#39;,
+                                    &#39;content&#39;
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    ]
+);</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/elasticsearch-multi-match.html" data-id="clo6juzqw0018vfnrhm5ed34e" data-title="elasticsearch同时搜索多个字段" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/multi-match/" rel="tag">multi_match</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-5-ways-to-center-a-div-in-css" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/5-ways-to-center-a-div-in-css.html" class="article-date">
+  <time class="dt-published" datetime="2022-10-11T01:33:13.000Z" itemprop="datePublished">2022-10-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/5-ways-to-center-a-div-in-css.html">css中5种居中方式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><img src="/5-ways-to-center-a-div-in-css/1.png"></p>
+<p>如上图,没有给任何位置设置.</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; css
+&lt;style&gt;
+    .big &#123;
+        width: 400px;
+        height: 300px;
+        background-color: #1edcff;
+    &#125;
+
+    .small &#123;
+        width: 70px;
+        height: 70px;
+        background-color: #3ca217;
+    &#125;
+&lt;&#x2F;style&gt;
+
+&#x2F;&#x2F; html
+&lt;div class&#x3D;&quot;big&quot;&gt;
+    &lt;div class&#x3D;&quot;small&quot;&gt;&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;</code></pre>
+<p>要是小的div在大div里居中,有5种方式.</p>
+<ol>
+<li>flex</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">.big &#123;
+    width: 400px;
+    height: 300px;
+    background-color: #1edcff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+&#125;</code></pre>
+
+<ol start="2">
+<li>grid</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">.big &#123;
+    width: 400px;
+    height: 300px;
+    background-color: #1edcff;
+
+    display: grid;
+    place-content: center;
+&#125;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/5-ways-to-center-a-div-in-css.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/5-ways-to-center-a-div-in-css.html" data-id="clo6juzs6003uvfnr5pjfbuk3" data-title="css中5种居中方式" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/center/" rel="tag">center</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-css-minmax" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/css-minmax.html" class="article-date">
+  <time class="dt-published" datetime="2022-10-05T05:46:30.000Z" itemprop="datePublished">2022-10-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/css-minmax.html">CSS minmax()</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>认识minmax</li>
+</ul>
+<p>看看<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/minmax"><code>MDN</code></a>上对<code>minmax</code>的定义:</p>
+<blockquote>
+<p>The minmax() CSS function defines a size range greater than or equal to min and less than or equal to max. It is used with CSS Grids</p>
+</blockquote>
+<p>可以得出3点:</p>
+<ol>
+<li><code>minmax</code>是<code>CSS</code>中的一个函数</li>
+<li>定义了一个范围:大于等于最小值并且小于等于最大值</li>
+<li>在CSS的grid中使用</li>
+</ol>
+<p>现在来使用它:</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">&lt;style&gt;
+    .box &#123;
+        display: grid;
+        grid-template-columns: minmax(200px, 500px) 1fr 1fr;
+        grid-gap: 10px;
+    &#125;
+
+    .box div &#123;
+        height: 78px;
+        background-color: #c2c;
+    &#125;
+&lt;&#x2F;style&gt;</code></pre>
+
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;div class&#x3D;&quot;box&quot;&gt;
+    &lt;div&gt;A&lt;&#x2F;div&gt;
+    &lt;div&gt;B&lt;&#x2F;div&gt;
+    &lt;div&gt;C&lt;&#x2F;div&gt;
+    &lt;div&gt;D&lt;&#x2F;div&gt;
+    &lt;div&gt;E&lt;&#x2F;div&gt;
+    &lt;div&gt;F&lt;&#x2F;div&gt;
+    &lt;div&gt;G&lt;&#x2F;div&gt;
+    &lt;div&gt;H&lt;&#x2F;div&gt;
+    &lt;div&gt;I&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;</code></pre>
+
+<p>在页面中可以看到:</p>
+<p><img src="/css-minmax/0.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/css-minmax.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/css-minmax.html" data-id="clo6juzqu0017vfnrb7880n8o" data-title="CSS minmax()" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/minmax/" rel="tag">minmax</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-several-command-to-know-your-public-ip" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/several-command-to-know-your-public-ip.html" class="article-date">
+  <time class="dt-published" datetime="2022-10-05T01:42:12.000Z" itemprop="datePublished">2022-10-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/several-command-to-know-your-public-ip.html">几个网站让你从命令行知道自己的公网IP</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>ifconfig.me</li>
+<li>ipinfo.io&#x2F;ip</li>
+<li>api.ipify.org</li>
+<li>ipecho.net&#x2F;plain</li>
+<li>wtfismyip.com&#x2F;json</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">curl ifconfig.me
+curl ipinfo.io&#x2F;ip
+curl api.ipify.org
+curl ipecho.net&#x2F;plain
+curl wtfismyip.com&#x2F;json</code></pre>
+
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p><img src="/several-command-to-know-your-public-ip/2.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/several-command-to-know-your-public-ip.html" data-id="clo6juzrm002nvfnr97n8egmi" data-title="几个网站让你从命令行知道自己的公网IP" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IP/" rel="tag">IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/command/" rel="tag">command</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/public-network/" rel="tag">public network</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-SimpleAjaxUploader上传后赋值失败问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98.html" class="article-date">
+  <time class="dt-published" datetime="2022-05-16T13:51:55.000Z" itemprop="datePublished">2022-05-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98.html">SimpleAjaxUploader上传后赋值失败问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>项目中有这样一段关于上传图片的代码:</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;label class&#x3D;&quot;label required&quot;&gt;频道icon:&lt;&#x2F;label&gt;
+            &lt;div class&#x3D;&quot;form-item mb-0&quot;&gt;
+                &lt;input class&#x3D;&quot;form-control&quot; readonly name&#x3D;&quot;img&quot; value&#x3D;&quot;&#123;&#123;data[&#39;img&#39;]&#125;&#125;&quot;&#x2F;&gt;
+                &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; id&#x3D;&quot;uploadImage&quot;&gt;上传&lt;&#x2F;button&gt;
+            &lt;&#x2F;div&gt;
+            &lt;div class&#x3D;&quot;form-text help-block&quot;&gt;图片的最佳尺寸：100*100，其他尺寸会影响页面效果，格式png，jpg，gif。大小不超过2M&lt;&#x2F;div&gt;
+            &lt;div class&#x3D;&quot;form-item mb-4&quot;&gt;
+                &lt;div class&#x3D;&quot;col-4&quot;&gt;
+                    &lt;img src&#x3D;&quot;&#123;&#123;data[&#39;img&#39;]|default(default_image)&#125;&#125;&quot; id&#x3D;&quot;imgPreview&quot; class&#x3D;&quot;img-responsive&quot;&#x2F;&gt;
+                &lt;&#x2F;div&gt;
+            &lt;&#x2F;div&gt;</code></pre>
+
+<p>上传插件使用的是<a target="_blank" rel="noopener" href="https://www.lpology.com/code/ajaxuploader/docs.php">Simple Ajax Uploader</a>,在上传完成后对input和img赋值:</p>
+<pre class="line-numbers language-none"><code class="language-none">onComplete: function(filename, res, uploadBtn) &#123;
+                if(res.error_code !&#x3D; 0)&#123;
+                    &#x2F;&#x2F; error msg
+                &#125;else&#123;
+                    $(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);
+                    $(&#39;#imgPreview&#39;).prop(&#39;src&#39;, res.thumb[0].url);
+                &#125;
+            &#125;,</code></pre>
+
+<p>这时候,问题出现了,input框赋值成功,但是img的src值没有改变,控制台也没有任何错误信息.将两行赋值代码交换顺序:</p>
+<pre class="line-numbers language-none"><code class="language-none">$(&#39;#imgPreview&#39;).prop(&#39;src&#39;, res.thumb[0].url);
+$(&#39;input[name&#x3D;img]&#39;).val(res.thumb[0].url);</code></pre>
+
+<p>img的src正常复制,input正常复制.这就非常奇怪了.</p>
+        
+          <p class="article-more-link">
+            <a href="/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/SimpleAjaxUploader%E4%B8%8A%E4%BC%A0%E5%90%8E%E8%B5%8B%E5%80%BC%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98.html" data-id="clo6juzqm000nvfnrhti3h99x" data-title="SimpleAjaxUploader上传后赋值失败问题" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SimpleAjaxUploader/" rel="tag">SimpleAjaxUploader</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/upload/" rel="tag">upload</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-Valid-Parentheses" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-Valid-Parentheses.html" class="article-date">
+  <time class="dt-published" datetime="2022-04-11T13:34:38.000Z" itemprop="datePublished">2022-04-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-Valid-Parentheses.html">leetcode:Valid Parentheses</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p>Given a string s containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘ and ‘]’, determine if the input string is valid.</p>
+<p>An input string is valid if:</p>
+<ol>
+<li>Open brackets must be closed by the same type of brackets.</li>
+<li>Open brackets must be closed in the correct order.</li>
+</ol>
+</blockquote>
+<ul>
+<li>解决</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+
+    &#x2F;**
+     * @param String $s
+     * @return Boolean
+     *&#x2F;
+    function isValid($s) &#123;
+        if(strlen($s) % 2) &#123;
+            return false;
+        &#125;
+
+        while(true)&#123;
+            $c &#x3D; $s[0];
+            $s &#x3D; substr($s, 1);
+            $i &#x3D; $this-&gt;match($c, $s);
+            if($i &#x3D;&#x3D;&#x3D; false)&#123;
+                return false;
+            &#125;
+
+            $s &#x3D; substr($s, 0, $i) . substr($s, $i + 1);
+            if(empty($s))&#123;
+                break;
+            &#125;
+        &#125;
+
+        return true;
+    &#125;
+
+    function match($c, $s)
+    &#123;
+        $map &#x3D; [
+            &#39;(&#39; &#x3D;&gt; &#39;)&#39;,
+            &#39;&#123;&#39; &#x3D;&gt; &#39;&#125;&#39;,
+            &#39;[&#39; &#x3D;&gt; &#39;]&#39;
+        ];
+
+        if($s[0] &#x3D;&#x3D;&#x3D; $map[$c]) &#123;
+            return 0;
+        &#125;
+
+        $offset &#x3D; 0;
+        for($i &#x3D; 0, $len &#x3D; strlen($s); $i &lt; $len; $i++) &#123;
+            if(in_array($s[$i], [&#39;(&#39;, &#39;&#123;&#39;, &#39;[&#39;], true)) &#123;
+                $offset +&#x3D; 2;
+            &#125;
+
+            if($s[$i] &#x3D;&#x3D;&#x3D; $map[$c] &amp;&amp; $offset &#x3D;&#x3D;&#x3D; $i) &#123;
+                return $offset;
+            &#125;
+        &#125;
+
+        return false;
+    &#125;
+&#125;</code></pre>
+
+<p>主要找到对应位置,然后比较对应位置是否正确并不断将正确的从字符串中移除.运行效率很低,500ms~900ms之间.<br>看社区排名前面的解决方法(python,java,c++)都是通过栈来解决–先进后出.修改如下:</p>
+        
+          <p class="article-more-link">
+            <a href="/leetcode-Valid-Parentheses.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-Valid-Parentheses.html" data-id="clo6juzrb0024vfnr764l3xrk" data-title="leetcode:Valid Parentheses" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-直播问题记录" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.html" class="article-date">
+  <time class="dt-published" datetime="2022-03-31T08:13:56.000Z" itemprop="datePublished">2022-03-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.html">直播问题记录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>体验版IM账号达到100个,需要删除账号小直播服务器数据库中账号和项目数据库中表中对应的记录</p>
+</li>
+<li><p>直播回顾生成</p>
+<ol>
+<li>云直播中直播回顾创建一个hls模板</li>
+<li>代码中开播会调用该模板设置录制任务</li>
+<li>推流结束后,录制文件会存在云点播,录制回调中根据推流的类型(电台直播,视频直播等)调用不同的云点播任务流对录制文件转码为mp3和mp4</li>
+<li>云点播回调根据file_id更新对应直播回顾,回顾生成完成</li>
+<li>需注意直播录制回调时间根据直播录制模板中设置的续录等待时长而定,如设置600秒的续录等待时间,则断流10分钟后才会产生录制回调,中间有新推流,最终录制会合并为一个文件</li>
+</ol>
+</li>
+<li><p>im回调中cmd值与表示:</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>表示意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>文本消息</td>
+</tr>
+<tr>
+<td>2</td>
+<td>进入直播间</td>
+</tr>
+<tr>
+<td>3</td>
+<td>退出直播间</td>
+</tr>
+<tr>
+<td>4</td>
+<td>点赞</td>
+</tr>
+<tr>
+<td>5</td>
+<td>弹幕</td>
+</tr>
+<tr>
+<td>6</td>
+<td>连麦</td>
+</tr>
+<tr>
+<td>10</td>
+<td>打赏</td>
+</tr>
+<tr>
+<td>11</td>
+<td>红包</td>
+</tr>
+<tr>
+<td>12</td>
+<td>抢红包成功</td>
+</tr>
+<tr>
+<td>13</td>
+<td>发抽奖</td>
+</tr>
+<tr>
+<td>14</td>
+<td>图片消息</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>IM回调返回ErrorCode值说明:</p>
+<ol>
+<li><code>0</code>表示下发消息,所有用户可看到消息</li>
+<li><code>1</code>表示禁言,所有用户看不到消息</li>
+<li><code>2</code>表示静默丢弃,所有用户看不到消息</li>
+<li><code>10100</code>~&#96;10200&#96;之间,用户自定义错误信息,所有用户看不到消息</li>
+</ol>
+</li>
+<li><p>如果IM回调返回非0值,但是前端所有用户能正常收到消息,可能接口有报错,使用postman请求接口查看</p>
+</li>
+<li><p>创建直播间失败,日志显示:</p>
+</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">Array
+(
+    [ActionStatus] &#x3D;&gt; FAIL
+    [ErrorCode] &#x3D;&gt; 10036
+    [ErrorInfo] &#x3D;&gt; Fail to create AVchatroom. You&#39;ve reached AVchatroom amount limit. Please upgrade your package on the console
+)</code></pre>
+
+<p>体验版IM的AVChatroom数量上限是10个</p>
+<ul>
+<li>FM直播间hls录制回顾不生成</li>
+</ul>
+<p>FM为纯音频流,要录制生成hls文件,需在腾讯云开启音视频探测服务,该服务默认是关闭的,可提工单开启</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.html" data-id="clo6juzs3003mvfnr1lo99s34" data-title="直播问题记录" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-4Sum" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-4Sum.html" class="article-date">
+  <time class="dt-published" datetime="2022-03-29T13:36:20.000Z" itemprop="datePublished">2022-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-4Sum.html">leetcode:4Sum</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p> Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:</p>
+</blockquote>
+<p>0 &lt;&#x3D; a, b, c, d &lt; n<br>a, b, c, and d are distinct.<br>nums[a] + nums[b] + nums[c] + nums[d] &#x3D;&#x3D; target<br>You may return the answer in any order.</p>
+<ul>
+<li>难度</li>
+</ul>
+<p>中等</p>
+<ul>
+<li>代码</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">class Solution
+&#123;
+
+    &#x2F;**
+     * @param Integer[] $nums
+     * @param Integer $target
+     * @return Integer[][]
+     *&#x2F;
+    public function fourSum($nums, $target)
+    &#123;
+        $len &#x3D; count($nums);
+        if (!$len) &#123;
+            return [];
+        &#125;
+
+        sort($nums);
+
+        $res &#x3D; [];
+        for ($i &#x3D; 0, $l1 &#x3D; $len - 3; $i &lt; $l1; $i++) &#123;
+            if ($i &amp;&amp; $nums[$i] &#x3D;&#x3D;&#x3D; $nums[$i - 1]) &#123;
+                continue;
+            &#125;
+
+            $sum &#x3D; $target - $nums[$i];
+            for ($j &#x3D; $i + 1, $len1 &#x3D; $len - 2; $j &lt; $len1; $j++) &#123;
+                if ($j &#x3D;&#x3D;&#x3D; ($i + 1) || $nums[$j] !&#x3D;&#x3D; $nums[$j - 1]) &#123;
+                    $x &#x3D; $j + 1;
+                    $y &#x3D; $len - 1;
+
+                    while ($x &lt; $y) &#123;
+                        $s &#x3D; $nums[$j] + $nums[$x] + $nums[$y];
+                        if ($s &#x3D;&#x3D;&#x3D; $sum) &#123;
+                            $res[] &#x3D; [$nums[$i], $nums[$j], $nums[$x], $nums[$y]];
+                            $x++;
+                        &#125; else if ($s &gt; $sum) &#123;
+                            $y--;
+                        &#125; else &#123;
+                            $x++;
+                        &#125;
+
+                        while ($x &lt; $y &amp;&amp; ($x - 1) &gt; $j &amp;&amp; $nums[$x] &#x3D;&#x3D;&#x3D; $nums[$x - 1]) &#123;
+                            $x++;
+                        &#125;
+
+                        while ($x &lt; $y &amp;&amp; $nums[$y] &#x3D;&#x3D;&#x3D; $nums[$y + 1]) &#123;
+                            $y--;
+                        &#125;
+
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+
+        return $res;
+    &#125;
+&#125;</code></pre>
+
+<p>这题思路和前面的求3个数差不多,也是利用那里的方法来解,开始在<code>[-2, -1, 0, 0, 1, 2]</code>这个测试没有通过,少了一个答案<code>[-1,0,0,1]</code>, 经过一番测试, 发现在最后判断<code>$x</code>相同值时需要加上<code>($x - 1) &gt; $j</code>条件.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-4Sum.html" data-id="clo6juzr1001mvfnr81ok2bsq" data-title="leetcode:4Sum" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/4sum/" rel="tag">4sum</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-Letter-Combinations-of-a-Phone-Number" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-Letter-Combinations-of-a-Phone-Number.html" class="article-date">
+  <time class="dt-published" datetime="2022-03-16T11:38:02.000Z" itemprop="datePublished">2022-03-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-Letter-Combinations-of-a-Phone-Number.html">leetcode:Letter Combinations of a Phone Number</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<p>Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.</p>
+<p>A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.</p>
+<ul>
+<li>结果</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+
+    public $keyboard &#x3D; [
+            &#39;2&#39; &#x3D;&gt; [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],
+            &#39;3&#39; &#x3D;&gt; [&#39;d&#39;, &#39;e&#39;, &#39;f&#39;],
+            &#39;4&#39; &#x3D;&gt; [&#39;g&#39;, &#39;h&#39;, &#39;i&#39;],
+            &#39;5&#39; &#x3D;&gt; [&#39;j&#39;, &#39;k&#39;, &#39;l&#39;],
+            &#39;6&#39; &#x3D;&gt; [&#39;m&#39;, &#39;n&#39;, &#39;o&#39;],
+            &#39;7&#39; &#x3D;&gt; [&#39;p&#39;, &#39;q&#39;, &#39;r&#39;, &#39;s&#39;],
+            &#39;8&#39; &#x3D;&gt; [&#39;t&#39;, &#39;u&#39;, &#39;v&#39;],
+            &#39;9&#39; &#x3D;&gt; [&#39;w&#39;, &#39;x&#39;, &#39;y&#39;, &#39;z&#39;],
+    ];
+
+    &#x2F;**
+     * @param String $digits
+     * @return String[]
+     *&#x2F;
+    function letterCombinations($digits) &#123;
+        if(!$digits) &#123;
+            return [];
+        &#125;
+
+        $len &#x3D; strlen($digits);
+        if($len &#x3D;&#x3D;&#x3D; 1) &#123;
+            return $this-&gt;keyboard[$digits];
+        &#125;
+        
+        $first &#x3D; $this-&gt;keyboard[$digits[0]];
+        $i &#x3D; 1;
+
+        do&#123;
+            $str &#x3D; substr($digits, $i++, 1);
+            if(empty($str))&#123;
+                break;
+            &#125;
+
+            $first &#x3D; $this-&gt;combination($first, $str);
+        &#125;while(true);
+
+        return $first;
+    &#125;
+
+    function combination($arr1, $str)
+    &#123;
+        $res &#x3D; [];
+        $arr &#x3D; $this-&gt;keyboard[$str];
+        foreach ($arr1 as $ch) &#123;
+            foreach($arr as $item) &#123;
+                $res[] &#x3D; $ch . $item;
+            &#125;
+        &#125;
+
+        return $res;
+    &#125;
+&#125;</code></pre>
+
+<p>这个题根据数字要列出所有的字母组合,假如输入<code>239</code>,那么需要用<code>2</code>对应的每一个字母先和<code>3</code>所有的字母组合,然后再和<code>9</code>所有的字母组合,如果再有数字,那么接着和下一个数字的所有字母组合.可以发现这里一直在重复着用上一个字母组合数组去和下一个字母数组组合成一个新的数组直到结束.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-Letter-Combinations-of-a-Phone-Number.html" data-id="clo6juzr4001vvfnreqv21esz" data-title="leetcode:Letter Combinations of a Phone Number" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-Container-With-Most-Water" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-Container-With-Most-Water.html" class="article-date">
+  <time class="dt-published" datetime="2022-03-08T16:20:56.000Z" itemprop="datePublished">2022-03-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-Container-With-Most-Water.html">leetcode:Container With Most Water</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p>Given n non-negative integers a1, a2, …, an , where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of the line i is at (i, ai) and (i, 0). Find two lines, which, together with the x-axis forms a container, such that the container contains the most water.</p>
+</blockquote>
+<p>这里有一个数组,长度在2~10^5之间.求这些数字在坐标中组成的最大的长方形面积.</p>
+<ul>
+<li>解决</li>
+</ul>
+<p>最容易想到的是直接遍历:</p>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+
+
+    &#x2F;**
+     * @param Integer[] $height
+     * @return Integer
+     *&#x2F;
+    function maxArea($height) &#123;
+        $len &#x3D; count($height);
+        $area &#x3D; 0;
+        for($i &#x3D; 0, $len1 &#x3D; $len - 1; $i &lt; $len1; $i++) &#123;
+             for($j &#x3D; $len; $j &gt; $i; $j--) &#123;
+                 $area &#x3D; max(min($height[$i], $height[$j]) * ($j - $i), $area);
+             &#125;
+        &#125;
+        
+        return $area;
+    &#125;
+&#125;</code></pre>
+
+<p>我开始想的还多一步,定义了一个数组将外层循环每一轮最大值存下来最后再求最大值,对于数组长度不大时没有问题,但是题目中数组长度能够达到10^5,这段代码提交的结果是超时.</p>
+<p>后来看他们的解决方法,才发现其实也很简单.</p>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+
+
+    &#x2F;**
+     * @param Integer[] $height
+     * @return Integer
+     *&#x2F;
+    function maxArea($height) &#123;
+        $len &#x3D; count($height);
+        $area &#x3D; 0;
+        $l &#x3D; 0;
+        $r &#x3D; $len - 1;
+        while($l &lt; $r) &#123;
+            $area &#x3D; max($area, min($height[$l], $height[$r]) * ($r - $l));
+            if($height[$l] &lt; $height[$r]) &#123;
+                $l++;
+            &#125; else &#123;
+                $r--;
+            &#125;
+        &#125;
+
+        return $area;
+    &#125;
+&#125;</code></pre>
+
+<p>首先求最左边和最右边的结果,因为这时长度最长.然后看左边和右边哪个数小,相应的就去找下一个值.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-Container-With-Most-Water.html" data-id="clo6juzr2001ovfnr5ckm4nyb" data-title="leetcode:Container With Most Water" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Container-With-Most-Water/" rel="tag">Container With Most Water</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/how-to-use-php-to-generate-a-word-file-by-html.html">使用PHP根据html内容生成word文件</a>
+          </li>
+        
+          <li>
+            <a href="/canvas-Uncaught-DOMException-Failed-to-execute-toDataURL-on-HTMLCanvasElement.html">canvas对视频截图报错:Uncaught DOMException: Failed to execute &#39;toDataURL&#39; on &#39;HTMLCanvasElement&#39;</a>
+          </li>
+        
+          <li>
+            <a href="/pull-to-refresh-miniprogram-s-data-list.html">小程序页面部分下拉刷新解决方案</a>
+          </li>
+        
+          <li>
+            <a href="/promise-in-wechat-miniprogram.html">使用promise封装小程序网络请求</a>
+          </li>
+        
+          <li>
+            <a href="/the-communications-of-pages.html">小程序页面间事件通信</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/File/" style="font-size: 10px;">File</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.25px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.5px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 11.25px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 11.25px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.25px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 16.25px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/error/" style="font-size: 10px;">error</a> <a href="/tags/es6/" style="font-size: 11.25px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.5px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 17.5px;">javascript</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/leetcode/" style="font-size: 18.75px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/modal/" style="font-size: 10px;">modal</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/parse/" style="font-size: 10px;">parse</a> <a href="/tags/phalcon/" style="font-size: 13.75px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/promise/" style="font-size: 10px;">promise</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/text/" style="font-size: 10px;">text</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/toDataURL/" style="font-size: 10px;">toDataURL</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/volt/" style="font-size: 10px;">volt</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/word/" style="font-size: 10px;">word</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/zui/" style="font-size: 10px;">zui</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" style="font-size: 10px;">下拉刷新</a> <a href="/tags/%E4%BA%8B%E4%BB%B6/" style="font-size: 10px;">事件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">组件</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">网络请求</a> <a href="/tags/%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE/" style="font-size: 10px;">腾讯地图</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E8%A7%86%E9%A2%91%E6%88%AA%E5%9B%BE/" style="font-size: 10px;">视频截图</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 11.25px;">通信</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 10px;">页面</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.25px;">默认值</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2015-2023 李祖彬&emsp;&emsp;邮箱：zeno-li#qq.com<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      <!-- &emsp;&emsp;<a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">蜀ICP备19034130号-1</a> -->
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

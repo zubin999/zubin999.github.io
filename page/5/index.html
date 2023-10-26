@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>李祖彬的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta name="google-site-verification" content="cnfvbLxGQVUqJA07xjs400UpudKGP4An6xmyJDBiDlM" />
+  <meta name="description" content="各种常见的，非常见的PHP，JavaScript，HTML，MySQL，phalcon等问题以及解决办法">
+  
+  
+  <meta name="author" content="李祖彬">
+  
+  
+    <link rel="shortcut icon" href="/css/images/favicon.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">李祖彬的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">lizubin.com</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lizubin.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-leetcode-ZigZag-Conversion" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-ZigZag-Conversion.html" class="article-date">
+  <time class="dt-published" datetime="2021-10-15T07:22:22.000Z" itemprop="datePublished">2021-10-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-ZigZag-Conversion.html">leetcode: ZigZag Conversion</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <pre class="line-numbers language-none"><code class="language-none">&#x2F;*
+ * @lc app&#x3D;leetcode id&#x3D;6 lang&#x3D;php
+ *
+ * [6] ZigZag Conversion
+ *&#x2F;
+
+&#x2F;&#x2F; @lc code&#x3D;start
+class Solution &#123;
+
+    &#x2F;**
+     * @param String $s
+     * @param Integer $numRows
+     * @return String
+     *&#x2F;
+    function convert($s, $numRows) &#123;
+        $len &#x3D; strlen($s);
+        if ($len &#x3D;&#x3D;&#x3D; 1 || $numRows &#x3D;&#x3D;&#x3D; 1) &#123;
+            return $s;
+        &#125;
+
+        $max &#x3D; 2 * $numRows - 2;
+        
+        $str &#x3D; &#39;&#39;;
+        &#x2F;&#x2F; 0 4 8 12
+        &#x2F;&#x2F; 1 3 5 7 9 11 13
+        &#x2F;&#x2F; 2 6 10
+
+        &#x2F;&#x2F; 0   6    12
+        &#x2F;&#x2F; 1 5 7 11 13
+        &#x2F;&#x2F; 2 4 8 10
+        &#x2F;&#x2F; 3   9    [15]
+
+        &#x2F;&#x2F; P   H
+        &#x2F;&#x2F; A S I
+        &#x2F;&#x2F; Y I R
+        &#x2F;&#x2F; P L I G
+        &#x2F;&#x2F; A   N
+        &#x2F;&#x2F; 0   8
+        &#x2F;&#x2F; 1 7 9
+        &#x2F;&#x2F; 2 6 10
+        &#x2F;&#x2F; 3 5 11 13
+        &#x2F;&#x2F; 4   12
+        
+        &#x2F;&#x2F;ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        &#x2F;&#x2F;A   E   I   M   Q   U   Y
+        &#x2F;&#x2F;B D F H J L N P R T V X Z
+        &#x2F;&#x2F;C   G   K   O   S   W
+        &#x2F;&#x2F;0   4   8    12    16 --- 4
+        &#x2F;&#x2F;1 3 5 7 9 11 13 15 17 --- 2
+        &#x2F;&#x2F;2   6   10   14    18 --- 4
+        
+        &#x2F;&#x2F;A   G   M
+        &#x2F;&#x2F;B F H L N R
+        &#x2F;&#x2F;C E I K O Q
+        &#x2F;&#x2F;D   J   P
+        &#x2F;&#x2F;0   6    12    18    6
+        &#x2F;&#x2F;1 5 7 11 13 17 19    4
+        &#x2F;&#x2F;2 4 8 10 14 16 20    2
+        &#x2F;&#x2F;3   9    15    21
+
+        &#x2F;&#x2F;A   I   Q
+        &#x2F;&#x2F;B H J P R
+        &#x2F;&#x2F;C G K O S
+        &#x2F;&#x2F;D F L N T
+        &#x2F;&#x2F;E   M   U
+        &#x2F;&#x2F;0   8     16    24    8
+        &#x2F;&#x2F;1 7 9  15 17 23 25    6 2 6 2
+        &#x2F;&#x2F;2 6 10 14 18 22       4 4 4 4
+        &#x2F;&#x2F;3 5 11 13 19 21       2 6 2 6
+        &#x2F;&#x2F;4   12    20          8
+
+        &#x2F;&#x2F;A   K   U
+        &#x2F;&#x2F;B J L T V
+        &#x2F;&#x2F;C I M S W
+        &#x2F;&#x2F;D H N R
+        &#x2F;&#x2F;E G O Q
+        &#x2F;&#x2F;F   P
+        &#x2F;&#x2F;0   10    20   10
+        &#x2F;&#x2F;1 9 11 19 21   8 2 8 2
+        &#x2F;&#x2F;2 8 12 18 22   6 4 6 4
+        &#x2F;&#x2F;3 7 13 17 23   4 6 4 6
+        &#x2F;&#x2F;4 6 14 16 24   2 8 2 8
+        &#x2F;&#x2F;5   15    25   10
+        $arr[] &#x3D; [0, $max];
+        $j &#x3D; 2;
+        while($max - $j &gt; 0) &#123;
+            $arr[] &#x3D; [$max - $j, $j];
+            $j +&#x3D; 2;
+        &#125;
+        $arr[] &#x3D; [0, $max];
+
+        for ($i &#x3D; 0; $i &lt; $numRows; $i++) &#123;
+            $str .&#x3D; $s[$i];
+            $idx &#x3D; $i;
+            while(true) &#123;
+                foreach($arr[$i] as $val) &#123;
+                    $idx +&#x3D; $val;
+                    if($idx &gt;&#x3D; $len) &#123;
+                        break 2;
+                    &#125;
+                    
+                    if (!$val) &#123;
+                        continue;
+                    &#125;
+
+                    $str .&#x3D; $s[$idx];
+                &#125;
+            &#125;
+        &#125;
+
+        return $str;
+    &#125;
+&#125;
+&#x2F;&#x2F; @lc code&#x3D;end
+
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-ZigZag-Conversion.html" data-id="clo6juzrd0026vfnrhu5m25xb" data-title="leetcode: ZigZag Conversion" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-longest-substring-without-repeating-characters" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-longest-substring-without-repeating-characters.html" class="article-date">
+  <time class="dt-published" datetime="2021-10-09T09:29:18.000Z" itemprop="datePublished">2021-10-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-longest-substring-without-repeating-characters.html">leetcode: longest substring without repeating characters</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+<p>You can return the answer in any order.</p>
+</blockquote>
+<ul>
+<li>leetcode类别</li>
+</ul>
+<p>中等</p>
+<ul>
+<li>代码</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+
+    &#x2F;**
+     * @param String $s
+     * @return Integer
+     *&#x2F;
+    function lengthOfLongestSubstring($s) &#123;
+        $len1 &#x3D; strlen($s);
+        if (!$len1) &#123;
+            return $len1;
+        &#125;
+
+        $max &#x3D; 1;
+        $p &#x3D; [];
+        for($i &#x3D; 0, $j &#x3D; 0; $i &lt; $len1; $i++) &#123;
+            $code &#x3D; ord($s[$i]);
+            if (!array_key_exists($code, $p)) &#123;
+                $p[$code] &#x3D; $i;
+                continue;
+            &#125;
+            
+            $strlen &#x3D; $i - $j;
+            $max &#x3D; $strlen &gt; $max ? $strlen : $max;
+            $i &#x3D; $p[$code];
+            $j &#x3D; $i + 1;
+            $p &#x3D; [];
+        &#125;
+        
+        $cnt &#x3D; count($p);
+        $max &#x3D; $cnt &gt; $max ? $cnt : $max;
+        
+        return $max;
+    &#125;
+&#125;</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-longest-substring-without-repeating-characters.html" data-id="clo6juzs5003rvfnrh1hb0ard" data-title="leetcode: longest substring without repeating characters" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-add-two-numbers" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-add-two-numbers.html" class="article-date">
+  <time class="dt-published" datetime="2021-10-01T04:29:09.000Z" itemprop="datePublished">2021-10-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-add-two-numbers.html">leetcode:add-two-numbers</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+<p>You can return the answer in any order.</p>
+</blockquote>
+<ul>
+<li>leetcode类别</li>
+</ul>
+<p>中等</p>
+<ul>
+<li>代码</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;**
+ * Definition for a singly-linked list.
+ * class ListNode &#123;
+ *     public $val &#x3D; 0;
+ *     public $next &#x3D; null;
+ *     function __construct($val &#x3D; 0, $next &#x3D; null) &#123;
+ *         $this-&gt;val &#x3D; $val;
+ *         $this-&gt;next &#x3D; $next;
+ *     &#125;
+ * &#125;
+ *&#x2F;
+class Solution &#123;
+
+    &#x2F;**
+     * @param ListNode $l1
+     * @param ListNode $l2
+     * @return ListNode
+     *&#x2F;
+    function addTwoNumbers($l1, $l2) &#123;
+        return $this-&gt;reverseList($this-&gt;getNode($l1, $l2));
+    &#125;
+
+    function reverseList($list) &#123;
+        $prev &#x3D; null;
+        while($list !&#x3D;&#x3D; null) &#123;
+            $node &#x3D; new ListNode($list-&gt;val, null);
+            $node-&gt;next &#x3D; $prev;
+
+            $prev &#x3D; $node;
+            $list &#x3D; $list-&gt;next;
+        &#125;
+
+        return $node;
+    &#125;
+
+    function getNode($l1, $l2) &#123;
+        $prev &#x3D; null;
+        $plus &#x3D; 0;
+        
+        while(true) &#123;
+            if ($l1 &#x3D;&#x3D;&#x3D; null &amp;&amp; $l2 &#x3D;&#x3D;&#x3D; null &amp;&amp; !$plus) &#123;
+                break;
+            &#125;
+
+            $val &#x3D; 0;
+            if ($l1 !&#x3D;&#x3D; null) &#123;
+                $val +&#x3D; $l1-&gt;val;
+            &#125;
+
+            if ($l2 !&#x3D;&#x3D; null) &#123;
+                $val +&#x3D; $l2-&gt;val;
+            &#125;
+
+            $val +&#x3D; $plus;
+
+            $plus &#x3D; 0;
+            if ($val &gt; 9) &#123;
+                $val &#x3D; $val % 10;
+                $plus &#x3D; 1;
+            &#125;
+            
+            $node &#x3D; new ListNode($val, null);
+            $node-&gt;next &#x3D; $prev;
+
+            $prev &#x3D; $node;
+            
+            if ($l1 !&#x3D;&#x3D; null) &#123;
+                $l1 &#x3D; $l1-&gt;next;
+            &#125;
+
+            if ($l2 !&#x3D;&#x3D; null) &#123;
+                $l2 &#x3D; $l2-&gt;next;
+            &#125;
+        &#125;
+
+        return $node;
+    &#125;
+&#125;</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-add-two-numbers.html" data-id="clo6juzre0028vfnr3yhl5qo6" data-title="leetcode:add-two-numbers" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/add-two-numbers/" rel="tag">add two numbers</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-leetcode-two-sum" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-two-sum.html" class="article-date">
+  <time class="dt-published" datetime="2021-10-01T04:26:10.000Z" itemprop="datePublished">2021-10-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-two-sum.html">leetcode:two-sum</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+<p>You can return the answer in any order.</p>
+</blockquote>
+<ul>
+<li>leetcode类别</li>
+</ul>
+<p>简单</p>
+<ul>
+<li>代码</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+
+    &#x2F;**
+     * @param Integer[] $nums
+     * @param Integer $target
+     * @return Integer[]
+     *&#x2F;
+    function twoSum($nums, $target) &#123;
+        $len &#x3D; count($nums);
+
+        for ($i &#x3D; 0; $i &lt; $len - 1; ++$i) &#123;
+            $sub &#x3D; $target - $nums[$i];
+            for ($j &#x3D; $i + 1; $j &lt; $len; ++$j) &#123;
+                if ($nums[$j] &#x3D;&#x3D;&#x3D; $sub) &#123;
+                    return [$i, $j];
+                &#125;
+            &#125;
+        &#125;
+
+        return [];
+    &#125;
+&#125;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-two-sum.html" data-id="clo6juzrh002cvfnrcsie0bg5" data-title="leetcode:two-sum" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-least-262144" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-least-262144.html" class="article-date">
+  <time class="dt-published" datetime="2020-10-10T13:23:48.000Z" itemprop="datePublished">2020-10-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-least-262144.html">max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><code>Elasticsearch</code>在启动时出现错误：</p>
+<pre class="line-numbers language-none"><code class="language-none">max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</code></pre>
+
+<p>这个问题是虚拟内存设置问题。在<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html">虚拟内存</a>有说明：<code>Elasticsearch</code>默认使用<code>mmapfs</code>类型存储文档。对<code>mmapfs</code>的介绍，Elasticsearch文档也有<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules-store.html#mmapfs">说明</a>。系统默认是65530，对<code>Elasticsearch</code>远远不够。</p>
+<ul>
+<li>解决办法</li>
+</ul>
+<p>修改<code>/etc/sysctl.conf</code>，如果文件内有<code>vm.max_map_count</code>项，那么修改值大于或等于报错值262144。如果没有，在末尾追加一行。</p>
+<p>修改完之后再终端执行<code>sysctl --system</code>或者<code>sysctl -p</code>使修改生效。检查是否生效可以使用<code>sysctl vm.max_map_count</code>查看。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-least-262144.html" data-id="clo6juzri002evfnr1ij33bvy" data-title="max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasitcsearch/" rel="tag">elasitcsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/memory/" rel="tag">memory</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-vagrant增加虚拟机磁盘空间" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/vagrant%E5%A2%9E%E5%8A%A0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4.html" class="article-date">
+  <time class="dt-published" datetime="2020-10-08T11:53:21.000Z" itemprop="datePublished">2020-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/vagrant%E5%A2%9E%E5%8A%A0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4.html">vagrant增加虚拟机磁盘空间</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在<code>vagrant</code>中增加磁盘空间，可以使用插件<code>vagrant-disksize</code>。</p>
+<ul>
+<li>插件安装</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">vagrant plugin install vagrant-disksize</code></pre>
+
+<p>如果出现超时错误，需要终端设置代理。安装好之后，如果虚拟机已经在运行，先使用<code>vagrant halt</code>关闭，在<code>Vagrantfile</code>中添加配置：</p>
+<pre class="line-numbers language-none"><code class="language-none">config.disksize.size &#x3D; &#39;50GB&#39;</code></pre>
+
+<p>保存后再使用<code>vagrant up</code>启动。启动时，看到一段话：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x3D;&#x3D;&gt; machine5: Resized disk: old 10240 MB, req 51200 MB, new 51200 MB
+&#x3D;&#x3D;&gt; machine5: You may need to resize the filesystem from within the guest.</code></pre>
+
+<ul>
+<li>配置</li>
+</ul>
+<p>启动后进入系统，使用<code>df</code>查看发现，磁盘空间没有还是变化。需要下面几个步骤：</p>
+<ol>
+<li>运行<code>sudo cfdisk /dev/sda</code>，这时候能够看到新增的空间了。如我的原本是<code>10GB</code>，配置里改为了<code>50GB</code>，这里就看到两行，第一行是<code>/dev/sda1</code>有<code>10GB</code>，第二行是新增的<code>40GB</code>。</li>
+<li>使用上下箭头选中第一行，再使用左右箭头选中<code>Resize</code>，后面的提示<code>New size: 50G</code>按回车确认。</li>
+<li>再使用左右箭头选择<code>Write</code>，显示提示<code>Are you sure you want to write the partition table to disk?</code>时输入<code>yes</code>按回车确认。</li>
+<li>选择<code>Quit</code>回车。</li>
+<li>运行<code>sudo resize2fs -p -F /dev/sdaX</code>，X替换为自己对应的数字。如果是centos 7,8这里会提示：<code>resize2fs: Bad magic number in super-block while trying to open /dev/sda1. Couldn&#39;t find valid filesystem superblock.</code>换成运行<code>xfs_grows /dev/sda1</code></li>
+</ol>
+<p>最后，使用<code>df</code>查看，磁盘空间已经增加。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/vagrant%E5%A2%9E%E5%8A%A0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4.html" data-id="clo6juzrp002xvfnrgsr41mfz" data-title="vagrant增加虚拟机磁盘空间" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" rel="tag">磁盘空间</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-使用logstash将MySQL数据同步到elasticsearch" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/%E4%BD%BF%E7%94%A8logstash%E5%B0%86MySQL%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%88%B0elasticsearch.html" class="article-date">
+  <time class="dt-published" datetime="2020-09-06T04:24:44.000Z" itemprop="datePublished">2020-09-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/%E4%BD%BF%E7%94%A8logstash%E5%B0%86MySQL%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%88%B0elasticsearch.html">使用logstash将MySQL数据同步到elasticsearch</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="安装logstash"><a href="#安装logstash" class="headerlink" title="安装logstash"></a>安装logstash</h1><p>logstash下载地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/downloads/logstash">https://www.elastic.co/downloads/logstash</a>，这里只显示了最新版本，历史版本地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/downloads/past-releases#logstash">https://www.elastic.co/downloads/past-releases#logstash</a>。</p>
+<p>下载好解压后简单配置下<code>logstash.conf</code>（解压后在<code>config</code>下有一个<code>logstash-sample.conf</code>文件，复制为<code>logstash.conf</code>，其他命名也行）就可以使用了。如果你的版本是7.6(不包括)以下，还需要安装<code>logstash-integration-jdbc</code>插件，7.6以上该插件已经集成到logstash中，无需额外安装。</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="输入配置"><a href="#输入配置" class="headerlink" title="输入配置"></a>输入配置</h2><p>默认配置文件打开，在input里有个beats的配置删掉，插入jdbc配置</p>
+<pre class="line-numbers language-none"><code class="language-none">jdbc &#123;
+    jdbc_driver_library &#x3D;&gt; &quot;mysql-connector-java-5.1.36-bin.jar&quot;
+    jdbc_driver_class &#x3D;&gt; &quot;com.mysql.jdbc.Driver&quot;
+    jdbc_connection_string &#x3D;&gt; &quot;jdbc:mysql:&#x2F;&#x2F;数据库地址:3306&#x2F;数据库名字&quot;
+    jdbc_user &#x3D;&gt; &quot;数据库账号&quot;
+    jdbc_password &#x3D;&gt; &quot;数据库密码&quot;
+    schedule &#x3D;&gt; &quot;* * * * *这里和Linux的crontab配置一样&quot;
+    statement &#x3D;&gt; &quot;查询出要同步到elasticsearch的数据&quot;
+    use_column_value &#x3D;&gt; true
+    tracking_column &#x3D;&gt; &quot;update_time&quot;
+    tracking_column_type &#x3D;&gt; &quot;timestamp&quot;
+  &#125;</code></pre>
+
+<ul>
+<li>use_column_value</li>
+</ul>
+<p>值为布尔值，这里影响<code>sql_last_value</code>的值，默认为<code>false</code>，<code>sql_last_value</code>使用上次执行时间,初始值为1970-01-01零点。设置为<code>true</code>，那么这里是<code>tracking_column</code>配置字段的值，如<code>tracking_column =&gt; &quot;id&quot;</code>，那么这里就是上次执行的id值。</p>
+<ul>
+<li>tracking_column</li>
+</ul>
+<p>数据库字段，sql判断条件。如主键、更新时间等。</p>
+<ul>
+<li>tracking_column_type</li>
+</ul>
+<p>上面字段值的类型，有两个值可选：<code>timestamp</code>、<code>numeric</code>。默认为<code>numeric</code>。影响sql_last_value，如上面字段<code>update_time</code>假设为时间戳，但是这里设置为<code>timestamp</code>，那么<code>sql_last_value</code>初始值为<code>1970-01-01</code>，这就会使sql_last_value一直停留在初始值。设置为<code>numeric</code>，初始值为<code>0</code>。</p>
+<h2 id="输出配置"><a href="#输出配置" class="headerlink" title="输出配置"></a>输出配置</h2><p>默认配置：</p>
+<pre class="line-numbers language-none"><code class="language-none">elasticsearch &#123;
+   hosts &#x3D;&gt; [&quot;http:&#x2F;&#x2F;localhost:9200&quot;]
+   index &#x3D;&gt; &quot;&quot;
+   document_id &#x3D;&gt; &quot;%&#123;elasticsearch使用哪个字段作主键ID&#125;&quot;
+   #user &#x3D;&gt; &quot;elastic&quot;
+   #password &#x3D;&gt; &quot;changeme&quot;
+ &#125;</code></pre>
+
+<p><code>hosts</code>需要改为自己的<code>elasticsearch</code>地址。虽然，参数<code>document_type</code>参数还存在，但是默认是会将数据同步到<code>_doc</code>下面。从elastcisearch的6.0开始便不再推荐使用type，7.0以上的版本已经废弃，而8.0版本会直接移除。详细说明：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/6.0/removal-of-types.html">removal of mapping types</a>。</p>
+<p>这样已经能满足数据同步了，如有其它需求可根据参数说明文档作调整。</p>
+<ul>
+<li>启动</li>
+</ul>
+<p>启动logstash只需进入到bin目录，执行：</p>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;logstash -f &#x2F;配置文件路径&#x2F;xxx.conf</code></pre>
+
+<h2 id="logstash配置"><a href="#logstash配置" class="headerlink" title="logstash配置"></a>logstash配置</h2><p>logstash配置分为三个部分：input(输入)、filter(过滤)、output(输出)。</p>
+<ul>
+<li><p>jdbc中last_run_metadata_path设置的路径需有读写权限。如果没有写入权限，变量sql_last_value虽然会记录上一次的值，但在重新启动后，值会从0开始。</p>
+</li>
+<li><p>启动时提示：</p>
+</li>
+</ul>
+<blockquote>
+<p>WARN: Establishing SSL connection without server’s identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn’t set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to ‘false’. You need eit<br>her to explicitly disable SSL by setting useSSL&#x3D;false, or set useSSL&#x3D;true and provide truststore for server certificate verification.</p>
+</blockquote>
+<p>在jdbc_connection_string配置后面加上参数：useSSL&#x3D;false&amp;verifyServerCertificate&#x3D;false即可。</p>
+<ul>
+<li>MySQL中tinyint(1)字段值jdbc读取后会被转换为布尔值。同样在jdbc_connection_string后面加上参数：tinyInt1isBit&#x3D;false&amp;transformedBitIsBoolean&#x3D;false可以保持原值不被转换。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/%E4%BD%BF%E7%94%A8logstash%E5%B0%86MySQL%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%88%B0elasticsearch.html" data-id="clo6juzrw0039vfnr5g5o5b0k" data-title="使用logstash将MySQL数据同步到elasticsearch" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasitcsearch/" rel="tag">elasitcsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/logstash/" rel="tag">logstash</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">数据同步</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-使用Zephir写PHP扩展" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95.html" class="article-date">
+  <time class="dt-published" datetime="2020-07-31T08:45:40.000Z" itemprop="datePublished">2020-07-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95.html">使用Zephir写PHP扩展</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><code>PHP</code>由<code>c语言</code>写的，如果要编写<code>PHP扩展</code>，我们需要理解<code>PHP源码</code>，需要使用<code>c语言</code>来编写扩展程序，这样步骤繁琐，入门门槛高。有了<code>Zephir</code>之后，编写<code>PHP扩展</code>，就和编写<code>PHP代码</code>一样简单。</p>
+<h1 id="安装Zephir"><a href="#安装Zephir" class="headerlink" title="安装Zephir"></a>安装Zephir</h1><ul>
+<li>安装Zephir parser</li>
+</ul>
+<p>准备需要用到的东西：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo yum install php-devel gcc make re2c autoconf automake</code></pre>
+
+<p>得到下面的结果：</p>
+<blockquote>
+<p>[root@centos8 zeno]# sudo yum install php-devel gcc make re2c autoconf automake<br>Last metadata expiration check: 1:03:17 ago on Fri 31 Jul 2020 04:20:32 PM CST.<br>Package gcc-8.3.1-5.el8.0.2.x86_64 is already installed.<br>Package make-1:4.2.1-10.el8.x86_64 is already installed.<br>No match for argument: re2c<br>Package autoconf-2.69-27.el8.noarch is already installed.<br>Package automake-1.16.1-6.el8.noarch is already installed.<br>Error: Unable to find a match: re2c</p>
+</blockquote>
+<p>re2c没有找到，那自己下载安装：</p>
+<pre class="line-numbers language-none"><code class="language-none">wget https:&#x2F;&#x2F;github.com&#x2F;skvadrik&#x2F;re2c&#x2F;archive&#x2F;2.0.1.tar.gz</code></pre>
+
+<p>本地有一个<code>2.0.1.tar.gz</code>的文件，解压re2c并进入目录：</p>
+<pre class="line-numbers language-none"><code class="language-none">tar xzf 2.0.1.tar.gz
+cd re2c-2.0.1&#x2F;</code></pre>
+
+<p>得到文件：</p>
+<blockquote>
+<p>[zeno@centos8 re2c-2.0.1]$ ls<br>add-release.txt  benchmarks  build      cmake     configure.ac  examples  include  libre2c_old<br>Makefile.am      NO_WARRANTY  release.sh       sf-cheatsheet  test<br>autogen.sh       bootstrap   CHANGELOG  CMakeLists.txt  doc           fuzz      lib      LICENSE      &gt;Makefile.lib.am  README.md    run_tests.sh.in  src</p>
+</blockquote>
+<p>使用autoreconf命令：</p>
+<pre class="line-numbers language-none"><code class="language-none">autoreconf -i -W all</code></pre>
+
+<p>再次查看目录文件:</p>
+<blockquote>
+<p>[zeno@centos8 re2c-2.0.1]$ ls<br>aclocal.m4       autogen.sh      benchmarks  build      CHANGELOG  CMakeLists.txt  configure     doc       &gt;fuzz     lib          LICENSE  Makefile.am  Makefile.lib.am  README.md   run_tests.sh.in  src<br>add-release.txt autom4te.cache bootstrap   build-aux  cmake   config.h.in  configure.ac  examples<br>include  libre2c_old  m4       Makefile.in  NO_WARRANTY      release.sh  sf-cheatsheet    test</p>
+</blockquote>
+<p>可以看到有个<code>configuer</code>文件。安装：</p>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;configure &amp;&amp; sudo make &amp;&amp; sudo make install</code></pre>
+
+<p>现在需要的东西都已准备好了。安装Zephir-parser：</p>
+<pre class="line-numbers language-none"><code class="language-none">git clone git:&#x2F;&#x2F;github.com&#x2F;phalcon&#x2F;php-zephir-parser.git
+cd php-zephir-parser
+phpize
+.&#x2F;configure --with-php-config&#x3D;&#x2F;usr&#x2F;local&#x2F;php&#x2F;bin&#x2F;php-config
+make
+sudo make install</code></pre>
+
+<p>在<code>php.ini</code>中开启扩展：</p>
+<pre class="line-numbers language-none"><code class="language-none">extension&#x3D;zephir_parser.so</code></pre>
+
+<p>接下来就是安装zephir了。这一步十分简单，只需从<code>https://github.com/phalcon/zephir/releases/latest</code>下载<code>zephir.phar</code>文件，然后将其移入&#x2F;usr&#x2F;bin&#x2F;或者&#x2F;usr&#x2F;local&#x2F;bin目录下，再加上可执行权限：</p>
+<pre class="line-numbers language-none"><code class="language-none">mv zephir.phar &#x2F;usr&#x2F;bin&#x2F;zephir
+chmod +x &#x2F;usr&#x2F;bin&#x2F;zephir</code></pre>
+
+<p>zephir便已经安装上了。测试一下，可以在输入命令<code>zephir</code>或<code>zephir help</code>，如果出现zephir的使用介绍便证明安装成功了。</p>
+<h1 id="扩展需求及初始化"><a href="#扩展需求及初始化" class="headerlink" title="扩展需求及初始化"></a>扩展需求及初始化</h1><p>在开发api的过程中，经常我们会遇到需要显示<code>xx秒前</code>、<code>xx天前</code>这样的格式，现在就写一个扩展，将传入进来的时间戳转换为对应的格式后返回。</p>
+<p>首先，初始化项目：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 这里zephir会自动将大写转为小写，所以直接用小写
+zephir init timehelper
+cd timehelper&#x2F;timehelper</code></pre>
+
+<p>在这个目录下建一个文件：<code>helper.zep</code>，先写一个测试方法输出<code>hello world</code>：</p>
+<pre class="line-numbers language-none"><code class="language-none">namespace TimeHelper;
+
+class Helper &#123;
+
+    public static function say()&#123;
+        echo &quot;hello world!&quot;;
+    &#125;
+&#125;
+</code></pre>
+
+<p>然后使用<code>zephir build</code>来编译安装扩展程序，如果编译安装成功会得到提示：</p>
+<pre class="line-numbers language-none"><code class="language-none">Preparing for PHP compilation...
+Preparing configuration file...
+Compiling...
+Installing...
+
+Extension installed.
+Add &quot;extension&#x3D;timehelper.so&quot; to your php.ini
+
+! [NOTE] Don&#39;t forget to restart your web server</code></pre>
+
+<p>现在，只需在<code>php.ini</code>文件里加上<code>extension=timehelper.so</code>就能使用扩展了。</p>
+<h1 id="测试扩展程序"><a href="#测试扩展程序" class="headerlink" title="测试扩展程序"></a>测试扩展程序</h1><p>刚刚安装了<code>timehelper</code>这个扩展程序，要怎么使用呢？新建一个PHP文件，加入下面一行代码：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;?php
+TimeHelper\Helper::say();</code></pre>
+
+<p>保存为<code>test.php</code>后使用PHP执行：<code>php test.php</code>，如果输出了<code>hello world</code>，那就成功了。</p>
+<h1 id="编写扩展"><a href="#编写扩展" class="headerlink" title="编写扩展"></a>编写扩展</h1><pre class="line-numbers language-none"><code class="language-none">
+namespace TimeHelper;
+
+class Helper &#123;
+
+    public static function say()&#123;
+        echo &quot;hello world!&quot;;
+    &#125;
+    
+    public function before(int! sec)-&gt; string|bool &#123;
+        if sec &gt; time() || sec &lt; 0 &#123;
+            return false;
+        &#125;
+        
+        int diff;
+        let diff &#x3D; time() - sec;
+        if diff &lt;&#x3D; 60 &#123;
+            return diff . &quot;秒前&quot;;
+        &#125;
+
+        if diff &gt; 60 &amp;&amp; diff &lt; 3600 &#123;
+            return this-&gt;getMin(diff);
+        &#125;
+
+        if diff &gt;&#x3D; 3600 &amp;&amp; diff &lt; 86400 &#123;
+            return this-&gt;getHour(diff);
+        &#125;
+
+        if diff &gt;&#x3D; 86400 &amp;&amp; diff &lt; 2592000 &#123;
+            return this-&gt;getDay(diff);
+        &#125;
+
+        if diff &gt;&#x3D; 2592000 &amp;&amp; diff &lt; 2592000 * 12 &#123;
+            return this-&gt;getMonth(diff);
+        &#125;
+        
+        return this-&gt;getYear(diff);
+    &#125;
+
+    private function getMin(int! sec)-&gt; string&#123;
+            if sec &#x3D;&#x3D;&#x3D; 0 &#123;
+                return &quot;&quot;;
+            &#125;
+
+            int min &#x3D; intval(sec &#x2F; 60);
+            let sec &#x3D; sec % 60;
+            if sec &gt; 0 &#123;
+                return min . &quot;分&quot; . sec . &quot;秒前&quot;;
+            &#125;
+
+            return min . &quot;分前&quot;;
+    &#125;
+
+    private function getHour(int! sec)-&gt; string &#123;
+            int hour &#x3D; intval(sec &#x2F; 3600);
+            int diff &#x3D; sec % 3600;
+            var min &#x3D; this-&gt;getMin(diff);
+
+            if strlen(min) &#123;
+                return hour . &quot;小时&quot; . min;
+            &#125;
+
+            return hour . &quot;小时前&quot;;
+    &#125;
+
+    private function getDay(int! sec)-&gt;string &#123;
+            int day &#x3D; intval(sec &#x2F; 86400);
+
+            return day . &quot;天前&quot;;
+    &#125;
+
+    private function getMonth(int! sec)-&gt; string &#123;
+            int month &#x3D; intval(sec &#x2F; 2592000);
+
+            return month . &quot;月前&quot;;
+    &#125;
+
+    private function getYear(int! sec) -&gt; string &#123;
+            int year &#x3D; intval(sec &#x2F; 2592000 &#x2F; 365);
+
+            return year . &quot;年前&quot;;
+    &#125;
+&#125;
+</code></pre>
+
+<ul>
+<li>PHP测试程序</li>
+</ul>
+<p>修改刚刚的<code>test.php</code>为下：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;?php
+$helper &#x3D; new TimeHelper\Helper();
+
+&#x2F;&#x2F; xx秒前
+$sec &#x3D; time() - 50 ;
+echo $helper-&gt;before($sec), &quot;\n&quot;;
+
+&#x2F;&#x2F; xx分xx秒前
+$sec &#x3D; time() - 73;
+echo $helper-&gt;before($sec), &quot;\n&quot;;
+
+&#x2F;&#x2F; xx小时前
+$sec &#x3D; time() - 3950;
+echo $helper-&gt;before($sec), &quot;\n&quot;;
+
+&#x2F;&#x2F; xx天前
+$sec &#x3D; time() - 86600;
+echo $helper-&gt;before($sec), &quot;\n&quot;;
+
+&#x2F;&#x2F; xx月前
+$sec &#x3D; time() - 2597000;
+echo $helper-&gt;before($sec), &quot;\n&quot;;
+
+&#x2F;&#x2F; xx年前
+$sec &#x3D; time() - 948672000;
+echo $helper-&gt;before($sec), &quot;\n&quot;;</code></pre>
+
+<p>在使用PHP执行该文件后可以看到输出：</p>
+<pre class="line-numbers language-none"><code class="language-none">50秒前
+1分13秒前
+1小时5分50秒前
+1天前
+1月前
+1年前</code></pre>
+
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ul>
+<li>在zephir的代码里，可以直接使用PHP的内置函数，如上面用到<code>time</code>,<code>intval</code></li>
+<li>zephir里返回值可以多个，用<code>|</code>分隔</li>
+<li>zephir里参数可以不指定类型：</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">public function say(str)&#123;&#125;</code></pre>
+
+<p>也可以指定(直接写类型，不加感叹号)：</p>
+<pre class="line-numbers language-none"><code class="language-none">public function say(string str)&#123;&#125;</code></pre>
+
+<p>还可以强制指定类型(加感叹号在类型后面)：</p>
+<pre class="line-numbers language-none"><code class="language-none">public function say(string! str)&#123;&#125;</code></pre>
+
+<p>后面两种差别是前者传入类型不一致会作类型转换，转换不成功会报错，后者不会作类型转换，类型必须一致。</p>
+<ul>
+<li>之前我是在Windows的虚拟机里使用，代码写在Linux和Windows的共享目录里，在Linux终端运行<code>zephir build</code>编译失败，因为底层gcc编译会当做跨平台编译，需要传入–host参数，但是zephir命令还不支持传参给gcc，所有把代码移出共享目录，放Linux下任意目录编译成功。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95.html" data-id="clo6juzru0033vfnr7ykw1dij" data-title="使用Zephir写PHP扩展" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zephir/" rel="tag">zephir</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%89%A9%E5%B1%95/" rel="tag">扩展</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-PHP多个CURL请求异步执行" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C.html" class="article-date">
+  <time class="dt-published" datetime="2020-02-28T02:38:26.000Z" itemprop="datePublished">2020-02-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C.html">PHP多个CURL请求异步执行</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>先看PHP简单的curl请求:</p>
+<pre class="line-numbers language-none"><code class="language-none">$ch &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example.com&#39;);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_exec($ch);
+curl_close($ch);</code></pre>
+
+<p>如果有多个请求,那么需要多次重复上面的操作:</p>
+<pre class="line-numbers language-none"><code class="language-none">$ch &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example1.com&#39;);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_exec($ch);
+curl_close($ch);
+
+$ch &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example2.com&#39;);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_exec($ch);
+curl_close($ch);
+
+&#x2F;&#x2F; 更多的请求...</code></pre>
+
+<p>这样,所需时间是每个请求消耗的时间之和.如果有5个请求,每个请求耗时1秒,那么需要5秒的时间.换作异步执行,所需耗时是最长时间的那个请求的时间,那么久只需要1秒钟完成5个请求.</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 同样先初始化curl
+$ch1 &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example1.com&#39;);
+curl_setopt($ch1, CURLOPT_HEADER, 0);
+curl_setopt($ch1, CURLOPT_RETURNTRANSFER, 1);
+&#x2F;&#x2F; 这里不再使用curl_exec
+$ch2 &#x3D; curl_init(&#39;http:&#x2F;&#x2F;example2.com&#39;);
+curl_setopt($ch2, CURLOPT_HEADER, 0);
+curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
+&#x2F;&#x2F; 初始化异步多请求
+$mh &#x3D; curl_multi_init();
+&#x2F;&#x2F; 添加前面的每个handle
+curl_multi_add_handle($mh, $ch1);
+curl_multi_add_handle($mh, $ch2);
+
+&#x2F;&#x2F; 执行请求
+$active &#x3D; null;
+do &#123;
+    $status &#x3D; curl_multi_exec($mh, $active);
+&#125;while($status &#x3D;&#x3D;&#x3D; CURLM_CALL_MULTI_PERFORM);
+while ($active &amp;&amp; $status &#x3D;&#x3D; CURLM_OK)&#123;
+    &#x2F;&#x2F; 即使未还有未执行完的请求这里也可能是-1
+    &#x2F;&#x2F; 参考: https:&#x2F;&#x2F;www.php.net&#x2F;manual&#x2F;en&#x2F;function.curl-multi-select.php#115381
+    if(curl_multi_select($mh) &#x3D;&#x3D;&#x3D; -1)&#123;
+        usleep(100);
+    &#125;
+        
+    do &#123;
+        $status &#x3D; curl_multi_exec($mh, $active);
+    &#125;while ($status &#x3D;&#x3D;&#x3D; CURLM_CALL_MULTI_PERFORM);
+&#125;
+
+&#x2F;&#x2F; 如果需要返回结果
+$res[] &#x3D; curl_multi_getcontent($ch1);
+$res[] &#x3D; curl_multi_getcontent($ch2);
+
+&#x2F;&#x2F; 移除handle
+curl_multi_remove_handle($ch1);
+curl_multi_remove_handle($ch2);
+
+&#x2F;&#x2F; 关闭
+curl_multi_close($mh);</code></pre>
+
+<p>在具体业务中,可能就是以数组的形式传入所需请求的URL,参数等.我们可以使用循环来操作.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C.html" data-id="clo6juzqg000bvfnrgr5b3z3i" data-title="PHP多个CURL请求异步执行" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/curl/" rel="tag">curl</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Elasticsearch问题收集" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86.html" class="article-date">
+  <time class="dt-published" datetime="2019-11-19T11:14:15.000Z" itemprop="datePublished">2019-11-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86.html">Elasticsearch问题收集</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>No alive nodes found in your cluster</li>
+</ul>
+<p>在客户端出现这个问题，检查<code>Elasticsearch</code>是不是死掉了。如使用:</p>
+<pre class="line-numbers language-none"><code class="language-none">ps -aux | grep elasticsearch
+
+&#x2F;&#x2F; 得到：
+vagrant  13508  0.0  0.0  14228   928 pts&#x2F;0    S+   19:10   0:00 grep --color&#x3D;auto elasitcsearch</code></pre>
+
+<p>那么，重新启动服务。另外，以daemon方式启动，如果出错是看不到错误的。只显示这一行：</p>
+<pre class="line-numbers language-none"><code class="language-none">OpenJDK 64-Bit Server VM warning: Option UseConcMarkSweepGC was deprecated in version 9.0 and will likely be removed in a future release.</code></pre>
+
+<ul>
+<li>mapper [title] of different type, current_type [keyword], merged_type [text]</li>
+</ul>
+<p>完整的报错类似于这样的：</p>
+<pre class="line-numbers language-none"><code class="language-none">Array
+(
+    [error] &#x3D;&gt; Array
+        (
+            [root_cause] &#x3D;&gt; Array
+                (
+                    [0] &#x3D;&gt; Array
+                        (
+                            [type] &#x3D;&gt; illegal_argument_exception
+                            [reason] &#x3D;&gt; mapper [title] of different type, current_type [keyword], merged_type [text]
+                        )
+
+                )
+
+            [type] &#x3D;&gt; illegal_argument_exception
+            [reason] &#x3D;&gt; mapper [title] of different type, current_type [keyword], merged_type [text]
+        )
+
+    [status] &#x3D;&gt; 400
+)</code></pre>
+
+<p>这个是怎么出现的呢？就是先已经将<code>title</code>设定为<code>keyword</code>类型，然后又去设定<code>title</code>为<code>text</code>类型，就造成了这个问题。那么，怎么办呢？<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/7.x/mapping.html#update-mapping">在这里有解释</a>：修改已经存在的字段会使之前已经建立索引的数据无效。但遇到之前建立错了，必须要改，怎么办呢？只能使用新的<code>mappings</code>重新建立一个新的<code>index</code>，然后使用<code>reindex</code>接口去对数据建立索引。</p>
+<ul>
+<li>master not discovered yet, this node has not previously joined a boots and [cluster.initial_master_nodes] is empty on this node</li>
+</ul>
+<p>首先，这个问题发生在我阅读到<code>path.data</code>配置时产生的。在此之前，运行正常，其他没有任何配置改动。那么，可以判断是这个配置造成的，后将其注释，再次启动成功。所以，为什么在配置<code>path.data</code>后就失败了呢？从这句话来看，需要设置<code>cluster.initial_master_nodes</code>的值。我这里是本地就一个单机，先尝试像<code>discovery.seed_hosts: []</code>一样，给个空试试，依然在报这个错误。那先将<code>Node</code>部分的<code>node.name</code>注释去掉，使用默认的<code>node-1</code>，然后将<code>discovery</code>的<code>cluster.initial_master_nodes</code>注释也去掉，并给值<code>node-1</code>，可以启动成功了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86.html" data-id="clo6juzqa0003vfnrfg857m4j" data-title="Elasticsearch问题收集" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/how-to-use-php-to-generate-a-word-file-by-html.html">使用PHP根据html内容生成word文件</a>
+          </li>
+        
+          <li>
+            <a href="/canvas-Uncaught-DOMException-Failed-to-execute-toDataURL-on-HTMLCanvasElement.html">canvas对视频截图报错:Uncaught DOMException: Failed to execute &#39;toDataURL&#39; on &#39;HTMLCanvasElement&#39;</a>
+          </li>
+        
+          <li>
+            <a href="/pull-to-refresh-miniprogram-s-data-list.html">小程序页面部分下拉刷新解决方案</a>
+          </li>
+        
+          <li>
+            <a href="/promise-in-wechat-miniprogram.html">使用promise封装小程序网络请求</a>
+          </li>
+        
+          <li>
+            <a href="/the-communications-of-pages.html">小程序页面间事件通信</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/File/" style="font-size: 10px;">File</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.25px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.5px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 11.25px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 11.25px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.25px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 16.25px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/error/" style="font-size: 10px;">error</a> <a href="/tags/es6/" style="font-size: 11.25px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.5px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 17.5px;">javascript</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/leetcode/" style="font-size: 18.75px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/modal/" style="font-size: 10px;">modal</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/parse/" style="font-size: 10px;">parse</a> <a href="/tags/phalcon/" style="font-size: 13.75px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/promise/" style="font-size: 10px;">promise</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/text/" style="font-size: 10px;">text</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/toDataURL/" style="font-size: 10px;">toDataURL</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/volt/" style="font-size: 10px;">volt</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/word/" style="font-size: 10px;">word</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/zui/" style="font-size: 10px;">zui</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" style="font-size: 10px;">下拉刷新</a> <a href="/tags/%E4%BA%8B%E4%BB%B6/" style="font-size: 10px;">事件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">组件</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">网络请求</a> <a href="/tags/%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE/" style="font-size: 10px;">腾讯地图</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E8%A7%86%E9%A2%91%E6%88%AA%E5%9B%BE/" style="font-size: 10px;">视频截图</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 11.25px;">通信</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 10px;">页面</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.25px;">默认值</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2015-2023 李祖彬&emsp;&emsp;邮箱：zeno-li#qq.com<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      <!-- &emsp;&emsp;<a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">蜀ICP备19034130号-1</a> -->
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

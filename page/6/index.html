@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>李祖彬的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta name="google-site-verification" content="cnfvbLxGQVUqJA07xjs400UpudKGP4An6xmyJDBiDlM" />
+  <meta name="description" content="各种常见的，非常见的PHP，JavaScript，HTML，MySQL，phalcon等问题以及解决办法">
+  
+  
+  <meta name="author" content="李祖彬">
+  
+  
+    <link rel="shortcut icon" href="/css/images/favicon.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">李祖彬的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">lizubin.com</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lizubin.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Native-controller-process-has-stopped-no-new-native-processes-can-be-started" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Native-controller-process-has-stopped-no-new-native-processes-can-be-started.html" class="article-date">
+  <time class="dt-published" datetime="2019-11-15T07:20:00.000Z" itemprop="datePublished">2019-11-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Native-controller-process-has-stopped-no-new-native-processes-can-be-started.html">Native controller process has stopped - no new native processes can be started</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>昨天安装好，今天启动<code>Elasticsearch</code>时失败：</p>
+<pre class="line-numbers language-none"><code class="language-none">...
+ERROR: [1] bootstrap checks failed
+[1]: max number of threads [2048] for user [vagrant] is too low, increase to at least [4096]
+[2]: the default discovery settings are unsuitable for production use; at least one of [discovery.seed_hosts, discovery.seed_providers, cluster.initial_master_nodes] must be configured
+[2019-11-15T14:46:51,596][INFO ][o.e.n.Node               ] [machine2] stopping ...
+[2019-11-15T14:46:51,640][INFO ][o.e.n.Node               ] [machine2] stopped
+[2019-11-15T14:46:51,640][INFO ][o.e.n.Node               ] [machine2] closing ...
+[2019-11-15T14:46:51,666][INFO ][o.e.n.Node               ] [machine2] closed
+[2019-11-15T14:46:51,669][INFO ][o.e.x.m.p.NativeController] [machine2] Native controller process has stopped - no new native processes can be started</code></pre>
+
+<p>遇到这样的错误，不能看最后一句话。看前面的<code>error</code>，这里有两个错误。</p>
+<p>第一个解决方案可以<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/master/max-number-of-threads.html">看这里</a>给出了两种方法：</p>
+<ol>
+<li>使用<code>Linux</code>命令<code>ulimit -u xxxx</code>设置。</li>
+<li>修改<code>/etc/security/limits.conf</code>中对应当前用户的<code>nproc</code>值</li>
+</ol>
+<p>额外说下，<code>nproc</code>代表<code>max number of processes</code>。这在文件前面有解释</p>
+<p>第二个问题<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/master/discovery-settings.html">看这里</a>，可以知道，没有做任何网络配置，<code>Elasticsearch</code>会绑定在<code>loopback address(127.0.0.1)</code>上，并扫描<code>9300</code>到<code>9305</code>的端口去尝试连接其他节点（这样做是方便了集群）。出现这个问题是因为昨天我将<code>IP地址</code>修改了。所以，解决这个问题可以：</p>
+<ol>
+<li>将昨天的改动去掉，网络配置的IP地址恢复默认配置</li>
+<li>在<code>$ES_HOME/config/elasticsearch.yml</code>的<code>Discovery</code>模块中配置<code>discovery.seed_hosts: []</code></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/Native-controller-process-has-stopped-no-new-native-processes-can-be-started.html" data-id="clo6juzqj000evfnret5y9rct" data-title="Native controller process has stopped - no new native processes can be started" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nproc/" rel="tag">nproc</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Elasticsearch安装" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Elasticsearch%E5%AE%89%E8%A3%85.html" class="article-date">
+  <time class="dt-published" datetime="2019-11-14T03:07:20.000Z" itemprop="datePublished">2019-11-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Elasticsearch%E5%AE%89%E8%A3%85.html">Elasticsearch安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>官文地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-install.html">在这里</a></p>
+<ol>
+<li>下载</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">vagrant@machine2:~$ curl -L -O https:&#x2F;&#x2F;artifacts.elastic.co&#x2F;downloads&#x2F;elasticsearch&#x2F;elasticsearch-7.4.2-linux-x86_64.tar.gz</code></pre>
+
+<ol start="2">
+<li>解压</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">vagrant@machine2:~$ tar xzf elasticsearch-7.4.2-linux-x86_64.tar.gz</code></pre>
+
+<ol start="3">
+<li>启动</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">vagrant@machine2:~$ cd elasticsearch-7.4.2&#x2F;bin&#x2F;
+vagrant@machine2:~&#x2F;elasticsearch-7.4.2&#x2F;bin$ .&#x2F;elasticsearch</code></pre>
+
+<p>出现问题：</p>
+<pre class="line-numbers language-none"><code class="language-none">could not find java in JAVA_HOME or bundled at &#x2F;usr&#x2F;lib&#x2F;jmv&#x2F;java-8-openjdk-amd64&#x2F;bin&#x2F;java</code></pre>
+
+<p>查看环境变量：</p>
+<pre class="line-numbers language-none"><code class="language-none">echo $JAVA_HOME
+&#x2F;&#x2F; 得到：
+&#x2F;usr&#x2F;lib&#x2F;jmv&#x2F;java-8-openjdk-amd64</code></pre>
+
+<p>需要注意文档这段话：</p>
+<blockquote>
+<p>Elasticsearch includes a bundled version of OpenJDK from the JDK maintainers (GPLv2+CE). To use your own version of Java, see the JVM version requirements</p>
+</blockquote>
+<p>也就是说自带了jdk，而我自己之前有安装jdk，需要另外配置。通过链接查看<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/setup.html#jvm-version">额外配置文档</a>。</p>
+<blockquote>
+<p>Elasticsearch is built using Java, and includes a bundled version of OpenJDK from the JDK maintainers (GPLv2+CE) within each distribution. The bundled JVM is the recommended JVM and is located within the jdk directory of the Elasticsearch home directory.</p>
+<p>To use your own version of Java, set the JAVA_HOME environment variable. If you must use a version of Java that is different from the bundled JVM, we recommend using a supported LTS version of Java. Elasticsearch will refuse to start if a known-bad version of Java is used. The bundled JVM directory may be removed when using your own JVM.</p>
+</blockquote>
+<p>还是推荐使用自带的<code>jdk</code>，没有细说。也在目录下面看到了<code>jdk</code>目录，那重新设置<code>$JAVA_HOME</code>环境变量到<code>Elasticsearch</code>里面的<code>jdk</code>目录:</p>
+<pre class="line-numbers language-none"><code class="language-none">export JAVA_HOME&#x3D;&#x2F;home&#x2F;vagrant&#x2F;elasticsearch-7.4.2&#x2F;jdk</code></pre>
+
+<p>再次启动，显示了一大堆启动的东西，已经成功了，下面来验证是否启动：</p>
+<pre class="line-numbers language-none"><code class="language-none">curl 127.0.0.1:9200
+
+&#x2F;&#x2F; 会得到:
+&#123;
+  &quot;name&quot; : &quot;iZ23pskgys8Z&quot;,
+  &quot;cluster_name&quot; : &quot;elasticsearch&quot;,
+  &quot;cluster_uuid&quot; : &quot;J2SyY5cZRayLwC1lsPaoGA&quot;,
+  &quot;version&quot; : &#123;
+    &quot;number&quot; : &quot;7.4.2&quot;,
+    &quot;build_flavor&quot; : &quot;default&quot;,
+    &quot;build_type&quot; : &quot;tar&quot;,
+    &quot;build_hash&quot; : &quot;2f90bbf7b93631e52bafb59b3b049cb44ec25e96&quot;,
+    &quot;build_date&quot; : &quot;2019-10-28T20:40:44.881551Z&quot;,
+    &quot;build_snapshot&quot; : false,
+    &quot;lucene_version&quot; : &quot;8.2.0&quot;,
+    &quot;minimum_wire_compatibility_version&quot; : &quot;6.8.0&quot;,
+    &quot;minimum_index_compatibility_version&quot; : &quot;6.0.0-beta1&quot;
+  &#125;,
+  &quot;tagline&quot; : &quot;You Know, for Search&quot;
+&#125;</code></pre>
+
+<p>得到上面的回应，就说明安装成功了。</p>
+<ul>
+<li><code>vagrant</code> 环境下安装</li>
+</ul>
+<p>我本地是<code>vagrant</code>+<code>virtualbox</code>搭建的环境。在安装成功后，修改<code>elasticsearch.yml</code>的<code>network</code>将<code>IP</code>绑定在<code>vagrant</code>的<code>IP</code>上，如我的是<code>192.168.56.102</code>，修改55行：</p>
+<pre class="line-numbers language-none"><code class="language-none">network.host: 192.168.56.102</code></pre>
+
+<p>修改68行：</p>
+<pre class="line-numbers language-none"><code class="language-none">discovery.seed_hosts:[]</code></pre>
+
+<p>这样，我在<code>windows</code>的浏览器里访问<code>http://192.168.56.102:9200</code>同样成功了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/Elasticsearch%E5%AE%89%E8%A3%85.html" data-id="clo6juzq30000vfnrc4sp659t" data-title="Elasticsearch安装" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted.html" class="article-date">
+  <time class="dt-published" datetime="2019-09-28T07:20:12.000Z" itemprop="datePublished">2019-09-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted.html">Only one usage of each socket address (protocol/network address/port) is normally permitted.</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>golang开启一个服务：</p>
+<pre class="line-numbers language-none"><code class="language-none">func main() &#123;
+       
+        rpc.Register(new(service name))
+        listener, err :&#x3D; net.Listen(&quot;tcp&quot;, &quot;:1215&quot;)
+        if err !&#x3D; nil &#123;
+                log.Fatal(&quot;listen error:&quot;, err)
+        &#125;
+        for &#123;
+                conn, err :&#x3D; listener.Accept()
+                if err !&#x3D; nil &#123;
+                        continue
+                &#125;
+                
+                go jsonrpc.ServeConn(conn)
+        &#125;
+&#125;</code></pre>
+
+<p>遇到上面报错，将<code>listen</code>的地址写全即可</p>
+<pre class="line-numbers language-none"><code class="language-none">listener, err :&#x3D; net.Listen(&quot;tcp&quot;, &quot;127.0.0.1:1215&quot;)</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted.html" data-id="clo6juzqg000cvfnr3tjb8bc6" data-title="Only one usage of each socket address (protocol/network address/port) is normally permitted." class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/" rel="tag">golang</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rpc/" rel="tag">rpc</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user.html" class="article-date">
+  <time class="dt-published" datetime="2019-09-10T09:33:28.000Z" itemprop="datePublished">2019-09-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user.html">auth failed from unknown (xx.xx.xx.xx) unauthorised user</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在部署<code>sersync + rsync</code>时，一直不成功，从日志中看到：</p>
+<pre class="line-numbers language-none"><code class="language-none">auth failed from unknown (xx.xx.xx.xx) unauthorised user</code></pre>
+
+<p>从报错中可以看出可能是两个原因：</p>
+<ol>
+<li>unknown (xx.xx.xx.xx)</li>
+<li>unauthorised user</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user.html" data-id="clo6juzqs0013vfnrapkc0ovc" data-title="auth failed from unknown (xx.xx.xx.xx) unauthorised user" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/auth/" rel="tag">auth</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rsync/" rel="tag">rsync</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sersync/" rel="tag">sersync</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6.html" class="article-date">
+  <time class="dt-published" datetime="2019-09-10T04:55:18.000Z" itemprop="datePublished">2019-09-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6.html">Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在安装好nfs后，重启服务：</p>
+<pre class="line-numbers language-none"><code class="language-none">service nfs restart1</code></pre>
+
+<p>得到下面报错：</p>
+<pre class="line-numbers language-none"><code class="language-none">Starting kernel based NFS server: idmapd mountdrpc.mountd: svc_tli_create:
+could not open connection for udp6
+rpc.mountd: svc_tli_create: could not open connection for tcp6
+rpc.mountd: svc_tli_create: could not open connection for udp6
+rpc.mountd: svc_tli_create: could not open connection for tcp6
+rpc.mountd: svc_tli_create: could not open connection for udp6
+rpc.mountd: svc_tli_create: could not open connection for tcp6
+statd nfsdrpc.nfsd: address family inet6 not supported by protocol TCP
+sm-notify
+done</code></pre>
+
+
+<p>udp6是用于IPV6的，所以这里可以在<code>/etc/netconfig</code>中IPV6的注释掉：</p>
+<pre class="line-numbers language-none"><code class="language-none">udp        tpi_clts      v     inet     udp     -       -
+tcp        tpi_cots_ord  v     inet     tcp     -       -
+#udp6       tpi_clts      v     inet6    udp     -       -
+#tcp6       tpi_cots_ord  v     inet6    tcp     -       -
+rawip      tpi_raw       -     inet      -      -       -
+local      tpi_cots_ord  -     loopback  -      -       -
+unix       tpi_cots_ord  -     loopback  -      -       -</code></pre>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6.html" data-id="clo6juzqn000ovfnr9jp8egyo" data-title="Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ipv6/" rel="tag">ipv6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nfs/" rel="tag">nfs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-小程序网络请求header头设置Content-Type" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type.html" class="article-date">
+  <time class="dt-published" datetime="2019-08-15T22:46:04.000Z" itemprop="datePublished">2019-08-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type.html">小程序网络请求header头设置Content-Type</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>小程序发起<code>http</code>网络请求，通过<code>wx.request</code>函数的调用。该函数接收一个对象，可以在对象里配置包括<code>地址</code>、<code>header</code>、<code>method</code>等。<code>method</code>默认为<code>post</code>请求。但是，我们在服务器端使用<code>$_POST</code>或框架如Phalcon里的<code>$this-&gt;request-&gt;getPost()</code>等获取参数时，取得结果为空。但是通过流获取:</p>
+<pre class="line-numbers language-none"><code class="language-none">$params &#x3D; file_get_contents(&#39;php:&#x2F;&#x2F;input&#39;)</code></pre>
+
+
+
+<p><code>Phalcon</code>里通过：</p>
+<pre class="line-numbers language-none"><code class="language-none">$params &#x3D; $this-&gt;request-&gt;getJsonRawBody();</code></pre>
+
+<p>这样是能够得到参数的。为什么<code>POST</code>请求，却不能在<code>POST</code>里得到呢？我们注意看文档，会发现此时的<code>header</code>里<code>content-type</code>为<code>application/json</code>(默认方式)，再查看PHP的<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/reserved.variables.post.php">文档</a>，可以看到：</p>
+<blockquote>
+<p>当 HTTP POST 请求的 Content-Type 是 application&#x2F;x-www-form-urlencoded 或 multipart&#x2F;form-data 时，会将变量以关联数组形式传入当前脚本。</p>
+</blockquote>
+<p>也就是说，我们需要重新设置小程序的<code>header</code>头里的<code>content-type</code>为<code>application/x-www-form-urlencoded</code>，就可以获取<code>POST</code>里的参数了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type.html" data-id="clo6juzs3003pvfnr7g9lgm0c" data-title="小程序网络请求header头设置Content-Type" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/header/" rel="tag">header</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-在Phalcon中为View添加缓存" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98.html" class="article-date">
+  <time class="dt-published" datetime="2019-08-02T07:23:22.000Z" itemprop="datePublished">2019-08-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98.html">在Phalcon中为View添加缓存</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>我们可以为<code>Phalcon</code>的<code>View</code>添加事件监听，<code>View</code>一共有5个事件：</p>
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Triggered</th>
+<th>Can stop operation ?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>beforeRender</td>
+<td>Triggered before starting the render process</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>beforeRenderView</td>
+<td>Triggered before rendering an existing view</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>afterRenderView</td>
+<td>Triggered after rendering an existing view</td>
+<td>No</td>
+</tr>
+<tr>
+<td>afterRender</td>
+<td>Triggered after completing the render process</td>
+<td>No</td>
+</tr>
+<tr>
+<td>notFoundView</td>
+<td>Triggered when a view was not found</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<p>在<code>di</code>注入是<code>view</code>时添加事件：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;?php
+
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Mvc\View;
+
+$di-&gt;set(
+    &#39;view&#39;,
+    function () &#123;
+        &#x2F;&#x2F; Create an events manager
+        $eventsManager &#x3D; new EventsManager();
+
+        &#x2F;&#x2F; Attach a listener for type &#39;view&#39;
+        $eventsManager-&gt;attach(
+            &#39;view&#39;,
+            function (Event $event, $view) &#123;
+                echo $event-&gt;getType(), &#39; - &#39;, $view-&gt;getActiveRenderPath(), PHP_EOL;
+            &#125;
+        );
+
+        $view &#x3D; new View();
+
+        $view-&gt;setViewsDir(&#39;..&#x2F;app&#x2F;views&#x2F;&#39;);
+
+        &#x2F;&#x2F; Bind the eventsManager to the view component
+        $view-&gt;setEventsManager($eventsManager);
+
+        return $view;
+    &#125;,
+    true
+);</code></pre>
+
+<p>上面是监听了View的所有事件,如果要监听某个具体的,如监听<code>beforeRender</code>：</p>
+<pre class="line-numbers language-none"><code class="language-none">$eventsManager-&gt;attach(&#39;view:beforeRender&#39;, function()&#123;
+
+&#125;)</code></pre>
+
+<p>现在，就可以利用<code>afterRender</code>事件来缓存页面，提升性能。</p>
+<p>首先，需要向<code>di</code>注入一个<code>viewCache</code>服务：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;?php
+
+use Phalcon\Cache\Frontend\Output as OutputFrontend;
+use Phalcon\Cache\Backend\Memcache as MemcacheBackend;
+
+&#x2F;&#x2F; Set the views cache service
+$di-&gt;set(
+    &#39;viewCache&#39;,
+    function () &#123;
+        &#x2F;&#x2F; Cache data for one day by default
+        $frontCache &#x3D; new OutputFrontend(
+            [
+                &#39;lifetime&#39; &#x3D;&gt; 86400,
+            ]
+        );
+
+        &#x2F;&#x2F; Memcached connection settings
+        $cache &#x3D; new MemcacheBackend(
+            $frontCache,
+            [
+                &#39;host&#39; &#x3D;&gt; &#39;localhost&#39;,
+                &#39;port&#39; &#x3D;&gt; &#39;11211&#39;,
+            ]
+        );
+
+        return $cache;
+    &#125;
+);</code></pre>
+
+<p>这里的<code>cache</code>也可以换成<code>Redis</code>等你在使用的。<code>lifetime</code>为默认缓存时间，当调用该服务时，可以另外给出<code>lifetime</code>的值。键为<code>key</code>。<code>Phalcon</code>会默认使用<code>MD5</code>加密当前的<code>Controller/view</code>。</p>
+<p>定义<code>afterRender</code>事件触发时要做的事情:</p>
+<pre class="line-numbers language-none"><code class="language-none">class ViewPlugin extends \Phalcon\Mvc\User\Plugin &#123;
+
+    public function afterRender(\Phalcon\Events\Event $event, $view)&#123;
+        $request    &#x3D; \Phalcon\Di::getDefault()-&gt;get(&#39;request&#39;);
+        $key        &#x3D; md5($request-&gt;getURI());
+        if (!$view-&gt;getCache()-&gt;exists($key)) &#123;
+            $view-&gt;getCache()-&gt;save($key, $view-&gt;getContent(), DEFAULT_VIEW_EXPIRE_TIME);
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>这样当访问一个新页面后就会缓存下来。接下来就是第二步，再次访问该页面时，直接向浏览器输出缓存内容，可以定义在父类里：</p>
+<pre class="line-numbers language-none"><code class="language-none">$this-&gt;view_cache_key &#x3D; md5($this-&gt;request-&gt;getURI());
+if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
+    echo $this-&gt;view-&gt;getCache()-&gt;get($this-&gt;view_cache_key);
+    exit;
+&#125;</code></pre>
+
+<p>这就是利用<code>View</code>的事件缓存页面，当然也可以用于其他场景，如生成静态<code>HTML</code>页面</p>
+<p>参考文档:</p>
+<p><a target="_blank" rel="noopener" href="https://docs.phalconphp.com/3.4/en/views">Phalcon view</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98.html" data-id="clo6juzrv0037vfnrg2w5b5j8" data-title="在Phalcon中为View添加缓存" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/phalcon/" rel="tag">phalcon</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/view/" rel="tag">view</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%93%E5%AD%98/" rel="tag">缓存</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-如何阻止表单自动填充" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85.html" class="article-date">
+  <time class="dt-published" datetime="2019-06-04T07:57:02.000Z" itemprop="datePublished">2019-06-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85.html">如何阻止表单自动填充?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>默认情况下，我们再次填写提交过的表单时，就会出现浏览器已经自动帮我们填写好或者输入框获取到焦点时展示下拉选项供我们自己选择，这样方便我们快捷的完成表单。但是也有问题，如果是在公共电脑上，又或者是这个表单时关系到你的钱包的，那么你是不希望所输入的东西被浏览器自动记录或填充的。</p>
+<ul>
+<li>禁用自动填充</li>
+</ul>
+<p>要禁用自动填充，可以通过属性<code>autocomplete</code>实现，它有两个值<code>on</code>和<code>off</code></p>
+<pre class="line-numbers language-none"><code class="language-none">autocomplete&#x3D;&quot;off&quot;</code></pre>
+
+<p>该属性可以用在<code>form</code>标签上，也可以用在<code>input</code>标签上。加上上面的代码后，浏览器的处理如下：</p>
+<pre><code>1. 告诉浏览器不再保存用户输入的数据来自动填充表单
+2. 浏览器停止缓存数据到会话历史(session history)。即：我们点击浏览器回退箭头时，之前提交的表单数据不会展示出来。
+</code></pre>
+<ul>
+<li>阻止密码管理自动填充</li>
+</ul>
+<p>上面这样就可以了吗？当我们登录、注册时，浏览器会弹出提示是否记住密码，如果选择记住密码，下次进入这个页面依然会自动完成。为什么？因为现在的浏览器都实现了集成密码管理。如果有浏览器账号，还会在任意一台你登录账号的电脑上自动填充。这样，登录表单设置<code>autocomplete=&quot;off&quot;</code>就无效了。</p>
+<p>对于现代浏览器这一特性，要阻止登录表单自动填充，<code>autocomplete</code>属性有了一个新的值<code>new-password</code>。当对<code>input</code>输入框设置时，便不再会自动填充了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85.html" data-id="clo6juzs2003lvfnr4xmw8goc" data-title="如何阻止表单自动填充?" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" rel="tag">自动填充</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A1%A8%E5%8D%95/" rel="tag">表单</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-小程序的模板使用介绍" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.html" class="article-date">
+  <time class="dt-published" datetime="2017-08-07T14:10:01.000Z" itemprop="datePublished">2017-08-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.html">小程序的模板使用介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>模板，即一部分业务代码片段，具有通用性。使用模板的好处，自然是方便维护。前端时间在做一个视频小程序时，便遇到了需要模板的场景。</p>
+<p>这个小程序是个关于视频的项目，在首页，分类，搜索，个人中心(我发布的视频)都存在视频列表(页面包含列表),所以我打算将列表拿出来做个模板。</p>
+<p>小程序定义模板语法：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template name&#x3D;&quot;yourTemplateName&quot;&gt;
+    &lt;!--
+        这里是页面布局的代码,例如:
+        &lt;view&gt;
+            &lt;text&gt;hello world!&lt;&#x2F;text&gt;
+        &lt;&#x2F;view&gt;
+    --&gt;
+&lt;&#x2F;template&gt;</code></pre>
+
+<p>定义好模板后保存为一个<code>wxml</code>的文件。</p>
+<p>在需要使用模板的页面，首先引入模板</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;import src&#x3D;&quot;path&#x2F;to&#x2F;template&#x2F;template.wxml&quot; &#x2F;&gt;</code></pre>
+
+<p>然后，在需要展示模板的地方使用模板</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; &#x2F;&gt;</code></pre>
+
+<p>如果，模板里有变量，可以通过<code>data</code>传入</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; data&#x3D;&quot;&#123;&#123;item&#125;&#125;&quot;&#x2F;&gt;</code></pre>
+
+<p>如果有多个值，这样传入</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;template is&#x3D;&quot;yourTemplateName&quot; data&#x3D;&quot;&#123;&#123;name: theName, age: theAge, gender: theGender&#125;&#125;&quot;&#x2F;&gt;</code></pre>
+
+<p>这是<code>wxml</code>模板的使用,与<code>wxml</code>文件相关联的还有两个文件<code>wxss</code>文件、<code>js</code>文件。<code>wxss</code>文件没有什么可说的，直接在需要的页面的<code>wxss</code>文件里使用<code>import</code>引入即可,这里说下js文件。</p>
+<p>小程序每个页面都需要在<code>js</code>文件里使用<code>Page</code>函数<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/app-service/page.html">注册页面</a>，对于模板里的事件等一系列操作，我们不可能在每个地方都去写一遍。和定义模板一样，我们新建一个独立的js文件,内容如下:</p>
+<pre class="line-numbers language-none"><code class="language-none">export function functionName(params)&#123;
+    #coding here
+&#125;</code></pre>
+
+<p>然后在需要的js页面引入</p>
+<pre class="line-numbers language-none"><code class="language-none">var lib &#x3D; require(path&#x2F;to&#x2F;function);
+
+var fn &#x3D; lib.functionName;</code></pre>
+
+<p>这样，在<code>Page</code>函数里，我们就可以使用<code>fn</code>这个函数了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.html" data-id="clo6juzs1003kvfnrfibj6uyg" data-title="小程序的模板使用介绍" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-如何在ios的微信webview里强制刷新" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0.html" class="article-date">
+  <time class="dt-published" datetime="2017-07-19T07:13:28.000Z" itemprop="datePublished">2017-07-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0.html">如何在ios的微信webview里强制刷新</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>移动端网页webview中遇到了一个问题,A页面进入B页面做了一些操作,影响了A页面部分数据，再返回到A页面,受影响数据应该显示新数据。在android的手机里面使用自带虚拟返回按钮，不会存在这样的问题。但是在ios里面，使用自带返回按钮回到的界面并没有更新。这是为什么？原因是**<code>bfcache</code><strong>(</strong><code>back-forward cache</code>**)。<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/Firefox/Releases/1.5/Using_Firefox_1.5_caching">详细描述看这里</a></p>
+<p>解决方案链接的文章里也有说道，我这里采用的是监听pageonshow事件:</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">window.onpageshow &#x3D; function(event) &#123;
+      if (event.persisted) &#123;
+            window.location.reload()
+      &#125;
+&#125;;</code></pre>
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/%E5%A6%82%E4%BD%95%E5%9C%A8ios%E7%9A%84%E5%BE%AE%E4%BF%A1webview%E9%87%8C%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0.html" data-id="clo6juzry003dvfnr7j4ub5h2" data-title="如何在ios的微信webview里强制刷新" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ios/" rel="tag">ios</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webview/" rel="tag">webview</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" rel="tag">强制刷新</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/5/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/how-to-use-php-to-generate-a-word-file-by-html.html">使用PHP根据html内容生成word文件</a>
+          </li>
+        
+          <li>
+            <a href="/canvas-Uncaught-DOMException-Failed-to-execute-toDataURL-on-HTMLCanvasElement.html">canvas对视频截图报错:Uncaught DOMException: Failed to execute &#39;toDataURL&#39; on &#39;HTMLCanvasElement&#39;</a>
+          </li>
+        
+          <li>
+            <a href="/pull-to-refresh-miniprogram-s-data-list.html">小程序页面部分下拉刷新解决方案</a>
+          </li>
+        
+          <li>
+            <a href="/promise-in-wechat-miniprogram.html">使用promise封装小程序网络请求</a>
+          </li>
+        
+          <li>
+            <a href="/the-communications-of-pages.html">小程序页面间事件通信</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/File/" style="font-size: 10px;">File</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.25px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.5px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 11.25px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 11.25px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.25px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 16.25px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/error/" style="font-size: 10px;">error</a> <a href="/tags/es6/" style="font-size: 11.25px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.5px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 17.5px;">javascript</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/leetcode/" style="font-size: 18.75px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/modal/" style="font-size: 10px;">modal</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/parse/" style="font-size: 10px;">parse</a> <a href="/tags/phalcon/" style="font-size: 13.75px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/promise/" style="font-size: 10px;">promise</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/text/" style="font-size: 10px;">text</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/toDataURL/" style="font-size: 10px;">toDataURL</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/volt/" style="font-size: 10px;">volt</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/word/" style="font-size: 10px;">word</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/zui/" style="font-size: 10px;">zui</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" style="font-size: 10px;">下拉刷新</a> <a href="/tags/%E4%BA%8B%E4%BB%B6/" style="font-size: 10px;">事件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">组件</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">网络请求</a> <a href="/tags/%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE/" style="font-size: 10px;">腾讯地图</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E8%A7%86%E9%A2%91%E6%88%AA%E5%9B%BE/" style="font-size: 10px;">视频截图</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 11.25px;">通信</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 10px;">页面</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.25px;">默认值</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2015-2023 李祖彬&emsp;&emsp;邮箱：zeno-li#qq.com<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      <!-- &emsp;&emsp;<a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">蜀ICP备19034130号-1</a> -->
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

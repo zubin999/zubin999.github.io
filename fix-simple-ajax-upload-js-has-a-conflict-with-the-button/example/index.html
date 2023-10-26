@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- ZUI 标准版压缩后的 CSS 文件 -->
+    <link rel="stylesheet" href="//cdn.bootcdn.net/ajax/libs/zui/1.10.0/css/zui.min.css">
+
+    <style>
+        .mask {
+            background-color: gray;
+            opacity: .5;
+            height: 100%;
+            width: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .card:hover .mask{
+            display: flex;
+        }
+
+        .mask .file {
+            position: absolute;
+            width: 52px;
+            height: 40px;
+            opacity: 1;
+        }
+
+        .ms-4 {
+            margin-left: 2%;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="card" style="width: 309px; height: 178px; border: 1px dashed gray; margin-top: 300px;  margin-left: 400px;">
+            <div class="mask">
+                <button class="btn btn-secondary" type="button" id="uploadBtn">上传图片</button>
+                <button class="btn btn-secondary ms-4" type="button">图片库</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ZUI Javascript 依赖 jQuery -->
+    <script src="//cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
+    <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
+    <script src="//cdn.bootcdn.net/ajax/libs/zui/1.10.0/js/zui.min.js"></script>
+    <script src="SimpleAjaxUploader.js?t=2367763"></script>
+
+    <script>
+        $(() => {
+            var uploader = new ss.SimpleUpload({
+                button: 'uploadBtn', // file upload button
+                url: '', // server side handler
+                name: 'uploadfile', // upload parameter name        
+                responseType: 'json',
+                allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+                maxSize: 1024, // kilobytes
+                hoverClass: 'ui-state-hover',
+                focusClass: 'ui-state-focus',
+                disabledClass: 'ui-state-disabled',
+                container: '.mask',
+                onSubmit: function(filename, extension) {
+                    this.setFileSizeBox(sizeBox); // designate this element as file size container
+                    this.setProgressBar(progress); // designate as progress bar
+                    },         
+                onComplete: function(filename, response) {
+                    if (!response) {
+                        alert(filename + 'upload failed');
+                        return false;            
+                    }
+                    // do something with response...
+                    }
+            });        
+        })
+    </script>
+</body>
+</html>

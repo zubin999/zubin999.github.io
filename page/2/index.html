@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>李祖彬的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta name="google-site-verification" content="cnfvbLxGQVUqJA07xjs400UpudKGP4An6xmyJDBiDlM" />
+  <meta name="description" content="各种常见的，非常见的PHP，JavaScript，HTML，MySQL，phalcon等问题以及解决办法">
+  
+  
+  <meta name="author" content="李祖彬">
+  
+  
+    <link rel="shortcut icon" href="/css/images/favicon.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">李祖彬的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">lizubin.com</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lizubin.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Uncaught-SyntaxError-Bad-control-character-in-string-literal-in-JSON-at-position" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Uncaught-SyntaxError-Bad-control-character-in-string-literal-in-JSON-at-position.html" class="article-date">
+  <time class="dt-published" datetime="2023-01-03T06:39:32.000Z" itemprop="datePublished">2023-01-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Uncaught-SyntaxError-Bad-control-character-in-string-literal-in-JSON-at-position.html">Uncaught SyntaxError: Bad control character in string literal in JSON at position</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在后台模板页面中,有一段<code>JSON字符串</code>数据需要前端<code>js</code>做<code>JSON</code>解析,前端在做<code>JSON.parse</code>时,出现错误:</p>
+<pre class="line-numbers language-none"><code class="language-none">Uncaught SyntaxError: Bad control character in string literal in JSON at position 90
+at JSON.parse (&lt;anonymous&gt;)
+...</code></pre>
+
+<p>这个功能在某些参数值传入时会出现,其他的又不会,对比两边数据后发现,出错的数据里面有个字段包含了换行符(<code>\r\n</code>)导致,如果去掉换行符就可以正常解析了,但是不可能全部去掉换行符,一是麻烦,二是这会改变原文的段落结构,三是不符合现实需求.解决方法其实也很简单,在调用<code>JSON.parse</code>之前,我们先对数据进行<code>JSON.stringify</code>,这样就不会解析出错了.</p>
+<p>最后有一点需要注意,<code>JSON.stringify</code>中<strong>不要</strong>使用<code>&#39;</code>或<code>&quot;</code>把后台的模板变量包裹起来.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/Uncaught-SyntaxError-Bad-control-character-in-string-literal-in-JSON-at-position.html" data-id="clo6juzqn000pvfnra0yj3y8m" data-title="Uncaught SyntaxError: Bad control character in string literal in JSON at position" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/json/" rel="tag">json</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/parse/" rel="tag">parse</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-use-vue-with-phalcon-volt-syntax" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/use-vue-with-phalcon-volt-syntax.html" class="article-date">
+  <time class="dt-published" datetime="2022-12-28T09:40:15.000Z" itemprop="datePublished">2022-12-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/use-vue-with-phalcon-volt-syntax.html">Phalcon的volt视图页面中使用vue</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><code>phalcon</code>是<code>PHP</code>的一个<code>mvc</code>框架,<code>volt</code>是什么?<code>volt</code>是<code>phalcon</code>的视图模板引擎.<code>volt</code>页面中能混用<code>vuejs</code>吗?可以的.为什么要混用呢?像这样一个页面:</p>
+<p><img src="/use-vue-with-phalcon-volt-syntax/1.png"></p>
+<p>页面中的<code>关联题库</code>表格使用<code>vue</code>的<code>v-for</code>来渲染,<code>题目抽取与得分设置</code>使用<code>计算属性</code>是十分方便的,但是有一点问题:<code>volt</code>使用双大括号<code>&#123;&#123;&#125;&#125;</code>来输出变量值到模板页面,<code>vue</code>也一样,就会冲突.那么怎么解决冲突呢?</p>
+<p>首先,在下载<code>vue</code>的时候,我们可以看到<code>vue</code>有很多版本,比如: <a target="_blank" rel="noopener" href="https://unpkg.com/browse/vue@3.2.45/dist/">unpkg</a>或者<a target="_blank" rel="noopener" href="https://cdnjs.com/libraries/vue">cdnjs</a>都有提供<code>global</code>,<code>runtime</code>,<code>esm</code>等等版本.因为不会编译,所以选择<code>global</code>版.接下来就是页面引入<code>vue</code></p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs&#x2F;vue&#x2F;3.2.45&#x2F;vue.global.min.js&quot;&gt;&lt;&#x2F;script&gt;</code></pre>
+
+<p>使用vue,主要是加入参数<code>delimiters</code>替换<code>&#123;&#123;&#125;&#125;</code>:</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;script&gt;
+    const &#123;createApp&#125; &#x3D; Vue
+
+    const app &#x3D; createApp(&#123;
+        delimiters: [&#39;&#123;!&#39;, &#39;!&#125;&#39;]
+    &#125;).mount(&#39;#app&#39;)
+&lt;&#x2F;script&gt;</code></pre>
+
+<p>其他就可以正常使用啦.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/use-vue-with-phalcon-volt-syntax.html" data-id="clo6juzrq002zvfnr7osh20le" data-title="Phalcon的volt视图页面中使用vue" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/phalcon/" rel="tag">phalcon</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/volt/" rel="tag">volt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-fix-simple-ajax-upload-js-has-a-conflict-with-the-button" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/fix-simple-ajax-upload-js-has-a-conflict-with-the-button.html" class="article-date">
+  <time class="dt-published" datetime="2022-12-10T12:49:37.000Z" itemprop="datePublished">2022-12-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/fix-simple-ajax-upload-js-has-a-conflict-with-the-button.html">解决SimpleAjaxUpload特殊样式中hover冲突造成按钮不显示问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><code>SimpleAjaxUploader</code>是一个很棒的上传插件，使用十分方便。但是，在有鼠标移入移出效果中使用该插件时就会出现问题，如下面这个页面有这样一个方框，鼠标移入后显示蒙层和两个按钮：</p>
+<p><img src="/fix-simple-ajax-upload-js-has-a-conflict-with-the-button/1.gif"></p>
+<p>在没有加入<code>SimpleAjaxUploader</code>插件前效果是OK的，当页面引入js插件后并初始化后，就出问题了，看下图：</p>
+<p><img src="/fix-simple-ajax-upload-js-has-a-conflict-with-the-button/2.gif"></p>
+<p>可以看到，鼠标移入方框后，显示还是正常的，但是当移到<code>上传图片</code>按钮上时，背景突然就没了，按钮也不显示了。这是为什么呢？通过观察页面的HTML结构，比对移入移出时的变化发现造成<br>这一结果的原因是：上传插件在body中插入了<code>div</code>和<code>input</code>然后绝对定位到了按钮的位置，这样当我们眼睛看着是输入移到了<code>上传图片</code>按钮上，实际是移到了插入的<code>div</code>和<code>input</code>上，而插入的<br><code>div</code>和<code>input</code>并不是外面大方框的子元素，所以，方框的<code>hover</code>样式不再生效，我们自己的蒙层也就隐藏了。</p>
+<p>那么应该如何解决呢？现在应该很简单了，只要让<code>div</code>和<code>input</code>插入到我们自己的方框里面作为其子元素存在并且给父级元素加上<code>position: relative</code>就可以了。为了不影响其他地方其他的样式使用，<br>我们需要给它新增一个参数，默认为body，在需要的地方传入自己的元素。具体修改步骤：</p>
+<ol>
+<li>在SimpleAjaxUploader.js的687行添加一个参数:</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">container: &#39;body&#39;</code></pre>
+
+<ol start="2">
+<li>在SimpleAjaxUploader.js的2079行，这里原来是默认插入到body中，替换为：</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">document.querySelector(self._opts.container).appendChild(div);</code></pre>
+
+<p>改好之后再页面中检测一下，已经不在受影响了。</p>
+<p><img src="/fix-simple-ajax-upload-js-has-a-conflict-with-the-button/3.gif"></p>
+<p><a href="/fix-simple-ajax-upload-js-has-a-conflict-with-the-button/example/index.html">点击这里</a>试试吧</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/fix-simple-ajax-upload-js-has-a-conflict-with-the-button.html" data-id="clo6juzr0001ivfnr3qu8cl22" data-title="解决SimpleAjaxUpload特殊样式中hover冲突造成按钮不显示问题" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SimpleAjaxUploader/" rel="tag">SimpleAjaxUploader</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hover/" rel="tag">hover</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-upload-large-video-by-chunk" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/upload-large-video-by-chunk.html" class="article-date">
+  <time class="dt-published" datetime="2022-12-07T08:01:52.000Z" itemprop="datePublished">2022-12-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/upload-large-video-by-chunk.html">超大视频文件分片上传</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="普通上传"><a href="#普通上传" class="headerlink" title="普通上传"></a>普通上传</h3><p>在使用ajax文件上传,一般分3个步骤:</p>
+<ol>
+<li>HTML</li>
+</ol>
+<p>HTML中有一个input用于选择文件:</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;input type&#x3D;&quot;file&quot; id&#x3D;&quot;selectFile&quot; &#x2F;&gt;</code></pre>
+
+<p>可以通过<code>accept</code>属性用于限制选择视频文件还是图片以及视频和图片具体是哪种类型.</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;input type&#x3D;&quot;file&quot; id&#x3D;&quot;selectFile&quot; accept&#x3D;&quot;.mp4&quot;&#x2F;&gt;
+或
+&lt;input type&#x3D;&quot;file&quot; id&#x3D;&quot;selectFile&quot; accept&#x3D;&quot;image&#x2F;*&quot;&#x2F;&gt;</code></pre>
+
+<ol start="2">
+<li>js监听事件</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">$(&#39;#selectFile&#39;).on(&#39;change&#39;, function() &#123;
+    let file &#x3D; this.files[0];
+&#125;);</code></pre>
+
+<ol start="3">
+<li>上传</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">const fd &#x3D; new FormData();
+fd.append(&#39;file&#39;, file);
+const xhr &#x3D; new XMLHttpRequest();
+
+xhr.open(&#39;POST&#39;, api);
+
+&#x2F;&#x2F; 上传进度
+xhr.upload.addEventListener(&#39;progress&#39;, function (ev) &#123;
+    var progress &#x3D; ((ev.loaded &#x2F; ev.total) * 100).toFixed(2) + &#39;%&#39;;
+    
+&#125;);
+
+&#x2F;&#x2F; 上传结果
+xhr.onreadystatechange &#x3D; () &#x3D;&gt; &#123;
+    if(xhr.readyState &#x3D;&#x3D;&#x3D; 4 &amp;&amp; xhr.status &#x3D;&#x3D;&#x3D; 200)&#123;
+        
+    &#125;
+&#125;
+
+xhr.send(fd);</code></pre>
+
+<p>但是对于视频,如一部电影,直接用上面的方式上传,有可能遇到的问题:</p>
+<ul>
+<li>超时</li>
+<li>超出大小限制</li>
+</ul>
+<p>这时候就需要分片上传文件.</p>
+        
+          <p class="article-more-link">
+            <a href="/upload-large-video-by-chunk.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/upload-large-video-by-chunk.html" data-id="clo6juzro002svfnr2idbfu64" data-title="超大视频文件分片上传" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ajax/" rel="tag">ajax</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" rel="tag">分片上传</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-elasticsearch-ERROR-1-bootstrap-checks-failed" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/elasticsearch-ERROR-1-bootstrap-checks-failed.html" class="article-date">
+  <time class="dt-published" datetime="2022-12-06T12:59:12.000Z" itemprop="datePublished">2022-12-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/elasticsearch-ERROR-1-bootstrap-checks-failed.html">elasticsearch ERROR: [1] bootstrap checks failed</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<p><code>elasticsearch</code>启动之后出现错误：</p>
+<pre class="line-numbers language-none"><code class="language-none">ERROR: [1] bootstrap checks failed. You must address the points described in the following [1] lines before starting Elasticsearch.
+bootstrap check failure [1] of [1]: system call filters failed to install; check the logs and fix your configuration or disable system call filters at your own risk
+ERROR: Elasticsearch did not exit normally - check the logs at &#x2F;data&#x2F;elasticsearch&#x2F;elasticsearch-7.16.2&#x2F;logs&#x2F;elasticsearch.log</code></pre>
+
+<p>在错误中提到的日志文件elasticsearch.log中查看：</p>
+<pre class="line-numbers language-none"><code class="language-none">[2022-12-06T17:09:36,977][WARN ][o.e.b.JNANatives         ] [VM-16-8-centos] unable to install syscall filter:
+java.lang.UnsupportedOperationException: seccomp unavailable: CONFIG_SECCOMP not compiled into kernel, CONFIG_SECCOMP and CONFIG_SECCOMP_FILTER are needed
+        at org.elasticsearch.bootstrap.SystemCallFilter.linuxImpl(SystemCallFilter.java:347) ~[elasticsearch-7.16.2.jar:7.16.2]
+        at org.elasticsearch.bootstrap.SystemCallFilter.init(SystemCallFilter.java:638) ~[elasticsearch-7.16.2.jar:7.16.2]
+        at org.elasticsearch.bootstrap.JNANatives.tryInstallSystemCallFilter(JNANatives.java:255) [elasticsearch-7.16.2.jar:7.16.2]
+        at org.elasticsearch.bootstrap.Natives.tryInstallSystemCallFilter(Natives.java:102) [elasticsearch-7.16.2.jar:7.16.2]
+        at org.elasticsearch.bootstrap.Bootstrap.initializeNatives(Bootstrap.java:112) [elasticsearch-7.16.2.jar:7.16.2]
+        at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:183) [elasticsearch-7.16.2.jar:7.16.2]
+        at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:434) [elasticsearch-7.16.2.jar:7.16.2]
+        at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:166) [elasticsearch-7.16.2.jar:7.16.2]
+        at org.elasticsearch.bootstrap.Elasticsearch.execute(Elasticsearch.java:157) [elasticsearch-7.16.2.jar:7.16.2]
+        at org.elasticsearch.cli.EnvironmentAwareCommand.execute(EnvironmentAwareCommand.java:77) [elasticsearch-7.16.2.jar:7.16.2]
+        at org.elasticsearch.cli.Command.mainWithoutErrorHandling(Command.java:112) [elasticsearch-cli-7.16.2.jar:7.16.2]
+        at org.elasticsearch.cli.Command.main(Command.java:77) [elasticsearch-cli-7.16.2.jar:7.16.2]
+        at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:122) [elasticsearch-7.16.2.jar:7.16.2]
+        at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:80) [elasticsearch-7.16.2.jar:7.16.2]</code></pre>
+
+<ul>
+<li>处理</li>
+</ul>
+<p>在<code>elasticsearch</code>配置文件，如：<code>/etc/elasticsearch/elasticsearch.yml</code>中添加一行配置：</p>
+<pre class="line-numbers language-none"><code class="language-none">bootstrap.system_call_filter: false</code></pre>
+
+<p>再次启动，<code>elasticsearch</code>正常运行。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/elasticsearch-ERROR-1-bootstrap-checks-failed.html" data-id="clo6juzqx001bvfnr0u53d3pe" data-title="elasticsearch ERROR: [1] bootstrap checks failed" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bootstrap/" rel="tag">bootstrap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-windows-powershell-about-execution-policies" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/windows-powershell-about-execution-policies.html" class="article-date">
+  <time class="dt-published" datetime="2022-12-06T12:58:21.000Z" itemprop="datePublished">2022-12-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/windows-powershell-about-execution-policies.html">windows powershell about_execution_policies</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<p>笔记本电脑安装<code>hexo</code>后，在<code>Powershell</code>中输入<code>hexo</code>，没有得到想要的输出，得到错误：</p>
+<pre class="line-numbers language-none"><code class="language-none">hexo : 无法加载文件 C:\Users\Zeno\AppData\Roaming\npm\hexo.ps1，因为在此系统上禁止运行脚本。有关详细信息，请参阅 https:
+&#x2F;go.microsoft.com&#x2F;fwlink&#x2F;?LinkID&#x3D;135170 中的 about_Execution_Policies。
+所在位置 行:1 字符: 1
++ hexo
++ ~~~~
+    + CategoryInfo          : SecurityError: (:) []，PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess</code></pre>
+
+<ul>
+<li>原因</li>
+</ul>
+<p>复制上面错误提示中的链接在浏览器中打开，阅读文档后可以知道两点：</p>
+<ol>
+<li><code>Powershell execution policies</code>的值有：<code>AllSigned</code>,<code>Bypass</code>,<code>Default</code>,<code>RemoteSigned</code>,<code>Restricted</code>,<code>Undefined</code>,<code>Unrestricted</code></li>
+<li><code>Powershell execution policies</code>可以通过<code>Scope</code>限制设置值生效范围。<code>Scope</code>的值有：<code>MachinePolicy</code>,<code>UserPolicy</code>,<code>Process</code>,<code>CurrentUser</code>,<code>LocalMachine</code></li>
+</ol>
+<p>现在可以知道，出现上面错误是因为<code>about_Execution_Policies</code>值问题限制了hexo运行。</p>
+<ul>
+<li>处理</li>
+</ul>
+<p>通过命令：<code>Set-ExecutionPolicy -ExecutionPolicy &lt;PolicyName&gt;</code>可以设置。</p>
+<p><img src="/windows-powershell-about-execution-policies/1.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/windows-powershell-about-execution-policies.html" data-id="clo6juzrr0032vfnrb7hz80pb" data-title="windows powershell about_execution_policies" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/powershell/" rel="tag">powershell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/" rel="tag">windows</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-SQLSTATE-HY000-1045-Access-denied" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/SQLSTATE-HY000-1045-Access-denied.html" class="article-date">
+  <time class="dt-published" datetime="2022-11-14T03:36:31.000Z" itemprop="datePublished">2022-11-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/SQLSTATE-HY000-1045-Access-denied.html">SQLSTATE[HY000] [1045] Access denied for user &#39;&#39;@&#39;localhost&#39; (using password: NO)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>一般出现这个错误:</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">SQLSTATE[HY000] [1045] Access denied for user &#39;&#39;@&#39;localhost&#39; (using password: NO)</code></pre>
+
+<p>是密码空,但是在<code>Phalcon</code>中如果项目数据库有主从库,在事务中没有指定库:</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">use Phalcon\Mvc\Model\Transaction\Manager as TxManager;
+
+$manager &#x3D; new TxManager();
+$transaction &#x3D; $manager-&gt;get();</code></pre>
+<p>也会遇到上面的错误.这是因为<code>Phalcon</code>默认会从<code>config</code>的<code>database</code>配置字段去读取数据库配置.<br>所以只需要加一行代码:</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">$manager-&gt;setDbService(&#39;master&#39;);</code></pre>
+
+<p>如果你也遇到了这个问题,把上面的<code>master</code>换成你的库连接名称就好了.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/SQLSTATE-HY000-1045-Access-denied.html" data-id="clo6juzqm000lvfnrbx2n59f1" data-title="SQLSTATE[HY000] [1045] Access denied for user &#39;&#39;@&#39;localhost&#39; (using password: NO)" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/phalcon/" rel="tag">phalcon</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/transaction/" rel="tag">transaction</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-System-has-not-been-booted-with-systemd-as-init-system" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/System-has-not-been-booted-with-systemd-as-init-system.html" class="article-date">
+  <time class="dt-published" datetime="2022-11-09T12:51:34.000Z" itemprop="datePublished">2022-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/System-has-not-been-booted-with-systemd-as-init-system.html">System has not been booted with systemd as init system</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在<code>windows 11</code>中的<code>Ubuntu</code>里使用<code>systemctl</code>时遇到了这样的错误：</p>
+<pre class="line-numbers language-none"><code class="language-none">System has not been booted with systemd as init system (PID 1). Can&#39;t operate.
+Failed to connect to bus: Host is down</code></pre>
+
+<p>在<code>Ubuntu</code>里，<code>systemctl</code>常常用于启用一个服务，但在<code>WSL</code>中常使用的应是：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo service &lt;servicename&gt; start</code></pre>
+
+<p>这个问题的主要原因是<code>WSL</code>不使用<code>Systemd</code>，如何它使用呢？在<code>/etc/</code>下加个配置文件<code>wsl.conf</code>,如果已经存在，编辑这个文件。</p>
+        
+          <p class="article-more-link">
+            <a href="/System-has-not-been-booted-with-systemd-as-init-system.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/System-has-not-been-booted-with-systemd-as-init-system.html" data-id="clo6juzqo000svfnrg6ht2aub" data-title="System has not been booted with systemd as init system" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows-11/" rel="tag">windows 11</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wsl/" rel="tag">wsl</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-elasticsearch-nested-search" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/elasticsearch-nested-search.html" class="article-date">
+  <time class="dt-published" datetime="2022-11-09T06:07:19.000Z" itemprop="datePublished">2022-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/elasticsearch-nested-search.html">elasticsearch nested搜索</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>在mapping中定义nested字段</li>
+</ul>
+<p>定义一个学生信息的字段:</p>
+<pre class="line-numbers language-none"><code class="language-none">&#39;properties&#39; &#x3D;&gt; [
+    &#39;student&#39; &#x3D;&gt; [
+        &#39;type&#39; &#x3D;&gt; &#39;nested&#39;,
+        &#39;properties&#39; &#x3D;&gt; [
+            &#39;id&#39; &#x3D;&gt; [
+                &#39;type&#39; &#x3D;&gt; &#39;integer&#39;
+            ],
+            &#39;name&#39; &#x3D;&gt; [
+                &#39;type&#39; &#x3D;&gt; &#39;text&#39;,
+                &#x2F;&#x2F; 下面两个可选
+                &#39;analyzer&#39; &#x3D;&gt; &#39;ik_smart&#39;,
+                &#39;search_analyzer&#39; &#x3D;&gt; &#39;ik_max_word&#39;
+            ],
+            &#39;gender&#39; &#x3D;&gt; [
+                &#39;type&#39; &#x3D;&gt; &#39;keyword&#39;
+            ]
+        ]
+    ]
+]</code></pre>
+
+<p>nested也是可以嵌套的,比如再加上成绩:</p>
+<pre class="line-numbers language-none"><code class="language-none">&#39;properties&#39; &#x3D;&gt; [
+    &#39;student&#39; &#x3D;&gt; [
+        &#39;type&#39; &#x3D;&gt; &#39;nested&#39;,
+        &#39;properties&#39; &#x3D;&gt; [
+            &#39;id&#39; &#x3D;&gt; [
+                &#39;type&#39; &#x3D;&gt; &#39;integer&#39;
+            ],
+            &#39;name&#39; &#x3D;&gt; [
+                &#39;type&#39; &#x3D;&gt; &#39;text&#39;,
+                &#x2F;&#x2F; 下面两个可选
+                &#39;analyzer&#39; &#x3D;&gt; &#39;ik_smart&#39;,
+                &#39;search_analyzer&#39; &#x3D;&gt; &#39;ik_max_word&#39;
+            ],
+            &#39;gender&#39; &#x3D;&gt; [
+                &#39;type&#39; &#x3D;&gt; &#39;keyword&#39;
+            ],
+            &#39;grade&#39; &#x3D;&gt; [
+                &#39;type&#39; &#x3D;&gt; &#39;nested&#39;,
+                &#39;properties&#39; &#x3D;&gt; [
+                    &#39;english&#39; &#x3D;&gt; [
+                        &#39;type&#39; &#x3D;&gt; &#39;float&#39;
+                    ],
+                    &#39;math&#39; &#x3D;&gt; [
+                        &#39;type&#39; &#x3D;&gt; &#39;float&#39;
+                    ]
+                ]
+            ]
+        ]
+    ]
+]</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/elasticsearch-nested-search.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/elasticsearch-nested-search.html" data-id="clo6juzqz001gvfnr2h8f2ztx" data-title="elasticsearch nested搜索" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nested/" rel="tag">nested</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-php-check-if-request-is-https" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/php-check-if-request-is-https.html" class="article-date">
+  <time class="dt-published" datetime="2022-11-07T11:39:02.000Z" itemprop="datePublished">2022-11-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/php-check-if-request-is-https.html">php检查请求是否为https</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>检查请求是否为<code>https</code>，一般可以通过<code>$_SEVER</code>变量中<code>HTTPS</code>和端口是否是<code>443</code>判断:</p>
+<pre class="line-numbers language-none"><code class="language-none">function isHttps()&#123;
+    return (!empty($_SERVER[&#39;HTTPS&#39;]) &amp;&amp; $_SERVER[&#39;HTTPS&#39;] !&#x3D;&#x3D; &#39;off&#39;)
+        || $_SERVER[&#39;SERVER_PORT&#39;] &#x3D;&#x3D; 443;
+&#125;</code></pre>
+
+<p>前面工作中遇到微信分享失败(没有缩略图的样式)，检查原因是签名失败。通过日志发现签名计算的<code>url</code>地址是<code>http</code>开头的，并非<code>https</code>,但我访问的地址是<code>https</code>。将<code>$_SERVER</code>加入日志中查看，</p>
+<p><img src="/php-check-if-request-is-https/0.png"></p>
+<p>发现<code>$_SERVER</code>中没有<code>HTTPS</code>变量，<code>SERVER_PORT</code>也是<code>80</code>端口，但看到了另外两个值为<code>https</code>的变量：<code>HTTP_X_FORWARDED_PROTO</code>和<code>HTTP_X_CLIENT_PROTO</code>。在搜索引擎中检索<code>HTTP_X_FORWARDED_PROTO</code>, 可以在MDN中看到<code>X_FORWARDED_PROTO</code>的解释：</p>
+        
+          <p class="article-more-link">
+            <a href="/php-check-if-request-is-https.html#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/php-check-if-request-is-https.html" data-id="clo6juzrj002gvfnr320z4uth" data-title="php检查请求是否为https" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/https/" rel="tag">https</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/how-to-use-php-to-generate-a-word-file-by-html.html">使用PHP根据html内容生成word文件</a>
+          </li>
+        
+          <li>
+            <a href="/canvas-Uncaught-DOMException-Failed-to-execute-toDataURL-on-HTMLCanvasElement.html">canvas对视频截图报错:Uncaught DOMException: Failed to execute &#39;toDataURL&#39; on &#39;HTMLCanvasElement&#39;</a>
+          </li>
+        
+          <li>
+            <a href="/pull-to-refresh-miniprogram-s-data-list.html">小程序页面部分下拉刷新解决方案</a>
+          </li>
+        
+          <li>
+            <a href="/promise-in-wechat-miniprogram.html">使用promise封装小程序网络请求</a>
+          </li>
+        
+          <li>
+            <a href="/the-communications-of-pages.html">小程序页面间事件通信</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/File/" style="font-size: 10px;">File</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.25px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.5px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 11.25px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 11.25px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.25px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 16.25px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/error/" style="font-size: 10px;">error</a> <a href="/tags/es6/" style="font-size: 11.25px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.5px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 17.5px;">javascript</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/leetcode/" style="font-size: 18.75px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/modal/" style="font-size: 10px;">modal</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/parse/" style="font-size: 10px;">parse</a> <a href="/tags/phalcon/" style="font-size: 13.75px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/promise/" style="font-size: 10px;">promise</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/text/" style="font-size: 10px;">text</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/toDataURL/" style="font-size: 10px;">toDataURL</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/volt/" style="font-size: 10px;">volt</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/word/" style="font-size: 10px;">word</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/zui/" style="font-size: 10px;">zui</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" style="font-size: 10px;">下拉刷新</a> <a href="/tags/%E4%BA%8B%E4%BB%B6/" style="font-size: 10px;">事件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">组件</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">网络请求</a> <a href="/tags/%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE/" style="font-size: 10px;">腾讯地图</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E8%A7%86%E9%A2%91%E6%88%AA%E5%9B%BE/" style="font-size: 10px;">视频截图</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 11.25px;">通信</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 10px;">页面</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.25px;">默认值</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2015-2023 李祖彬&emsp;&emsp;邮箱：zeno-li#qq.com<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      <!-- &emsp;&emsp;<a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">蜀ICP备19034130号-1</a> -->
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

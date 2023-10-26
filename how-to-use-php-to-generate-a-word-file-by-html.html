@@ -7,12 +7,11 @@
   <title>使用PHP根据html内容生成word文件 | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
-  <meta name="description" content="使用富文本编辑器写了一篇文章,要想存在word文件里面,用PHP怎么实现呢?有以下两种方式:
-
-无任何依赖库
-
-        $word &#x3D;&lt;&lt;&lt;EOT
-&lt;html xmlns:o&#x3D;&quot;urn:schemas-microsoft-com:office:office&quot; xmlns:w&#x3D;&quot;urn:schemas-...">
+  <meta name="description" content="引言：
+在现代Web开发中，富文本编辑器是一种常见的工具，它允许用户轻松地编写和格式化文本。当需要将这些富文本内容保存为Word文件时，可以使用PHP进行处理。本文将介绍两种实现此目的的方法：无需任何依赖库和使用PHPWord库。
+方法一：无任何依赖库
+使用纯PHP代码，无需引入任何第三方库，可以直接将富文本内容嵌入到HTML模板中，并将其保存为Word文件。代码示例如下：
+$word &#...">
   
   
   <meta name="keywords" content="php,html,word">
@@ -94,11 +93,11 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>使用富文本编辑器写了一篇文章,要想存在word文件里面,用PHP怎么实现呢?有以下两种方式:</p>
-<ul>
-<li>无任何依赖库</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">        $word &#x3D;&lt;&lt;&lt;EOT
+        <p>引言：</p>
+<p>在现代Web开发中，富文本编辑器是一种常见的工具，它允许用户轻松地编写和格式化文本。当需要将这些富文本内容保存为Word文件时，可以使用PHP进行处理。本文将介绍两种实现此目的的方法：无需任何依赖库和使用PHPWord库。</p>
+<p>方法一：无任何依赖库</p>
+<p>使用纯PHP代码，无需引入任何第三方库，可以直接将富文本内容嵌入到HTML模板中，并将其保存为Word文件。代码示例如下：</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">$word &#x3D; &lt;&lt;&lt;EOT
 &lt;html xmlns:o&#x3D;&quot;urn:schemas-microsoft-com:office:office&quot; xmlns:w&#x3D;&quot;urn:schemas-microsoft-com:office:word&quot; xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;TR&#x2F;REC-html40&quot;&gt;
 &lt;head&gt;&lt;meta charset&#x3D;&quot;UTF-8&quot; &#x2F;&gt;&lt;&#x2F;head&gt;
 &lt;body&gt;
@@ -109,32 +108,22 @@ EOT;
 
 file_put_contents($file, $word);</code></pre>
 
-<p><code>$content</code>便是富文本内容,只需写入一个<code>xxx.docx</code>文件即可,这种方式好处是没有第三方库,还可以自己根据需要再排版,排版直接使用<code>html</code>+<code>css</code>就可以实现.缺点是自己工作量大,喜欢自己动手的可以尝试.</p>
-<ul>
-<li>使用PHPWord</li>
-</ul>
-<p><code>PHPOffice/PHPWord</code>是一个开源的软件,使用它来生成word十分方便简单.虽然,软件名字为<code>PHPWord</code>,但是它除了word文件,还能生成多种文件:<code>html</code>,<code>pdf</code>,<code>rtf</code>,<code>odt</code>.</p>
-<ol>
-<li>使用Composer安装PHPWord</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">compsoer require phpoffice&#x2F;phpword</code></pre>
-
-<ol start="2">
-<li>使用PHPWord</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">use PhpOffice\PhpWord\Element\Section;
+<p>这种方法的优点是无需依赖任何第三方库，可以根据需要自定义排版。缺点是需要手动处理样式和布局。</p>
+<p>方法二：使用PHPWord库</p>
+<p>PHPWord是一个开源的PHP库，可以方便地生成多种文件格式，包括Word、HTML、PDF、RTF和ODT。使用Composer进行安装，然后利用库中提供的功能轻松地将富文本内容转换为Word文件。代码示例如下：</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html;
 
 $word &#x3D; new PhpWord();
-
 $section &#x3D; $word-&gt;addSection();
-
 Html::addHtml($section, $content);
-
 $writer &#x3D; IOFactory::createWriter($word);
 $writer-&gt;save($file);</code></pre>
+
+<p>结论：</p>
+<p>本文介绍了两种使用PHP将富文本内容转换为Word文件的方法。无论是选择手动编写HTML模板，还是使用PHPWord库，都能够满足开发者的需求。在实际应用中，可以根据项目需求和个人喜好来选择合适的方法。</p>
 
       
     </div>

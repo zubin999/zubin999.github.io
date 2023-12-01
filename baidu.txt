@@ -1,3 +1,4 @@
+https://lizubin.com/how-to-generate-excel-s-cell-by-php-s-closure.html
 https://lizubin.com/how-to-use-php-to-generate-a-word-file-by-html.html
 https://lizubin.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.html
 https://lizubin.com/%E7%9B%B4%E6%92%AD%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.html
@@ -177,3 +178,5 @@ https://lizubin.com/tags/css/
 https://lizubin.com/tags/center/
 https://lizubin.com/tags/html/
 https://lizubin.com/tags/word/
+https://lizubin.com/tags/%E9%97%AD%E5%8C%85/
+https://lizubin.com/tags/closure/

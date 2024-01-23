@@ -122,15 +122,12 @@ cd ffmpeg
  make
  make install</code></pre>
 
-<ul>
-<li>错误</li>
-</ul>
+<p>在安装过程中可能会遇到一些错误，以下是一些常见错误及其解决方法：</p>
 <ol>
-<li><code>nasm/yasm not found or too old. Use --disable-x86asm for a crippled build.</code></li>
-</ol>
-<p>使用<code>yum</code>安装<code>yasm</code>: <code>yum install yasm</code></p>
-<ol start="2">
-<li><code>ERROR: libfdk_aac not found</code></li>
+<li><p>如果出现错误：<code>nasm/yasm not found or too old. Use --disable-x86asm for a crippled build.</code>，可以使用<code>yum</code>安装<code>yasm</code>: <code>yum install yasm</code></p>
+</li>
+<li><p>如果出现错误：<code>ERROR: libfdk_aac not found</code>，可以使用以下命令解决：</p>
+</li>
 </ol>
 <pre class="line-numbers language-none"><code class="language-none">git clone --depth 1 https:&#x2F;&#x2F;github.com&#x2F;mstorsjo&#x2F;fdk-aac
 cd fdk-aac
@@ -141,21 +138,18 @@ make
 make install</code></pre>
 
 <ol start="3">
-<li><code>ERROR: freetype2 not found using pkg-config</code></li>
+<li><p>如果出现错误：<code>ERROR: freetype2 not found using pkg-config</code>，可以使用<code>yum</code>安装<code>freetype-devel</code>: <code>yum install freetype-devel</code></p>
+</li>
+<li><p>如果出现错误：<code>ERROR: libmp3lame &gt;= 3.98.3 not found</code>，可以从<code>https://sourceforge.net/projects/lame/files/latest/download</code>下载并解压，进入目录运行命令：</p>
+</li>
 </ol>
-<p>使用<code>yum</code>安装<code>freetype-devel</code>: <code>yum install freetype-devel</code></p>
-<ol start="4">
-<li><code>ERROR: libmp3lame &gt;= 3.98.3 not found</code></li>
-</ol>
-<p>从<code>https://sourceforge.net/projects/lame/files/latest/download</code>下载并解压，进入目录：</p>
 <pre class="line-numbers language-none"><code class="language-none">.&#x2F;configure
 make
 make install</code></pre>
 
 <ol start="5">
-<li><code>ERROR: libqrencode not found using pkg-config</code></li>
+<li>如果出现错误：<code>ERROR: libqrencode not found using pkg-config</code>，可以从<code>libqrencode</code>最新release下载地址：<code>https://fukuchi.org/works/qrencode/</code>。下载后解压安装：</li>
 </ol>
-<p><code>libqrencode</code>最新release下载地址：<code>https://fukuchi.org/works/qrencode/</code>。下载后解压安装：</p>
 <pre class="line-numbers language-none"><code class="language-none">tar xzf qrencode-4.1.1.tar.gz
 cd qrencode-4.1.1&#x2F;
 .&#x2F;configure
@@ -163,12 +157,12 @@ make
 make install</code></pre>
 
 <ol start="6">
-<li><code>ERROR: libwebp &gt;= 0.2.0 not found using pkg-config</code></li>
+<li>如果出现错误：<code>ERROR: libwebp &gt;= 0.2.0 not found using pkg-config</code>，可以运行命令：</li>
 </ol>
 <pre class="line-numbers language-none"><code class="language-none">yum install -y libwebp libwebp-devel</code></pre>
 
 <ol start="7">
-<li><code>ERROR: x264 not found using pkg-config</code></li>
+<li>如果出现错误：<code>ERROR: x264 not found using pkg-config</code>，可以运行以下命令解决：</li>
 </ol>
 <pre class="line-numbers language-none"><code class="language-none">git clone --branch stable --depth 1 https:&#x2F;&#x2F;code.videolan.org&#x2F;videolan&#x2F;x264.git
 cd x264
@@ -176,17 +170,17 @@ cd x264
 make
 make install</code></pre>
 
-<p>  7.1 运行上面命令后，出现问题，需要<code>nasm</code></p>
+<p>7.1 运行上面命令后，出现问题，需要<code>nasm</code></p>
 <blockquote>
 <p>Found no assembler<br>Minimum version is nasm-2.13<br>If you really want to compile without asm, configure with –disable-asm.</p>
 </blockquote>
+<p>运行命令：</p>
 <pre class="line-numbers language-none"><code class="language-none">yum install nasm</code></pre>
 
 <p><code>nasm</code>安装完后继续安装<code>x264</code></p>
-<ol>
-<li><code>ERROR: x265 not found using pkg-config</code></li>
+<ol start="8">
+<li>如果出现错误：<code>ERROR: x265 not found using pkg-config</code>，可以从<code>x265</code> release版本下载地址：<code>http://ftp.videolan.org/pub/videolan/x265</code>下载最新版本<code>x265</code>安装。</li>
 </ol>
-<p>  8.1 <code>x265</code> release版本下载地址：<code>http://ftp.videolan.org/pub/videolan/x265</code><br>  8.2 <code>x265</code>安装</p>
   <pre class="line-numbers language-none"><code class="language-none">wget http:&#x2F;&#x2F;ftp.videolan.org&#x2F;pub&#x2F;videolan&#x2F;x265&#x2F;x265_3.2.tar.gz
 tar xzf x265_3.2.tar.gz
 cd x265_3.2&#x2F;build&#x2F;linux
@@ -195,7 +189,7 @@ make
 make install</code></pre>
 
 <ol start="9">
-<li><code>ERROR: openssl not found</code></li>
+<li>如果出现错误：<code>ERROR: openssl not found</code>，可以运行命令：</li>
 </ol>
 <pre class="line-numbers language-none"><code class="language-none">yum install openssl openssl-devel</code></pre>
 

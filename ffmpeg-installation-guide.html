@@ -183,7 +183,7 @@ make install</code></pre>
 <pre class="line-numbers language-none"><code class="language-none">yum install nasm</code></pre>
 
 <p><code>nasm</code>安装完后继续安装<code>x264</code></p>
-<ol start="8">
+<ol>
 <li><code>ERROR: x265 not found using pkg-config</code></li>
 </ol>
 <p>  8.1 <code>x265</code> release版本下载地址：<code>http://ftp.videolan.org/pub/videolan/x265</code><br>  8.2 <code>x265</code>安装</p>
@@ -198,6 +198,11 @@ make install</code></pre>
 <li><code>ERROR: openssl not found</code></li>
 </ol>
 <pre class="line-numbers language-none"><code class="language-none">yum install openssl openssl-devel</code></pre>
+
+<ol start="10">
+<li>所有问题解决安装完成后运行<code>ffmpeg</code>或<code>ffmpeg -version</code>出现错误：<code>ffmpeg: error while loading shared libraries: libavdevice.so.60: cannot open shared object file: No such file or directory</code></li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">export LD_LIBRARY_PATH&#x3D;&#x2F;usr&#x2F;local&#x2F;lib:&#x2F;usr&#x2F;local&#x2F;lib64&#x2F;:&#x2F;usr&#x2F;local&#x2F;lib&#x2F;x86_64-linux-gnu:$LD_LIBRARY_PATH</code></pre>
       
     </div>
     <footer class="article-footer">

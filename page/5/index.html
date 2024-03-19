@@ -68,6 +68,92 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-leetcode-String-to-Integer-atoi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-String-to-Integer-atoi.html" class="article-date">
+  <time class="dt-published" datetime="2021-10-28T01:02:42.000Z" itemprop="datePublished">2021-10-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-String-to-Integer-atoi.html">leetcode: String to Integer (atoi)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <pre class="line-numbers language-none"><code class="language-none">class Solution
+&#123;
+
+    &#x2F;**
+     * @param String $s
+     * @return Integer
+     *&#x2F;
+    public function myAtoi($s)
+    &#123;
+        $s &#x3D; ltrim($s);
+        if (empty($s)) &#123;
+            return 0;
+        &#125;
+
+        $ascii &#x3D; ord($s[0]);
+        $sign  &#x3D; $ascii &#x3D;&#x3D;&#x3D; 45;
+        if ($ascii &#x3D;&#x3D;&#x3D; 45 || $ascii &#x3D;&#x3D;&#x3D; 43) &#123;
+            $sum &#x3D; 0;
+        &#125; elseif ($ascii &gt;&#x3D; 48 &amp;&amp; $ascii &lt;&#x3D; 57) &#123;
+            $sum &#x3D; intval($s[0]);
+        &#125; else &#123;
+            return 0;
+        &#125;
+
+        for ($i &#x3D; 1, $len &#x3D; strlen($s); $i &lt; $len; ++$i) &#123;
+            $ascii &#x3D; ord($s[$i]);
+            if ($ascii &lt; 48 || $ascii &gt; 57) &#123;
+                break;
+            &#125;
+
+            $sum &#x3D; $sum * 10 + intval($s[$i]);
+        &#125;
+
+        if ($sign) &#123;
+            $sum *&#x3D; -1;
+        &#125;
+
+        $boundry &#x3D; pow(2, 31);
+        if ($sum &lt;&#x3D; -$boundry) &#123;
+            return -$boundry;
+        &#125; elseif ($sum &gt;&#x3D; --$boundry) &#123;
+            return $boundry;
+        &#125;
+
+        return $sum;
+    &#125;
+&#125;</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-String-to-Integer-atoi.html" data-id="clo6juzra0023vfnrcpff3gqo" data-title="leetcode: String to Integer (atoi)" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-leetcode-Palindrome-Number" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/leetcode-Palindrome-Number.html" class="article-date">
@@ -873,269 +959,6 @@ class Solution &#123;
 
 
   
-    <article id="post-使用Zephir写PHP扩展" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95.html" class="article-date">
-  <time class="dt-published" datetime="2020-07-31T08:45:40.000Z" itemprop="datePublished">2020-07-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95.html">使用Zephir写PHP扩展</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><code>PHP</code>由<code>c语言</code>写的，如果要编写<code>PHP扩展</code>，我们需要理解<code>PHP源码</code>，需要使用<code>c语言</code>来编写扩展程序，这样步骤繁琐，入门门槛高。有了<code>Zephir</code>之后，编写<code>PHP扩展</code>，就和编写<code>PHP代码</code>一样简单。</p>
-<h1 id="安装Zephir"><a href="#安装Zephir" class="headerlink" title="安装Zephir"></a>安装Zephir</h1><ul>
-<li>安装Zephir parser</li>
-</ul>
-<p>准备需要用到的东西：</p>
-<pre class="line-numbers language-none"><code class="language-none">sudo yum install php-devel gcc make re2c autoconf automake</code></pre>
-
-<p>得到下面的结果：</p>
-<blockquote>
-<p>[root@centos8 zeno]# sudo yum install php-devel gcc make re2c autoconf automake<br>Last metadata expiration check: 1:03:17 ago on Fri 31 Jul 2020 04:20:32 PM CST.<br>Package gcc-8.3.1-5.el8.0.2.x86_64 is already installed.<br>Package make-1:4.2.1-10.el8.x86_64 is already installed.<br>No match for argument: re2c<br>Package autoconf-2.69-27.el8.noarch is already installed.<br>Package automake-1.16.1-6.el8.noarch is already installed.<br>Error: Unable to find a match: re2c</p>
-</blockquote>
-<p>re2c没有找到，那自己下载安装：</p>
-<pre class="line-numbers language-none"><code class="language-none">wget https:&#x2F;&#x2F;github.com&#x2F;skvadrik&#x2F;re2c&#x2F;archive&#x2F;2.0.1.tar.gz</code></pre>
-
-<p>本地有一个<code>2.0.1.tar.gz</code>的文件，解压re2c并进入目录：</p>
-<pre class="line-numbers language-none"><code class="language-none">tar xzf 2.0.1.tar.gz
-cd re2c-2.0.1&#x2F;</code></pre>
-
-<p>得到文件：</p>
-<blockquote>
-<p>[zeno@centos8 re2c-2.0.1]$ ls<br>add-release.txt  benchmarks  build      cmake     configure.ac  examples  include  libre2c_old<br>Makefile.am      NO_WARRANTY  release.sh       sf-cheatsheet  test<br>autogen.sh       bootstrap   CHANGELOG  CMakeLists.txt  doc           fuzz      lib      LICENSE      &gt;Makefile.lib.am  README.md    run_tests.sh.in  src</p>
-</blockquote>
-<p>使用autoreconf命令：</p>
-<pre class="line-numbers language-none"><code class="language-none">autoreconf -i -W all</code></pre>
-
-<p>再次查看目录文件:</p>
-<blockquote>
-<p>[zeno@centos8 re2c-2.0.1]$ ls<br>aclocal.m4       autogen.sh      benchmarks  build      CHANGELOG  CMakeLists.txt  configure     doc       &gt;fuzz     lib          LICENSE  Makefile.am  Makefile.lib.am  README.md   run_tests.sh.in  src<br>add-release.txt autom4te.cache bootstrap   build-aux  cmake   config.h.in  configure.ac  examples<br>include  libre2c_old  m4       Makefile.in  NO_WARRANTY      release.sh  sf-cheatsheet    test</p>
-</blockquote>
-<p>可以看到有个<code>configuer</code>文件。安装：</p>
-<pre class="line-numbers language-none"><code class="language-none">.&#x2F;configure &amp;&amp; sudo make &amp;&amp; sudo make install</code></pre>
-
-<p>现在需要的东西都已准备好了。安装Zephir-parser：</p>
-<pre class="line-numbers language-none"><code class="language-none">git clone git:&#x2F;&#x2F;github.com&#x2F;phalcon&#x2F;php-zephir-parser.git
-cd php-zephir-parser
-phpize
-.&#x2F;configure --with-php-config&#x3D;&#x2F;usr&#x2F;local&#x2F;php&#x2F;bin&#x2F;php-config
-make
-sudo make install</code></pre>
-
-<p>在<code>php.ini</code>中开启扩展：</p>
-<pre class="line-numbers language-none"><code class="language-none">extension&#x3D;zephir_parser.so</code></pre>
-
-<p>接下来就是安装zephir了。这一步十分简单，只需从<code>https://github.com/phalcon/zephir/releases/latest</code>下载<code>zephir.phar</code>文件，然后将其移入&#x2F;usr&#x2F;bin&#x2F;或者&#x2F;usr&#x2F;local&#x2F;bin目录下，再加上可执行权限：</p>
-<pre class="line-numbers language-none"><code class="language-none">mv zephir.phar &#x2F;usr&#x2F;bin&#x2F;zephir
-chmod +x &#x2F;usr&#x2F;bin&#x2F;zephir</code></pre>
-
-<p>zephir便已经安装上了。测试一下，可以在输入命令<code>zephir</code>或<code>zephir help</code>，如果出现zephir的使用介绍便证明安装成功了。</p>
-<h1 id="扩展需求及初始化"><a href="#扩展需求及初始化" class="headerlink" title="扩展需求及初始化"></a>扩展需求及初始化</h1><p>在开发api的过程中，经常我们会遇到需要显示<code>xx秒前</code>、<code>xx天前</code>这样的格式，现在就写一个扩展，将传入进来的时间戳转换为对应的格式后返回。</p>
-<p>首先，初始化项目：</p>
-<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 这里zephir会自动将大写转为小写，所以直接用小写
-zephir init timehelper
-cd timehelper&#x2F;timehelper</code></pre>
-
-<p>在这个目录下建一个文件：<code>helper.zep</code>，先写一个测试方法输出<code>hello world</code>：</p>
-<pre class="line-numbers language-none"><code class="language-none">namespace TimeHelper;
-
-class Helper &#123;
-
-    public static function say()&#123;
-        echo &quot;hello world!&quot;;
-    &#125;
-&#125;
-</code></pre>
-
-<p>然后使用<code>zephir build</code>来编译安装扩展程序，如果编译安装成功会得到提示：</p>
-<pre class="line-numbers language-none"><code class="language-none">Preparing for PHP compilation...
-Preparing configuration file...
-Compiling...
-Installing...
-
-Extension installed.
-Add &quot;extension&#x3D;timehelper.so&quot; to your php.ini
-
-! [NOTE] Don&#39;t forget to restart your web server</code></pre>
-
-<p>现在，只需在<code>php.ini</code>文件里加上<code>extension=timehelper.so</code>就能使用扩展了。</p>
-<h1 id="测试扩展程序"><a href="#测试扩展程序" class="headerlink" title="测试扩展程序"></a>测试扩展程序</h1><p>刚刚安装了<code>timehelper</code>这个扩展程序，要怎么使用呢？新建一个PHP文件，加入下面一行代码：</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;?php
-TimeHelper\Helper::say();</code></pre>
-
-<p>保存为<code>test.php</code>后使用PHP执行：<code>php test.php</code>，如果输出了<code>hello world</code>，那就成功了。</p>
-<h1 id="编写扩展"><a href="#编写扩展" class="headerlink" title="编写扩展"></a>编写扩展</h1><pre class="line-numbers language-none"><code class="language-none">
-namespace TimeHelper;
-
-class Helper &#123;
-
-    public static function say()&#123;
-        echo &quot;hello world!&quot;;
-    &#125;
-    
-    public function before(int! sec)-&gt; string|bool &#123;
-        if sec &gt; time() || sec &lt; 0 &#123;
-            return false;
-        &#125;
-        
-        int diff;
-        let diff &#x3D; time() - sec;
-        if diff &lt;&#x3D; 60 &#123;
-            return diff . &quot;秒前&quot;;
-        &#125;
-
-        if diff &gt; 60 &amp;&amp; diff &lt; 3600 &#123;
-            return this-&gt;getMin(diff);
-        &#125;
-
-        if diff &gt;&#x3D; 3600 &amp;&amp; diff &lt; 86400 &#123;
-            return this-&gt;getHour(diff);
-        &#125;
-
-        if diff &gt;&#x3D; 86400 &amp;&amp; diff &lt; 2592000 &#123;
-            return this-&gt;getDay(diff);
-        &#125;
-
-        if diff &gt;&#x3D; 2592000 &amp;&amp; diff &lt; 2592000 * 12 &#123;
-            return this-&gt;getMonth(diff);
-        &#125;
-        
-        return this-&gt;getYear(diff);
-    &#125;
-
-    private function getMin(int! sec)-&gt; string&#123;
-            if sec &#x3D;&#x3D;&#x3D; 0 &#123;
-                return &quot;&quot;;
-            &#125;
-
-            int min &#x3D; intval(sec &#x2F; 60);
-            let sec &#x3D; sec % 60;
-            if sec &gt; 0 &#123;
-                return min . &quot;分&quot; . sec . &quot;秒前&quot;;
-            &#125;
-
-            return min . &quot;分前&quot;;
-    &#125;
-
-    private function getHour(int! sec)-&gt; string &#123;
-            int hour &#x3D; intval(sec &#x2F; 3600);
-            int diff &#x3D; sec % 3600;
-            var min &#x3D; this-&gt;getMin(diff);
-
-            if strlen(min) &#123;
-                return hour . &quot;小时&quot; . min;
-            &#125;
-
-            return hour . &quot;小时前&quot;;
-    &#125;
-
-    private function getDay(int! sec)-&gt;string &#123;
-            int day &#x3D; intval(sec &#x2F; 86400);
-
-            return day . &quot;天前&quot;;
-    &#125;
-
-    private function getMonth(int! sec)-&gt; string &#123;
-            int month &#x3D; intval(sec &#x2F; 2592000);
-
-            return month . &quot;月前&quot;;
-    &#125;
-
-    private function getYear(int! sec) -&gt; string &#123;
-            int year &#x3D; intval(sec &#x2F; 2592000 &#x2F; 365);
-
-            return year . &quot;年前&quot;;
-    &#125;
-&#125;
-</code></pre>
-
-<ul>
-<li>PHP测试程序</li>
-</ul>
-<p>修改刚刚的<code>test.php</code>为下：</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;?php
-$helper &#x3D; new TimeHelper\Helper();
-
-&#x2F;&#x2F; xx秒前
-$sec &#x3D; time() - 50 ;
-echo $helper-&gt;before($sec), &quot;\n&quot;;
-
-&#x2F;&#x2F; xx分xx秒前
-$sec &#x3D; time() - 73;
-echo $helper-&gt;before($sec), &quot;\n&quot;;
-
-&#x2F;&#x2F; xx小时前
-$sec &#x3D; time() - 3950;
-echo $helper-&gt;before($sec), &quot;\n&quot;;
-
-&#x2F;&#x2F; xx天前
-$sec &#x3D; time() - 86600;
-echo $helper-&gt;before($sec), &quot;\n&quot;;
-
-&#x2F;&#x2F; xx月前
-$sec &#x3D; time() - 2597000;
-echo $helper-&gt;before($sec), &quot;\n&quot;;
-
-&#x2F;&#x2F; xx年前
-$sec &#x3D; time() - 948672000;
-echo $helper-&gt;before($sec), &quot;\n&quot;;</code></pre>
-
-<p>在使用PHP执行该文件后可以看到输出：</p>
-<pre class="line-numbers language-none"><code class="language-none">50秒前
-1分13秒前
-1小时5分50秒前
-1天前
-1月前
-1年前</code></pre>
-
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ul>
-<li>在zephir的代码里，可以直接使用PHP的内置函数，如上面用到<code>time</code>,<code>intval</code></li>
-<li>zephir里返回值可以多个，用<code>|</code>分隔</li>
-<li>zephir里参数可以不指定类型：</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">public function say(str)&#123;&#125;</code></pre>
-
-<p>也可以指定(直接写类型，不加感叹号)：</p>
-<pre class="line-numbers language-none"><code class="language-none">public function say(string str)&#123;&#125;</code></pre>
-
-<p>还可以强制指定类型(加感叹号在类型后面)：</p>
-<pre class="line-numbers language-none"><code class="language-none">public function say(string! str)&#123;&#125;</code></pre>
-
-<p>后面两种差别是前者传入类型不一致会作类型转换，转换不成功会报错，后者不会作类型转换，类型必须一致。</p>
-<ul>
-<li>之前我是在Windows的虚拟机里使用，代码写在Linux和Windows的共享目录里，在Linux终端运行<code>zephir build</code>编译失败，因为底层gcc编译会当做跨平台编译，需要传入–host参数，但是zephir命令还不支持传参给gcc，所有把代码移出共享目录，放Linux下任意目录编译成功。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lizubin.com/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95.html" data-id="clo6juzru0033vfnr7ykw1dij" data-title="使用Zephir写PHP扩展" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zephir/" rel="tag">zephir</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%89%A9%E5%B1%95/" rel="tag">扩展</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1154,6 +977,10 @@ echo $helper-&gt;before($sec), &quot;\n&quot;;</code></pre>
       <ul>
         
           <li>
+            <a href="/use-multi-stage-to-reduce-size-of-docker-images.html">用Multi-stage builds给你的docker镜像瘦身</a>
+          </li>
+        
+          <li>
             <a href="/ffmpeg-installation-guide.html">ffmpeg安装记录</a>
           </li>
         
@@ -1169,10 +996,6 @@ echo $helper-&gt;before($sec), &quot;\n&quot;;</code></pre>
             <a href="/canvas-Uncaught-DOMException-Failed-to-execute-toDataURL-on-HTMLCanvasElement.html">canvas对视频截图报错:Uncaught DOMException: Failed to execute &#39;toDataURL&#39; on &#39;HTMLCanvasElement&#39;</a>
           </li>
         
-          <li>
-            <a href="/pull-to-refresh-miniprogram-s-data-list.html">小程序页面部分下拉刷新解决方案</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1182,7 +1005,7 @@ echo $helper-&gt;before($sec), &quot;\n&quot;;</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/File/" style="font-size: 10px;">File</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.25px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.5px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 11.25px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 11.25px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/closure/" style="font-size: 10px;">closure</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.25px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 16.25px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/error/" style="font-size: 10px;">error</a> <a href="/tags/es6/" style="font-size: 11.25px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/guide/" style="font-size: 10px;">guide</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/installation/" style="font-size: 10px;">installation</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.5px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 17.5px;">javascript</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/leetcode/" style="font-size: 18.75px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/modal/" style="font-size: 10px;">modal</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/parse/" style="font-size: 10px;">parse</a> <a href="/tags/phalcon/" style="font-size: 13.75px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/promise/" style="font-size: 10px;">promise</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/text/" style="font-size: 10px;">text</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/toDataURL/" style="font-size: 10px;">toDataURL</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/volt/" style="font-size: 10px;">volt</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/word/" style="font-size: 10px;">word</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/zui/" style="font-size: 10px;">zui</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" style="font-size: 10px;">下拉刷新</a> <a href="/tags/%E4%BA%8B%E4%BB%B6/" style="font-size: 10px;">事件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">组件</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">网络请求</a> <a href="/tags/%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE/" style="font-size: 10px;">腾讯地图</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E8%A7%86%E9%A2%91%E6%88%AA%E5%9B%BE/" style="font-size: 10px;">视频截图</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 11.25px;">通信</a> <a href="/tags/%E9%97%AD%E5%8C%85/" style="font-size: 10px;">闭包</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 10px;">页面</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.25px;">默认值</a>
+      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/File/" style="font-size: 10px;">File</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.25px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.5px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 11.25px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 11.25px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/closure/" style="font-size: 10px;">closure</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.25px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 16.25px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/error/" style="font-size: 10px;">error</a> <a href="/tags/es6/" style="font-size: 11.25px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/guide/" style="font-size: 10px;">guide</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/installation/" style="font-size: 10px;">installation</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.5px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 17.5px;">javascript</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/leetcode/" style="font-size: 18.75px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/modal/" style="font-size: 10px;">modal</a> <a href="/tags/multi-stage/" style="font-size: 10px;">multi-stage</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/parse/" style="font-size: 10px;">parse</a> <a href="/tags/phalcon/" style="font-size: 13.75px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/promise/" style="font-size: 10px;">promise</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/text/" style="font-size: 10px;">text</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/toDataURL/" style="font-size: 10px;">toDataURL</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/volt/" style="font-size: 10px;">volt</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/word/" style="font-size: 10px;">word</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/zui/" style="font-size: 10px;">zui</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" style="font-size: 10px;">下拉刷新</a> <a href="/tags/%E4%BA%8B%E4%BB%B6/" style="font-size: 10px;">事件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">组件</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">网络请求</a> <a href="/tags/%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE/" style="font-size: 10px;">腾讯地图</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E8%A7%86%E9%A2%91%E6%88%AA%E5%9B%BE/" style="font-size: 10px;">视频截图</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 11.25px;">通信</a> <a href="/tags/%E9%97%AD%E5%8C%85/" style="font-size: 10px;">闭包</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 10px;">页面</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.25px;">默认值</a>
     </div>
   </div>
 
@@ -1191,7 +1014,7 @@ echo $helper-&gt;before($sec), &quot;\n&quot;;</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">一月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">十一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">三月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">一月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">十一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
     </div>
   </div>
 

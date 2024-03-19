@@ -1,3 +1,4 @@
+https://lizubin.com/use-multi-stage-to-reduce-size-of-docker-images.html
 https://lizubin.com/ffmpeg-installation-guide.html
 https://lizubin.com/how-to-generate-excel-s-cell-by-php-s-closure.html
 https://lizubin.com/how-to-use-php-to-generate-a-word-file-by-html.html
@@ -184,3 +185,5 @@ https://lizubin.com/tags/closure/
 https://lizubin.com/tags/ffmpeg/
 https://lizubin.com/tags/installation/
 https://lizubin.com/tags/guide/
+https://lizubin.com/tags/docker/
+https://lizubin.com/tags/multi-stage/

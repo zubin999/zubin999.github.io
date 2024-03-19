@@ -68,6 +68,118 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-leetcode-4Sum" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/leetcode-4Sum.html" class="article-date">
+  <time class="dt-published" datetime="2022-03-29T13:36:20.000Z" itemprop="datePublished">2022-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/leetcode-4Sum.html">leetcode:4Sum</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>问题</li>
+</ul>
+<blockquote>
+<p> Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:</p>
+</blockquote>
+<p>0 &lt;&#x3D; a, b, c, d &lt; n<br>a, b, c, and d are distinct.<br>nums[a] + nums[b] + nums[c] + nums[d] &#x3D;&#x3D; target<br>You may return the answer in any order.</p>
+<ul>
+<li>难度</li>
+</ul>
+<p>中等</p>
+<ul>
+<li>代码</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">class Solution
+&#123;
+
+    &#x2F;**
+     * @param Integer[] $nums
+     * @param Integer $target
+     * @return Integer[][]
+     *&#x2F;
+    public function fourSum($nums, $target)
+    &#123;
+        $len &#x3D; count($nums);
+        if (!$len) &#123;
+            return [];
+        &#125;
+
+        sort($nums);
+
+        $res &#x3D; [];
+        for ($i &#x3D; 0, $l1 &#x3D; $len - 3; $i &lt; $l1; $i++) &#123;
+            if ($i &amp;&amp; $nums[$i] &#x3D;&#x3D;&#x3D; $nums[$i - 1]) &#123;
+                continue;
+            &#125;
+
+            $sum &#x3D; $target - $nums[$i];
+            for ($j &#x3D; $i + 1, $len1 &#x3D; $len - 2; $j &lt; $len1; $j++) &#123;
+                if ($j &#x3D;&#x3D;&#x3D; ($i + 1) || $nums[$j] !&#x3D;&#x3D; $nums[$j - 1]) &#123;
+                    $x &#x3D; $j + 1;
+                    $y &#x3D; $len - 1;
+
+                    while ($x &lt; $y) &#123;
+                        $s &#x3D; $nums[$j] + $nums[$x] + $nums[$y];
+                        if ($s &#x3D;&#x3D;&#x3D; $sum) &#123;
+                            $res[] &#x3D; [$nums[$i], $nums[$j], $nums[$x], $nums[$y]];
+                            $x++;
+                        &#125; else if ($s &gt; $sum) &#123;
+                            $y--;
+                        &#125; else &#123;
+                            $x++;
+                        &#125;
+
+                        while ($x &lt; $y &amp;&amp; ($x - 1) &gt; $j &amp;&amp; $nums[$x] &#x3D;&#x3D;&#x3D; $nums[$x - 1]) &#123;
+                            $x++;
+                        &#125;
+
+                        while ($x &lt; $y &amp;&amp; $nums[$y] &#x3D;&#x3D;&#x3D; $nums[$y + 1]) &#123;
+                            $y--;
+                        &#125;
+
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+
+        return $res;
+    &#125;
+&#125;</code></pre>
+
+<p>这题思路和前面的求3个数差不多,也是利用那里的方法来解,开始在<code>[-2, -1, 0, 0, 1, 2]</code>这个测试没有通过,少了一个答案<code>[-1,0,0,1]</code>, 经过一番测试, 发现在最后判断<code>$x</code>相同值时需要加上<code>($x - 1) &gt; $j</code>条件.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/leetcode-4Sum.html" data-id="clo6juzr1001mvfnr81ok2bsq" data-title="leetcode:4Sum" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/4sum/" rel="tag">4sum</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-leetcode-Letter-Combinations-of-a-Phone-Number" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/leetcode-Letter-Combinations-of-a-Phone-Number.html" class="article-date">
@@ -911,92 +1023,6 @@ M    1000</code></pre>
 
 
   
-    <article id="post-leetcode-String-to-Integer-atoi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/leetcode-String-to-Integer-atoi.html" class="article-date">
-  <time class="dt-published" datetime="2021-10-28T01:02:42.000Z" itemprop="datePublished">2021-10-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/leetcode-String-to-Integer-atoi.html">leetcode: String to Integer (atoi)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <pre class="line-numbers language-none"><code class="language-none">class Solution
-&#123;
-
-    &#x2F;**
-     * @param String $s
-     * @return Integer
-     *&#x2F;
-    public function myAtoi($s)
-    &#123;
-        $s &#x3D; ltrim($s);
-        if (empty($s)) &#123;
-            return 0;
-        &#125;
-
-        $ascii &#x3D; ord($s[0]);
-        $sign  &#x3D; $ascii &#x3D;&#x3D;&#x3D; 45;
-        if ($ascii &#x3D;&#x3D;&#x3D; 45 || $ascii &#x3D;&#x3D;&#x3D; 43) &#123;
-            $sum &#x3D; 0;
-        &#125; elseif ($ascii &gt;&#x3D; 48 &amp;&amp; $ascii &lt;&#x3D; 57) &#123;
-            $sum &#x3D; intval($s[0]);
-        &#125; else &#123;
-            return 0;
-        &#125;
-
-        for ($i &#x3D; 1, $len &#x3D; strlen($s); $i &lt; $len; ++$i) &#123;
-            $ascii &#x3D; ord($s[$i]);
-            if ($ascii &lt; 48 || $ascii &gt; 57) &#123;
-                break;
-            &#125;
-
-            $sum &#x3D; $sum * 10 + intval($s[$i]);
-        &#125;
-
-        if ($sign) &#123;
-            $sum *&#x3D; -1;
-        &#125;
-
-        $boundry &#x3D; pow(2, 31);
-        if ($sum &lt;&#x3D; -$boundry) &#123;
-            return -$boundry;
-        &#125; elseif ($sum &gt;&#x3D; --$boundry) &#123;
-            return $boundry;
-        &#125;
-
-        return $sum;
-    &#125;
-&#125;</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lizubin.com/leetcode-String-to-Integer-atoi.html" data-id="clo6juzra0023vfnrcpff3gqo" data-title="leetcode: String to Integer (atoi)" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1015,6 +1041,10 @@ M    1000</code></pre>
       <ul>
         
           <li>
+            <a href="/use-multi-stage-to-reduce-size-of-docker-images.html">用Multi-stage builds给你的docker镜像瘦身</a>
+          </li>
+        
+          <li>
             <a href="/ffmpeg-installation-guide.html">ffmpeg安装记录</a>
           </li>
         
@@ -1030,10 +1060,6 @@ M    1000</code></pre>
             <a href="/canvas-Uncaught-DOMException-Failed-to-execute-toDataURL-on-HTMLCanvasElement.html">canvas对视频截图报错:Uncaught DOMException: Failed to execute &#39;toDataURL&#39; on &#39;HTMLCanvasElement&#39;</a>
           </li>
         
-          <li>
-            <a href="/pull-to-refresh-miniprogram-s-data-list.html">小程序页面部分下拉刷新解决方案</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1043,7 +1069,7 @@ M    1000</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/File/" style="font-size: 10px;">File</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.25px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.5px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 11.25px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 11.25px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/closure/" style="font-size: 10px;">closure</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.25px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 16.25px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/error/" style="font-size: 10px;">error</a> <a href="/tags/es6/" style="font-size: 11.25px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/guide/" style="font-size: 10px;">guide</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/installation/" style="font-size: 10px;">installation</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.5px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 17.5px;">javascript</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/leetcode/" style="font-size: 18.75px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/modal/" style="font-size: 10px;">modal</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/parse/" style="font-size: 10px;">parse</a> <a href="/tags/phalcon/" style="font-size: 13.75px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/promise/" style="font-size: 10px;">promise</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/text/" style="font-size: 10px;">text</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/toDataURL/" style="font-size: 10px;">toDataURL</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/volt/" style="font-size: 10px;">volt</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/word/" style="font-size: 10px;">word</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/zui/" style="font-size: 10px;">zui</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" style="font-size: 10px;">下拉刷新</a> <a href="/tags/%E4%BA%8B%E4%BB%B6/" style="font-size: 10px;">事件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">组件</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">网络请求</a> <a href="/tags/%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE/" style="font-size: 10px;">腾讯地图</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E8%A7%86%E9%A2%91%E6%88%AA%E5%9B%BE/" style="font-size: 10px;">视频截图</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 11.25px;">通信</a> <a href="/tags/%E9%97%AD%E5%8C%85/" style="font-size: 10px;">闭包</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 10px;">页面</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.25px;">默认值</a>
+      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/File/" style="font-size: 10px;">File</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.25px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.5px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 11.25px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 11.25px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/closure/" style="font-size: 10px;">closure</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.25px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 16.25px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/error/" style="font-size: 10px;">error</a> <a href="/tags/es6/" style="font-size: 11.25px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/guide/" style="font-size: 10px;">guide</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/installation/" style="font-size: 10px;">installation</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.5px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 17.5px;">javascript</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/leetcode/" style="font-size: 18.75px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/modal/" style="font-size: 10px;">modal</a> <a href="/tags/multi-stage/" style="font-size: 10px;">multi-stage</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/parse/" style="font-size: 10px;">parse</a> <a href="/tags/phalcon/" style="font-size: 13.75px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/promise/" style="font-size: 10px;">promise</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/text/" style="font-size: 10px;">text</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/toDataURL/" style="font-size: 10px;">toDataURL</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/volt/" style="font-size: 10px;">volt</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/word/" style="font-size: 10px;">word</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/zui/" style="font-size: 10px;">zui</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" style="font-size: 10px;">下拉刷新</a> <a href="/tags/%E4%BA%8B%E4%BB%B6/" style="font-size: 10px;">事件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">组件</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">网络请求</a> <a href="/tags/%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE/" style="font-size: 10px;">腾讯地图</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E8%A7%86%E9%A2%91%E6%88%AA%E5%9B%BE/" style="font-size: 10px;">视频截图</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 11.25px;">通信</a> <a href="/tags/%E9%97%AD%E5%8C%85/" style="font-size: 10px;">闭包</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 10px;">页面</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.25px;">默认值</a>
     </div>
   </div>
 
@@ -1052,7 +1078,7 @@ M    1000</code></pre>
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">一月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">十一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">三月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">一月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">十一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
     </div>
   </div>
 

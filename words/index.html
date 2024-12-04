@@ -4,23 +4,12 @@
   <meta charset="utf-8">
   
   
-  <title>leetcode: Median of Two Sorted Arrays | 李祖彬的博客</title>
+  <title>不吐不快 | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
-  <meta name="description" content="
-问题
-
-
-Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
-The overall run time complexity should be O(log (m+n)).
-
-
-代码
-
-class Solution ...">
+  <meta name="google-site-verification" content="cnfvbLxGQVUqJA07xjs400UpudKGP4An6xmyJDBiDlM" />
+  <meta name="description" content="各种常见的，非常见的PHP，JavaScript，HTML，MySQL，phalcon等问题以及解决办法">
   
-  
-  <meta name="keywords" content="php,leetcode">
   
   <meta name="author" content="李祖彬">
   
@@ -79,10 +68,10 @@ class Solution ...">
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-leetcode-Median-of-Two-Sorted-Arrays" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/leetcode-Median-of-Two-Sorted-Arrays.html" class="article-date">
-  <time class="dt-published" datetime="2021-11-03T01:53:45.000Z" itemprop="datePublished">2021-11-03</time>
+    <a href="/words/index.html" class="article-date">
+  <time class="dt-published" datetime="2024-12-04T05:45:04.000Z" itemprop="datePublished">2024-12-04</time>
 </a>
     
   </div>
@@ -93,7 +82,7 @@ class Solution ...">
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      leetcode: Median of Two Sorted Arrays
+      不吐不快
     </h1>
   
 
@@ -101,91 +90,22 @@ class Solution ...">
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <ul>
-<li>问题</li>
+        <h2 id="2024-12-04"><a href="#2024-12-04" class="headerlink" title="2024-12-04"></a>2024-12-04</h2><ul>
+<li>人总是以自己的认知判断对错，即使面对认知外的事物</li>
+<li>不是故意的背后是深思熟虑</li>
 </ul>
-<blockquote>
-<p>Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.</p>
-<p>The overall run time complexity should be O(log (m+n)).</p>
-</blockquote>
-<ul>
-<li>代码</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
 
-    &#x2F;**
-     * @param Integer[] $nums1
-     * @param Integer[] $nums2
-     * @return Float
-     *&#x2F;
-    function findMedianSortedArrays($nums1, $nums2) &#123;
-        $nums &#x3D; array_merge($nums1, $nums2);
-        $len &#x3D; count($nums);
-        $nums &#x3D; $this-&gt;bubbleSort($nums, $len);
-
-        if ($len % 2) &#123;
-            return $nums[floor($len &#x2F; 2)];
-        &#125;
-
-        return ($nums[$len &#x2F; 2] + $nums[$len &#x2F; 2 - 1]) &#x2F; 2;
-    &#125;
-
-    function bubbleSort($arr, $n)
-    &#123;
-        for($i &#x3D; 0; $i &lt; $n; $i++)
-        &#123;
-            $swapped &#x3D; false;
-            for ($j &#x3D; 0; $j &lt; $n - $i - 1; $j++)
-            &#123;
-                if ($arr[$j] &gt; $arr[$j+1])
-                &#123;
-                    $t &#x3D; $arr[$j];
-                    $arr[$j] &#x3D; $arr[$j+1];
-                    $arr[$j+1] &#x3D; $t;
-                    $swapped &#x3D; true;
-                &#125;
-            &#125;
-
-            if($swapped &#x3D;&#x3D;&#x3D; false) &#123;
-                break;
-            &#125;
-        &#125;
-
-        return $arr;
-    &#125;
-&#125;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/leetcode-Median-of-Two-Sorted-Arrays.html" data-id="cm49h6h3u00280gpj1e4v488x" data-title="leetcode: Median of Two Sorted Arrays" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/words/index.html" data-id="cm49h6h2i00000gpjg7l7duwa" data-title="不吐不快" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
-
     </footer>
   </div>
   
     
-<nav id="article-nav">
-  
-    <a href="/leetcode-Longest-Palindromic-Substring.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          leetcode: Longest Palindromic Substring
-        
-      </div>
-    </a>
-  
-  
-    <a href="/leetcode-String-to-Integer-atoi.html" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">leetcode: String to Integer (atoi)</div>
-    </a>
-  
-</nav>
-
   
 </article>
 

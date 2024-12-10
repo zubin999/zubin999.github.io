@@ -70,6 +70,105 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-使用logstash将MySQL数据同步到elasticsearch" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/%E4%BD%BF%E7%94%A8logstash%E5%B0%86MySQL%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%88%B0elasticsearch.html" class="article-date">
+  <time class="dt-published" datetime="2020-09-06T04:24:44.000Z" itemprop="datePublished">2020-09-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/%E4%BD%BF%E7%94%A8logstash%E5%B0%86MySQL%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%88%B0elasticsearch.html">使用logstash将MySQL数据同步到elasticsearch</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="安装logstash"><a href="#安装logstash" class="headerlink" title="安装logstash"></a>安装logstash</h1><p>logstash下载地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/downloads/logstash">https://www.elastic.co/downloads/logstash</a>，这里只显示了最新版本，历史版本地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/downloads/past-releases#logstash">https://www.elastic.co/downloads/past-releases#logstash</a>。</p>
+<p>下载好解压后简单配置下<code>logstash.conf</code>（解压后在<code>config</code>下有一个<code>logstash-sample.conf</code>文件，复制为<code>logstash.conf</code>，其他命名也行）就可以使用了。如果你的版本是7.6(不包括)以下，还需要安装<code>logstash-integration-jdbc</code>插件，7.6以上该插件已经集成到logstash中，无需额外安装。</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="输入配置"><a href="#输入配置" class="headerlink" title="输入配置"></a>输入配置</h2><p>默认配置文件打开，在input里有个beats的配置删掉，插入jdbc配置</p>
+<pre class="line-numbers language-none"><code class="language-none">jdbc &#123;
+    jdbc_driver_library &#x3D;&gt; &quot;mysql-connector-java-5.1.36-bin.jar&quot;
+    jdbc_driver_class &#x3D;&gt; &quot;com.mysql.jdbc.Driver&quot;
+    jdbc_connection_string &#x3D;&gt; &quot;jdbc:mysql:&#x2F;&#x2F;数据库地址:3306&#x2F;数据库名字&quot;
+    jdbc_user &#x3D;&gt; &quot;数据库账号&quot;
+    jdbc_password &#x3D;&gt; &quot;数据库密码&quot;
+    schedule &#x3D;&gt; &quot;* * * * *这里和Linux的crontab配置一样&quot;
+    statement &#x3D;&gt; &quot;查询出要同步到elasticsearch的数据&quot;
+    use_column_value &#x3D;&gt; true
+    tracking_column &#x3D;&gt; &quot;update_time&quot;
+    tracking_column_type &#x3D;&gt; &quot;timestamp&quot;
+  &#125;</code></pre>
+
+<ul>
+<li>use_column_value</li>
+</ul>
+<p>值为布尔值，这里影响<code>sql_last_value</code>的值，默认为<code>false</code>，<code>sql_last_value</code>使用上次执行时间,初始值为1970-01-01零点。设置为<code>true</code>，那么这里是<code>tracking_column</code>配置字段的值，如<code>tracking_column =&gt; &quot;id&quot;</code>，那么这里就是上次执行的id值。</p>
+<ul>
+<li>tracking_column</li>
+</ul>
+<p>数据库字段，sql判断条件。如主键、更新时间等。</p>
+<ul>
+<li>tracking_column_type</li>
+</ul>
+<p>上面字段值的类型，有两个值可选：<code>timestamp</code>、<code>numeric</code>。默认为<code>numeric</code>。影响sql_last_value，如上面字段<code>update_time</code>假设为时间戳，但是这里设置为<code>timestamp</code>，那么<code>sql_last_value</code>初始值为<code>1970-01-01</code>，这就会使sql_last_value一直停留在初始值。设置为<code>numeric</code>，初始值为<code>0</code>。</p>
+<h2 id="输出配置"><a href="#输出配置" class="headerlink" title="输出配置"></a>输出配置</h2><p>默认配置：</p>
+<pre class="line-numbers language-none"><code class="language-none">elasticsearch &#123;
+   hosts &#x3D;&gt; [&quot;http:&#x2F;&#x2F;localhost:9200&quot;]
+   index &#x3D;&gt; &quot;&quot;
+   document_id &#x3D;&gt; &quot;%&#123;elasticsearch使用哪个字段作主键ID&#125;&quot;
+   #user &#x3D;&gt; &quot;elastic&quot;
+   #password &#x3D;&gt; &quot;changeme&quot;
+ &#125;</code></pre>
+
+<p><code>hosts</code>需要改为自己的<code>elasticsearch</code>地址。虽然，参数<code>document_type</code>参数还存在，但是默认是会将数据同步到<code>_doc</code>下面。从elastcisearch的6.0开始便不再推荐使用type，7.0以上的版本已经废弃，而8.0版本会直接移除。详细说明：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/6.0/removal-of-types.html">removal of mapping types</a>。</p>
+<p>这样已经能满足数据同步了，如有其它需求可根据参数说明文档作调整。</p>
+<ul>
+<li>启动</li>
+</ul>
+<p>启动logstash只需进入到bin目录，执行：</p>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;logstash -f &#x2F;配置文件路径&#x2F;xxx.conf</code></pre>
+
+<h2 id="logstash配置"><a href="#logstash配置" class="headerlink" title="logstash配置"></a>logstash配置</h2><p>logstash配置分为三个部分：input(输入)、filter(过滤)、output(输出)。</p>
+<ul>
+<li><p>jdbc中last_run_metadata_path设置的路径需有读写权限。如果没有写入权限，变量sql_last_value虽然会记录上一次的值，但在重新启动后，值会从0开始。</p>
+</li>
+<li><p>启动时提示：</p>
+</li>
+</ul>
+<blockquote>
+<p>WARN: Establishing SSL connection without server’s identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn’t set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to ‘false’. You need eit<br>her to explicitly disable SSL by setting useSSL&#x3D;false, or set useSSL&#x3D;true and provide truststore for server certificate verification.</p>
+</blockquote>
+<p>在jdbc_connection_string配置后面加上参数：useSSL&#x3D;false&amp;verifyServerCertificate&#x3D;false即可。</p>
+<ul>
+<li>MySQL中tinyint(1)字段值jdbc读取后会被转换为布尔值。同样在jdbc_connection_string后面加上参数：tinyInt1isBit&#x3D;false&amp;transformedBitIsBoolean&#x3D;false可以保持原值不被转换。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lizubin.com/%E4%BD%BF%E7%94%A8logstash%E5%B0%86MySQL%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%88%B0elasticsearch.html" data-id="cm4i13gp9003muxpj3vk3di0f" data-title="使用logstash将MySQL数据同步到elasticsearch" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasitcsearch/" rel="tag">elasitcsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/logstash/" rel="tag">logstash</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" rel="tag">数据同步</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-使用Zephir写PHP扩展" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95.html" class="article-date">
@@ -319,7 +418,7 @@ echo $helper-&gt;before($sec), &quot;\n&quot;;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95.html" data-id="cm49h81cd003j5kpjg18ca88e" data-title="使用Zephir写PHP扩展" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/%E4%BD%BF%E7%94%A8Zephir%E5%86%99PHP%E6%89%A9%E5%B1%95.html" data-id="cm4i13gp7003iuxpjaexb84kq" data-title="使用Zephir写PHP扩展" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -425,7 +524,7 @@ curl_multi_close($mh);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C.html" data-id="cm49h81at000k5kpj1j1ugpz7" data-title="PHP多个CURL请求异步执行" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/PHP%E5%A4%9A%E4%B8%AACURL%E8%AF%B7%E6%B1%82%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C.html" data-id="cm4i13go3000luxpj1865dsxw" data-title="PHP多个CURL请求异步执行" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -507,7 +606,7 @@ vagrant  13508  0.0  0.0  14228   928 pts&#x2F;0    S+   19:10   0:00 grep --col
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86.html" data-id="cm49h81ae00065kpjexwae6qe" data-title="Elasticsearch问题收集" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86.html" data-id="cm4i13gnx0008uxpj52yl1zu2" data-title="Elasticsearch问题收集" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -570,7 +669,7 @@ ERROR: [1] bootstrap checks failed
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/Native-controller-process-has-stopped-no-new-native-processes-can-be-started.html" data-id="cm49h81as000h5kpjczx836f6" data-title="Native controller process has stopped - no new native processes can be started" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/Native-controller-process-has-stopped-no-new-native-processes-can-be-started.html" data-id="cm4i13go2000huxpjcwi0d09b" data-title="Native controller process has stopped - no new native processes can be started" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -680,7 +779,7 @@ vagrant@machine2:~&#x2F;elasticsearch-7.4.2&#x2F;bin$ .&#x2F;elasticsearch</code
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/Elasticsearch%E5%AE%89%E8%A3%85.html" data-id="cm49h81ad00055kpjghj8aw1c" data-title="Elasticsearch安装" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/Elasticsearch%E5%AE%89%E8%A3%85.html" data-id="cm4i13gnn0005uxpjgku84efr" data-title="Elasticsearch安装" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -739,7 +838,7 @@ vagrant@machine2:~&#x2F;elasticsearch-7.4.2&#x2F;bin$ .&#x2F;elasticsearch</code
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted.html" data-id="cm49h81at000j5kpjegwda8y5" data-title="Only one usage of each socket address (protocol/network address/port) is normally permitted." class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/Only-one-usage-of-each-socket-address-protocol-network-address-port-is-normally-permitted.html" data-id="cm4i13go3000juxpjftgwe19r" data-title="Only one usage of each socket address (protocol/network address/port) is normally permitted." class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -791,7 +890,7 @@ vagrant@machine2:~&#x2F;elasticsearch-7.4.2&#x2F;bin$ .&#x2F;elasticsearch</code
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user.html" data-id="cm49h81bi00185kpj9f703299" data-title="auth failed from unknown (xx.xx.xx.xx) unauthorised user" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/auth-failed-from-unknown-xx-xx-xx-xx-unauthorised-user.html" data-id="cm4i13gog0016uxpj7pdohwuj" data-title="auth failed from unknown (xx.xx.xx.xx) unauthorised user" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -856,7 +955,7 @@ unix       tpi_cots_ord  -     loopback  -      -       -</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6.html" data-id="cm49h81b0000t5kpjfrfq30t3" data-title="Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/Starting-NFS-mountd-rpc-mountd-svc-tli-create-could-not-open-connection-for-udp6.html" data-id="cm4i13goa000suxpj5cro9jwq" data-title="Starting NFS mountd: rpc.mountd: svc_tli_create: could not open connection for udp6" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -909,178 +1008,11 @@ unix       tpi_cots_ord  -     loopback  -      -       -</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type.html" data-id="cm49h81cm00415kpj7sha3dxy" data-title="小程序网络请求header头设置Content-Type" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82header%E5%A4%B4%E8%AE%BE%E7%BD%AEContent-Type.html" data-id="cm4i13gpd003zuxpjeyoi49kx" data-title="小程序网络请求header头设置Content-Type" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/header/" rel="tag">header</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-在Phalcon中为View添加缓存" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98.html" class="article-date">
-  <time class="dt-published" datetime="2019-08-02T07:23:22.000Z" itemprop="datePublished">2019-08-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98.html">在Phalcon中为View添加缓存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>我们可以为<code>Phalcon</code>的<code>View</code>添加事件监听，<code>View</code>一共有5个事件：</p>
-<table>
-<thead>
-<tr>
-<th>Event Name</th>
-<th>Triggered</th>
-<th>Can stop operation ?</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>beforeRender</td>
-<td>Triggered before starting the render process</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>beforeRenderView</td>
-<td>Triggered before rendering an existing view</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>afterRenderView</td>
-<td>Triggered after rendering an existing view</td>
-<td>No</td>
-</tr>
-<tr>
-<td>afterRender</td>
-<td>Triggered after completing the render process</td>
-<td>No</td>
-</tr>
-<tr>
-<td>notFoundView</td>
-<td>Triggered when a view was not found</td>
-<td>No</td>
-</tr>
-</tbody></table>
-<p>在<code>di</code>注入是<code>view</code>时添加事件：</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;?php
-
-use Phalcon\Events\Event;
-use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Mvc\View;
-
-$di-&gt;set(
-    &#39;view&#39;,
-    function () &#123;
-        &#x2F;&#x2F; Create an events manager
-        $eventsManager &#x3D; new EventsManager();
-
-        &#x2F;&#x2F; Attach a listener for type &#39;view&#39;
-        $eventsManager-&gt;attach(
-            &#39;view&#39;,
-            function (Event $event, $view) &#123;
-                echo $event-&gt;getType(), &#39; - &#39;, $view-&gt;getActiveRenderPath(), PHP_EOL;
-            &#125;
-        );
-
-        $view &#x3D; new View();
-
-        $view-&gt;setViewsDir(&#39;..&#x2F;app&#x2F;views&#x2F;&#39;);
-
-        &#x2F;&#x2F; Bind the eventsManager to the view component
-        $view-&gt;setEventsManager($eventsManager);
-
-        return $view;
-    &#125;,
-    true
-);</code></pre>
-
-<p>上面是监听了View的所有事件,如果要监听某个具体的,如监听<code>beforeRender</code>：</p>
-<pre class="line-numbers language-none"><code class="language-none">$eventsManager-&gt;attach(&#39;view:beforeRender&#39;, function()&#123;
-
-&#125;)</code></pre>
-
-<p>现在，就可以利用<code>afterRender</code>事件来缓存页面，提升性能。</p>
-<p>首先，需要向<code>di</code>注入一个<code>viewCache</code>服务：</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;?php
-
-use Phalcon\Cache\Frontend\Output as OutputFrontend;
-use Phalcon\Cache\Backend\Memcache as MemcacheBackend;
-
-&#x2F;&#x2F; Set the views cache service
-$di-&gt;set(
-    &#39;viewCache&#39;,
-    function () &#123;
-        &#x2F;&#x2F; Cache data for one day by default
-        $frontCache &#x3D; new OutputFrontend(
-            [
-                &#39;lifetime&#39; &#x3D;&gt; 86400,
-            ]
-        );
-
-        &#x2F;&#x2F; Memcached connection settings
-        $cache &#x3D; new MemcacheBackend(
-            $frontCache,
-            [
-                &#39;host&#39; &#x3D;&gt; &#39;localhost&#39;,
-                &#39;port&#39; &#x3D;&gt; &#39;11211&#39;,
-            ]
-        );
-
-        return $cache;
-    &#125;
-);</code></pre>
-
-<p>这里的<code>cache</code>也可以换成<code>Redis</code>等你在使用的。<code>lifetime</code>为默认缓存时间，当调用该服务时，可以另外给出<code>lifetime</code>的值。键为<code>key</code>。<code>Phalcon</code>会默认使用<code>MD5</code>加密当前的<code>Controller/view</code>。</p>
-<p>定义<code>afterRender</code>事件触发时要做的事情:</p>
-<pre class="line-numbers language-none"><code class="language-none">class ViewPlugin extends \Phalcon\Mvc\User\Plugin &#123;
-
-    public function afterRender(\Phalcon\Events\Event $event, $view)&#123;
-        $request    &#x3D; \Phalcon\Di::getDefault()-&gt;get(&#39;request&#39;);
-        $key        &#x3D; md5($request-&gt;getURI());
-        if (!$view-&gt;getCache()-&gt;exists($key)) &#123;
-            $view-&gt;getCache()-&gt;save($key, $view-&gt;getContent(), DEFAULT_VIEW_EXPIRE_TIME);
-        &#125;
-    &#125;
-&#125;</code></pre>
-
-<p>这样当访问一个新页面后就会缓存下来。接下来就是第二步，再次访问该页面时，直接向浏览器输出缓存内容，可以定义在父类里：</p>
-<pre class="line-numbers language-none"><code class="language-none">$this-&gt;view_cache_key &#x3D; md5($this-&gt;request-&gt;getURI());
-if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
-    echo $this-&gt;view-&gt;getCache()-&gt;get($this-&gt;view_cache_key);
-    exit;
-&#125;</code></pre>
-
-<p>这就是利用<code>View</code>的事件缓存页面，当然也可以用于其他场景，如生成静态<code>HTML</code>页面</p>
-<p>参考文档:</p>
-<p><a target="_blank" rel="noopener" href="https://docs.phalconphp.com/3.4/en/views">Phalcon view</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lizubin.com/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98.html" data-id="cm49h81ch003o5kpj9qk23mqh" data-title="在Phalcon中为View添加缓存" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/phalcon/" rel="tag">phalcon</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/view/" rel="tag">view</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%93%E5%AD%98/" rel="tag">缓存</a></li></ul>
 
     </footer>
   </div>
@@ -1108,6 +1040,10 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
       <ul>
         
           <li>
+            <a href="/the-differences-of-href-between-firefox-and-chrome.html">href=&#39;javascript:&#39;在firefox与chrome中的不同表现</a>
+          </li>
+        
+          <li>
             <a href="/use-multi-stage-to-reduce-size-of-docker-images.html">用Multi-stage builds给你的docker镜像瘦身</a>
           </li>
         
@@ -1123,10 +1059,6 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
             <a href="/how-to-use-php-to-generate-a-word-file-by-html.html">使用PHP根据html内容生成word文件</a>
           </li>
         
-          <li>
-            <a href="/canvas-Uncaught-DOMException-Failed-to-execute-toDataURL-on-HTMLCanvasElement.html">canvas对视频截图报错:Uncaught DOMException: Failed to execute &#39;toDataURL&#39; on &#39;HTMLCanvasElement&#39;</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1136,7 +1068,7 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/File/" style="font-size: 10px;">File</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.25px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.5px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 11.25px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 11.25px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/closure/" style="font-size: 10px;">closure</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.25px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 16.25px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/error/" style="font-size: 10px;">error</a> <a href="/tags/es6/" style="font-size: 11.25px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/guide/" style="font-size: 10px;">guide</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/installation/" style="font-size: 10px;">installation</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javaScript/" style="font-size: 12.5px;">javaScript</a> <a href="/tags/javascript/" style="font-size: 17.5px;">javascript</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/leetcode/" style="font-size: 18.75px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/modal/" style="font-size: 10px;">modal</a> <a href="/tags/multi-stage/" style="font-size: 10px;">multi-stage</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/parse/" style="font-size: 10px;">parse</a> <a href="/tags/phalcon/" style="font-size: 13.75px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/promise/" style="font-size: 10px;">promise</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/text/" style="font-size: 10px;">text</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/toDataURL/" style="font-size: 10px;">toDataURL</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/volt/" style="font-size: 10px;">volt</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/word/" style="font-size: 10px;">word</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/zui/" style="font-size: 10px;">zui</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" style="font-size: 10px;">下拉刷新</a> <a href="/tags/%E4%BA%8B%E4%BB%B6/" style="font-size: 10px;">事件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">组件</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">网络请求</a> <a href="/tags/%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE/" style="font-size: 10px;">腾讯地图</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E8%A7%86%E9%A2%91%E6%88%AA%E5%9B%BE/" style="font-size: 10px;">视频截图</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 11.25px;">通信</a> <a href="/tags/%E9%97%AD%E5%8C%85/" style="font-size: 10px;">闭包</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 10px;">页面</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.25px;">默认值</a>
+      <a href="/tags/2048/" style="font-size: 10px;">2048</a> <a href="/tags/3Sum/" style="font-size: 10px;">3Sum</a> <a href="/tags/4sum/" style="font-size: 10px;">4sum</a> <a href="/tags/Container-With-Most-Water/" style="font-size: 10px;">Container With Most Water</a> <a href="/tags/File/" style="font-size: 10px;">File</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/Integer-to-Roman/" style="font-size: 10px;">Integer to Roman</a> <a href="/tags/SimpleAjaxUploader/" style="font-size: 11.25px;">SimpleAjaxUploader</a> <a href="/tags/Volt/" style="font-size: 10px;">Volt</a> <a href="/tags/add-two-numbers/" style="font-size: 10px;">add two numbers</a> <a href="/tags/ajax/" style="font-size: 12.5px;">ajax</a> <a href="/tags/auth/" style="font-size: 10px;">auth</a> <a href="/tags/bootstrap/" style="font-size: 11.25px;">bootstrap</a> <a href="/tags/canvas/" style="font-size: 11.25px;">canvas</a> <a href="/tags/center/" style="font-size: 10px;">center</a> <a href="/tags/closure/" style="font-size: 10px;">closure</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/css/" style="font-size: 11.25px;">css</a> <a href="/tags/curl/" style="font-size: 10px;">curl</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/elasitcsearch/" style="font-size: 11.25px;">elasitcsearch</a> <a href="/tags/elasticsearch/" style="font-size: 16.25px;">elasticsearch</a> <a href="/tags/emoji/" style="font-size: 10px;">emoji</a> <a href="/tags/error/" style="font-size: 10px;">error</a> <a href="/tags/es6/" style="font-size: 11.25px;">es6</a> <a href="/tags/export-to-file/" style="font-size: 10px;">export to file</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/guide/" style="font-size: 10px;">guide</a> <a href="/tags/header/" style="font-size: 10px;">header</a> <a href="/tags/hover/" style="font-size: 10px;">hover</a> <a href="/tags/href/" style="font-size: 10px;">href</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/innerText/" style="font-size: 10px;">innerText</a> <a href="/tags/installation/" style="font-size: 10px;">installation</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/ipv6/" style="font-size: 10px;">ipv6</a> <a href="/tags/javascript/" style="font-size: 17.5px;">javascript</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/leetcode/" style="font-size: 18.75px;">leetcode</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/memory/" style="font-size: 10px;">memory</a> <a href="/tags/minmax/" style="font-size: 10px;">minmax</a> <a href="/tags/modal/" style="font-size: 10px;">modal</a> <a href="/tags/multi-stage/" style="font-size: 10px;">multi-stage</a> <a href="/tags/multi-match/" style="font-size: 10px;">multi_match</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nested/" style="font-size: 10px;">nested</a> <a href="/tags/nfs/" style="font-size: 10px;">nfs</a> <a href="/tags/nproc/" style="font-size: 10px;">nproc</a> <a href="/tags/paligdrome/" style="font-size: 10px;">paligdrome</a> <a href="/tags/parse/" style="font-size: 10px;">parse</a> <a href="/tags/phalcon/" style="font-size: 13.75px;">phalcon</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;">phpstorm</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/promise/" style="font-size: 10px;">promise</a> <a href="/tags/public-network/" style="font-size: 10px;">public network</a> <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sersync/" style="font-size: 10px;">sersync</a> <a href="/tags/text/" style="font-size: 10px;">text</a> <a href="/tags/textContent/" style="font-size: 10px;">textContent</a> <a href="/tags/toDataURL/" style="font-size: 10px;">toDataURL</a> <a href="/tags/transaction/" style="font-size: 10px;">transaction</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/view/" style="font-size: 10px;">view</a> <a href="/tags/volt/" style="font-size: 10px;">volt</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/window-opener/" style="font-size: 10px;">window.opener</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/windows-11/" style="font-size: 10px;">windows 11</a> <a href="/tags/word/" style="font-size: 10px;">word</a> <a href="/tags/wsl/" style="font-size: 10px;">wsl</a> <a href="/tags/zephir/" style="font-size: 10px;">zephir</a> <a href="/tags/zui/" style="font-size: 10px;">zui</a> <a href="/tags/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" style="font-size: 10px;">上传文件</a> <a href="/tags/%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" style="font-size: 10px;">下拉刷新</a> <a href="/tags/%E4%BA%8B%E4%BB%B6/" style="font-size: 10px;">事件</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">分片上传</a> <a href="/tags/%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 10px;">压缩图片</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 10px;">字符串</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">小程序</a> <a href="/tags/%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0/" style="font-size: 10px;">强制刷新</a> <a href="/tags/%E6%89%A9%E5%B1%95/" style="font-size: 10px;">扩展</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" style="font-size: 10px;">数据同步</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 10px;">数组</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4/" style="font-size: 10px;">磁盘空间</a> <a href="/tags/%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">组件</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 10px;">网络请求</a> <a href="/tags/%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE/" style="font-size: 10px;">腾讯地图</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85/" style="font-size: 10px;">自动填充</a> <a href="/tags/%E8%A1%A8%E5%8D%95/" style="font-size: 10px;">表单</a> <a href="/tags/%E8%A7%86%E9%A2%91%E6%88%AA%E5%9B%BE/" style="font-size: 10px;">视频截图</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 11.25px;">通信</a> <a href="/tags/%E9%97%AD%E5%8C%85/" style="font-size: 10px;">闭包</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 10px;">页面</a> <a href="/tags/%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8/" style="font-size: 10px;">频繁调用</a> <a href="/tags/%E9%BB%98%E8%AE%A4%E5%80%BC/" style="font-size: 11.25px;">默认值</a>
     </div>
   </div>
 
@@ -1145,7 +1077,7 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">三月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">一月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">十一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">十二月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">三月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">一月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">十一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li></ul>
     </div>
   </div>
 

@@ -96,16 +96,16 @@
 <pre class="line-numbers language-none"><code class="language-none">&lt;a href&#x3D;&quot;javascript:layer.msg(&#39;请下载APP&#39;)&quot;&gt;我要报名&lt;&#x2F;a&gt;</code></pre>
 
 <p>在firefox中执行结果：</p>
-<p><img src="/the-differences-of-href-between-firefox-and-chrome/0.png" alt="firefox中的结果"></p>
+<p><img src="/the-differences-of-href-between-firefox-and-chrome/0.gif" alt="firefox中的结果"></p>
 <p>在chrome中执行结果：</p>
-<p><img src="/the-differences-of-href-between-firefox-and-chrome/2.png" alt="chrome中的结果"></p>
+<p><img src="/the-differences-of-href-between-firefox-and-chrome/2.gif" alt="chrome中的结果"></p>
 <p>firefox中执行了js代码，但是最后整个<code>HTML</code>页面内容变成了一个<code>3</code>。数字3是哪里来的呢？而chrome中执行了js代码，并且页面内容也正常显示。要解决这个问题，最简单的办法就是使用<code>onclick</code>属性，而不是<code>href</code>属性。</p>
 <pre class="line-numbers language-none"><code class="language-none">&lt;a href&#x3D;&quot;#&quot; onclick&#x3D;&quot;layer.msg(&#39;请下载APP&#39;);return false;&quot;&gt;我要报名&lt;&#x2F;a&gt;</code></pre>
 
 <p>在firefox中执行结果：</p>
-<p><img src="/the-differences-of-href-between-firefox-and-chrome/1.png" alt="firefox中的结果"></p>
+<p><img src="/the-differences-of-href-between-firefox-and-chrome/1.gif" alt="firefox中的结果"></p>
 <p>经过测试发现，在<code>firefox</code>中，<code>href=&quot;javascript:&quot;</code>后面的代码如果有返回值，不论这个值是布尔值，数字，或者字符串，那么firefox就会把整个<code>HTML</code>页面内容变成返回值。</p>
-<p><img src="/the-differences-of-href-between-firefox-and-chrome/4.png" alt="firefox中的结果"></p>
+<p><img src="/the-differences-of-href-between-firefox-and-chrome/4.gif" alt="firefox中的结果"></p>
 <p>而在<code>chrome</code>中，<code>href=&quot;javascript:&quot;</code>后面的代码如果有返回值，如果是数字，布尔值，那么<code>chrome</code>会忽略返回值，如果是字符串，那么<code>chrome</code>也会把字符串显示在页面中。</p>
 <p>在<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/URI/Schemes/javascript">MDN</a>有这么一段话：</p>
 <blockquote>
@@ -116,7 +116,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/the-differences-of-href-between-firefox-and-chrome.html" data-id="cm4i17wa50038g4pjhbmg2lm2" data-title="href=&#39;javascript:&#39;在firefox与chrome中的不同表现" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/the-differences-of-href-between-firefox-and-chrome.html" data-id="cm4i19tfr0049s1pj2hkj4ed3" data-title="href=&#39;javascript:&#39;在firefox与chrome中的不同表现" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -398,7 +398,7 @@ CMD [&quot;&#x2F;bin&#x2F;bash&quot;]</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/use-multi-stage-to-reduce-size-of-docker-images.html" data-id="cm4i17wa6003cg4pj8mem22zt" data-title="用Multi-stage builds给你的docker镜像瘦身" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/use-multi-stage-to-reduce-size-of-docker-images.html" data-id="cm4i19tfs004cs1pjblyl9hm8" data-title="用Multi-stage builds给你的docker镜像瘦身" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -541,7 +541,7 @@ make install</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/ffmpeg-installation-guide.html" data-id="cm4i17w7w001ng4pj4q8ygbcs" data-title="ffmpeg安装记录" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/ffmpeg-installation-guide.html" data-id="cm4i19tep002ss1pjfyp6hif6" data-title="ffmpeg安装记录" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -624,7 +624,7 @@ foreach($data as $item) &#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/how-to-generate-excel-s-cell-by-php-s-closure.html" data-id="cm4i17w7y001rg4pjgyr2dfta" data-title="如何使用PHP闭包生成Excel单元格坐标" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/how-to-generate-excel-s-cell-by-php-s-closure.html" data-id="cm4i19teq002xs1pjgauba9dc" data-title="如何使用PHP闭包生成Excel单元格坐标" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -695,7 +695,7 @@ $writer-&gt;save($file);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/how-to-use-php-to-generate-a-word-file-by-html.html" data-id="cm4i17w80001tg4pjbqsr1f2d" data-title="使用PHP根据html内容生成word文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/how-to-use-php-to-generate-a-word-file-by-html.html" data-id="cm4i19ter0031s1pj7917e2vp" data-title="使用PHP根据html内容生成word文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -770,7 +770,7 @@ ctx.drawImage(video, 0, 0, canvas.width, canvas.height);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/canvas-Uncaught-DOMException-Failed-to-execute-toDataURL-on-HTMLCanvasElement.html" data-id="cm4i17w7g001ag4pjfy484jxg" data-title="canvas对视频截图报错:Uncaught DOMException: Failed to execute &#39;toDataURL&#39; on &#39;HTMLCanvasElement&#39;" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/canvas-Uncaught-DOMException-Failed-to-execute-toDataURL-on-HTMLCanvasElement.html" data-id="cm4i19tel002ks1pj0d709th9" data-title="canvas对视频截图报错:Uncaught DOMException: Failed to execute &#39;toDataURL&#39; on &#39;HTMLCanvasElement&#39;" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -839,7 +839,7 @@ ctx.drawImage(video, 0, 0, canvas.width, canvas.height);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/pull-to-refresh-miniprogram-s-data-list.html" data-id="cm4i17w9x002zg4pj54f43nbi" data-title="小程序页面部分下拉刷新解决方案" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/pull-to-refresh-miniprogram-s-data-list.html" data-id="cm4i19tfo0042s1pjdcpy95v3" data-title="小程序页面部分下拉刷新解决方案" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -967,7 +967,7 @@ module.exports &#x3D; &#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/promise-in-wechat-miniprogram.html" data-id="cm4i17w9w002xg4pj5k1w1dst" data-title="使用promise封装小程序网络请求" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/promise-in-wechat-miniprogram.html" data-id="cm4i19tfm003ys1pjdhv4dnxu" data-title="使用promise封装小程序网络请求" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1047,7 +1047,7 @@ wx.navigateBack(&#123;delta: 1&#125;)</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/the-communications-of-pages.html" data-id="cm4i17wa40037g4pjc8vif9fd" data-title="小程序页面间事件通信" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/the-communications-of-pages.html" data-id="cm4i19tfq0048s1pj2km8exhf" data-title="小程序页面间事件通信" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1111,7 +1111,7 @@ wx.navigateBack(&#123;delta: 1&#125;)</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/the-communications-and-events-between-miniprogram-s-components.html" data-id="cm4i17w9z0034g4pjb8k96d2l" data-title="小程序组件间通信与事件实际应用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/the-communications-and-events-between-miniprogram-s-components.html" data-id="cm4i19tfq0046s1pj5mujel6l" data-title="小程序组件间通信与事件实际应用" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       

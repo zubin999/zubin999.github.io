@@ -238,7 +238,7 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98.html" data-id="cm4i1adgv003nvxpj9g0aa3sp" data-title="在Phalcon中为View添加缓存" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/%E5%9C%A8Phalcon%E4%B8%AD%E4%B8%BAView%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98.html" data-id="cm4wf22l3003prqpjfwa3azz3" data-title="在Phalcon中为View添加缓存" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -365,6 +365,35 @@ if ($this-&gt;view-&gt;getCache()-&gt;exists($this-&gt;view_cache_key)) &#123;
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

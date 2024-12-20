@@ -130,7 +130,7 @@ $writer-&gt;save($file);</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/how-to-use-php-to-generate-a-word-file-by-html.html" data-id="cm4i1adg3001tvxpjako0dnby" data-title="使用PHP根据html内容生成word文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/how-to-use-php-to-generate-a-word-file-by-html.html" data-id="cm4wf22kl001rrqpjaayt576z" data-title="使用PHP根据html内容生成word文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -257,6 +257,35 @@ $writer-&gt;save($file);</code></pre>
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

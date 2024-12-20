@@ -135,7 +135,7 @@ var fn &#x3D; lib.functionName;</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.html" data-id="cm4i1adgx003zvxpj17pmc2fs" data-title="小程序的模板使用介绍" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.html" data-id="cm4wf22l70041rqpj7sejd07z" data-title="小程序的模板使用介绍" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -262,6 +262,35 @@ var fn &#x3D; lib.functionName;</code></pre>
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

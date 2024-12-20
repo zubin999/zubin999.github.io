@@ -157,7 +157,7 @@ class Solution ...">
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/leetcode-Median-of-Two-Sorted-Arrays.html" data-id="cm4i1adg90028vxpj7it21krx" data-title="leetcode: Median of Two Sorted Arrays" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/leetcode-Median-of-Two-Sorted-Arrays.html" data-id="cm4wf22kr002arqpj2c5h713o" data-title="leetcode: Median of Two Sorted Arrays" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -284,6 +284,35 @@ class Solution ...">
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

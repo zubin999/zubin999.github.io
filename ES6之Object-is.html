@@ -113,7 +113,7 @@ console.log(Object.is(5, "5"));     // false
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/ES6%E4%B9%8BObject-is.html" data-id="cm4i1adf20002vxpja80f2wir" data-title="ES6之Object.is" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/ES6%E4%B9%8BObject-is.html" data-id="cm4wf22jy0004rqpj9psb4ryo" data-title="ES6之Object.is" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -240,6 +240,35 @@ console.log(Object.is(5, "5"));     // false
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

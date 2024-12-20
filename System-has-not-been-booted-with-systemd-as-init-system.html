@@ -117,7 +117,7 @@ systemd&#x3D;true</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/System-has-not-been-booted-with-systemd-as-init-system.html" data-id="cm4i1adfl000tvxpjgubmfddo" data-title="System has not been booted with systemd as init system" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/System-has-not-been-booted-with-systemd-as-init-system.html" data-id="cm4wf22k8000urqpj0kyibk1h" data-title="System has not been booted with systemd as init system" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -244,6 +244,35 @@ systemd&#x3D;true</code></pre>
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

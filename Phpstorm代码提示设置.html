@@ -120,7 +120,7 @@ git clone https://github.com/phalcon/phalcon-devtools.git
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE.html" data-id="cm4i1adfj000nvxpjeyxq3b3i" data-title="Phpstorm代码提示phalcon设置" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/Phpstorm%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E8%AE%BE%E7%BD%AE.html" data-id="cm4wf22k6000lrqpjetnyfdpf" data-title="Phpstorm代码提示phalcon设置" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -247,6 +247,35 @@ git clone https://github.com/phalcon/phalcon-devtools.git
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

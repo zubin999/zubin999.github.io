@@ -122,7 +122,7 @@ ERROR: [1] bootstrap checks failed
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/Native-controller-process-has-stopped-no-new-native-processes-can-be-started.html" data-id="cm4i1adfg000hvxpjf5mj6pbr" data-title="Native controller process has stopped - no new native processes can be started" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/Native-controller-process-has-stopped-no-new-native-processes-can-be-started.html" data-id="cm4wf22k4000hrqpj2fgf7pmy" data-title="Native controller process has stopped - no new native processes can be started" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -249,6 +249,35 @@ ERROR: [1] bootstrap checks failed
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

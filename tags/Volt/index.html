@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>标签: Volt | 李祖彬的博客</title>
+  <title>标签: volt | 李祖彬的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
   <meta name="google-site-verification" content="cnfvbLxGQVUqJA07xjs400UpudKGP4An6xmyJDBiDlM" />
@@ -77,20 +77,20 @@
       
       <section class="archives-wrap">
         <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
+          <a href="/archives/2022" class="archive-year">2022</a>
         </div>
         <div class="archives">
     
     <article class="archive-article archive-type-post">
   <div class="archive-article-inner">
     <header class="archive-article-header">
-      <a href="/Volt-directory-can-t-be-written.html" class="archive-article-date">
-  <time class="dt-published" datetime="2016-03-29T14:14:45.000Z" itemprop="datePublished">3月 29</time>
+      <a href="/use-vue-with-phalcon-volt-syntax.html" class="archive-article-date">
+  <time class="dt-published" datetime="2022-12-28T09:40:15.000Z" itemprop="datePublished">12月 28</time>
 </a>
       
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/Volt-directory-can-t-be-written.html">Volt directory can&#39;t be written</a>
+      <a class="archive-article-title" href="/use-vue-with-phalcon-volt-syntax.html">Phalcon的volt视图页面中使用vue</a>
     </h1>
   
 
@@ -197,6 +197,35 @@
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

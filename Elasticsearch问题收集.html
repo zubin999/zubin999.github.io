@@ -144,7 +144,7 @@ vagrant  13508  0.0  0.0  14228   928 pts&#x2F;0    S+   19:10   0:00 grep --col
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86.html" data-id="cm4i1adf60006vxpj4f318l7m" data-title="Elasticsearch问题收集" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/Elasticsearch%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86.html" data-id="cm4wf22k00006rqpjftfz75k2" data-title="Elasticsearch问题收集" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -271,6 +271,35 @@ vagrant  13508  0.0  0.0  14228   928 pts&#x2F;0    S+   19:10   0:00 grep --col
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

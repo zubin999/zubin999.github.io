@@ -196,7 +196,7 @@ query.select(&#39;#scrollList&#39;).boundingClientRect(rect &#x3D;&gt; &#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/pull-to-refresh-miniprogram-s-data-list.html" data-id="cm4i1adgi002xvxpj6ga24n56" data-title="小程序页面部分下拉刷新解决方案" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/pull-to-refresh-miniprogram-s-data-list.html" data-id="cm4wf22kw002zrqpjc0gl5pxp" data-title="小程序页面部分下拉刷新解决方案" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -323,6 +323,35 @@ query.select(&#39;#scrollList&#39;).boundingClientRect(rect &#x3D;&gt; &#123;
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

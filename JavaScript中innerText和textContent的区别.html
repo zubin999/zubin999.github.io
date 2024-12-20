@@ -115,7 +115,7 @@ Internet Explore引入...">
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/JavaScript%E4%B8%ADinnerText%E5%92%8CtextContent%E7%9A%84%E5%8C%BA%E5%88%AB.html" data-id="cm4i1adf60008vxpj03a314rq" data-title="JavaScript中innerText和textContent的区别" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/JavaScript%E4%B8%ADinnerText%E5%92%8CtextContent%E7%9A%84%E5%8C%BA%E5%88%AB.html" data-id="cm4wf22k00008rqpjfx1055ko" data-title="JavaScript中innerText和textContent的区别" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -242,6 +242,35 @@ Internet Explore引入...">
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

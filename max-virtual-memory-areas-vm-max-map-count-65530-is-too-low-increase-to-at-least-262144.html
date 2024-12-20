@@ -107,7 +107,7 @@ max virtual memory areas vm.max_map_count [65530] is too low, increase to at lea
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-least-262144.html" data-id="cm4i1adgg002rvxpjee92grjw" data-title="max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-least-262144.html" data-id="cm4wf22kv002srqpjbwobbe8m" data-title="max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -234,6 +234,35 @@ max virtual memory areas vm.max_map_count [65530] is too low, increase to at lea
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 

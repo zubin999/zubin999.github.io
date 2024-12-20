@@ -136,7 +136,7 @@ var str = laterToDefaultValue('hello');  //str = "hello world";
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lizubin.com/JavaScript%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-ES6%E6%96%B0%E6%96%B9%E6%B3%95.html" data-id="cm4i1adf70009vxpjg3udhump" data-title="JavaScript参数默认值(ES6新方法)" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lizubin.com/JavaScript%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-ES6%E6%96%B0%E6%96%B9%E6%B3%95.html" data-id="cm4wf22k10009rqpjevp013fc" data-title="JavaScript参数默认值(ES6新方法)" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -263,6 +263,35 @@ var str = laterToDefaultValue('hello');  //str = "hello world";
 
 <script src="/js/script.js"></script>
 
+
+<script src="/js/rough-notation.iife.js"></script>
+
+<script>
+    const annotate = RoughNotation.annotate;
+    const annotationGroup = RoughNotation.annotationGroup;
+
+    // 高亮
+    {
+      const ag = []
+      $('p code').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'box', color: '#F44336', padding: 3 })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+
+    // 引用
+    {
+      const ag = []
+      $('blockquote p').each((i, e) => {
+        ag.push(
+          annotate(e, { type: 'bracket', color: 'red', strokeWidth: 2, padding: [2, 10], brackets: ['left', 'right'] })
+        )
+      })
+      annotationGroup(ag).show()
+    }
+</script>
 
 
 
